@@ -1,0 +1,58 @@
+{
+  "name": "getblank",
+  "version": "0.0.1",
+  "description": "Blank is a microservices platform for rapid CRUD applicaitons developing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "rm -rf ./lib && ./node_modules/babel-cli/bin/babel.js src -d lib",
+    "build": "rm -rf ./lib && ./node_modules/babel-cli/bin/babel.js src -d lib",
+    "start": "node ./index.js"
+  },
+  "bin": {
+    "blank": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/getblank/Blank.git"
+  },
+  "keywords": [
+    "CRUD",
+    "microservices",
+    "golang",
+    "node",
+    "mongodb"
+  ],
+  "author": {
+    "email": "info@getblank.net",
+    "name": "Evgeniy Kuvshinov & Evgeniy Ivakha"
+  },
+  "homepage": "http://getblank.net",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/getblank/Blank/issues"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0"
+  },
+  "babel": {
+    "plugins": [
+      [
+        "transform-es2015-modules-commonjs",
+        {
+          "allowTopLevelThis": false,
+          "strict": false,
+          "loose": false
+        }
+      ]
+    ]
+  },
+  "dependencies": {
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-register": "^6.9.0",
+    "chokidar": "^1.5.0",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1"
+  }
+}
