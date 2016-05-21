@@ -1,6 +1,6 @@
 {
   "name": "getblank",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Blank is a microservices platform for rapid CRUD applicaitons developing",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "name": "Evgeniy Kuvshinov & Evgeniy Ivakha"
   },
   "homepage": "http://getblank.net",
-  "license": "GNU GPLv3",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/getblank/Blank/issues"
   },
@@ -38,19 +38,12 @@
   },
   "babel": {
     "plugins": [
-      [
-        "transform-es2015-modules-commonjs",
-        {
-          "allowTopLevelThis": false,
-          "strict": false,
-          "loose": false
-        }
-      ]
+      "transform-es2015-modules-commonjs"
     ]
   },
   "dependencies": {
-    "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-register": "^6.9.0",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
     "chokidar": "^1.5.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1"
