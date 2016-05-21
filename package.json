@@ -28,7 +28,7 @@
     "name": "Evgeniy Kuvshinov & Evgeniy Ivakha"
   },
   "homepage": "http://getblank.net",
-  "license": "MIT",
+  "license": "GNU GPLv3",
   "bugs": {
     "url": "https://github.com/getblank/Blank/issues"
   },
