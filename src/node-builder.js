@@ -63,7 +63,7 @@ function prepareConfig() {
 
     var config = {};
     //Loading default config
-    loadFromFolder(config, path.resolve(__dirname, "./config/"));
+    loadFromFolder(config, path.resolve(__dirname, "../config/"));
 
     //Loading app config
     loadFromFolder(config, configPath, true);
