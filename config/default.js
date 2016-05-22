@@ -6,6 +6,7 @@ module.exports = {
                 "query": {
                     "name": {
                         "$regex": "$value",
+                        "$options": "i"
                     },
                 },
             },
