@@ -29,7 +29,7 @@ module.exports = {
                 "label": "Enable",
                 "multi": false,
                 "script": function ($db, $item) {
-                    $db.setSync({"_id": $item._id, "isActive": true, "activationToken": ""}, "users");
+                    $db.setSync({ "_id": $item._id, "isActive": true, "activationToken": "" }, "users");
                 },
                 "hidden": "$item.isActive || $item._id === '00000000-0000-0000-0000-000000000000'",
             },
@@ -39,7 +39,7 @@ module.exports = {
                 "icon": "material-icons text md-16 block",
                 "multi": false,
                 "script": function ($db, $item) {
-                    return $db.setSync({"_id": $item._id, "isActive": false}, "users");
+                    return $db.setSync({ "_id": $item._id, "isActive": false }, "users");
                 },
                 "hidden": "!$item.isActive || $item._id === '00000000-0000-0000-0000-000000000000'",
             },
@@ -47,11 +47,11 @@ module.exports = {
                 "_id": "changePassword",
                 "label": "Change password",
                 "multi": false,
-                "script": function ($object, $data, $item) {
+                "script": function ($db, $data, $item) {
                     if (!$data.newPassword) {
                         return "Please provide new password";
                     }
-                    $db.setSync({"_id": $item._id, "password": $data.newPassword}, "users");
+                    $db.setSync({ "_id": $item._id, "password": $data.newPassword }, "users");
                 },
                 "type": "form",
                 "props": {
@@ -130,7 +130,7 @@ module.exports = {
                 "display": "checkList",
                 "label": "Roles",
                 "formOrder": 10,
-                "style": {"display": "block"},
+                "style": { "display": "block" },
                 "hidden": "$item._id === '00000000-0000-0000-0000-000000000000'",
                 "access": [
                     {
@@ -146,8 +146,8 @@ module.exports = {
                 "formOrder": 3,
                 "default": "en",
                 "options": [
-                    {"label": "English", "value": "en"},
-                    {"label": "Русский", "value": "ru"},
+                    { "label": "English", "value": "en" },
+                    { "label": "Русский", "value": "ru" },
                 ],
             },
             "_activationToken": {
@@ -166,6 +166,24 @@ module.exports = {
                 if (!$item.name) {
                     $item.name = $db.nextSequenceStringSync("users");
                 }
+            },
+        },
+        "storeLifeCycle": {
+            "didStart": function ($db) {
+                $db.get("users", "00000000-0000-0000-0000-000000000000", (e, d) => {
+                    if (e != null) {
+                        $db.insert({
+                            "_id": "00000000-0000-0000-0000-000000000000",
+                            "roles": ["root"],
+                            "login": "root",
+                            "password": "toor",
+                        }, "users", (e, d) => {
+                            if (e != null) {
+                                console.error("Error while creating root user:", e);
+                            }
+                        });
+                    }
+                });
             },
         },
         "httpHooks": [
