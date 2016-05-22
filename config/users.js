@@ -170,17 +170,22 @@ module.exports = {
         },
         "storeLifeCycle": {
             "didStart": function ($db) {
+                let hash = require("hash");
                 $db.get("users", "00000000-0000-0000-0000-000000000000", (e, d) => {
                     if (e != null) {
-                        $db.insert({
-                            "_id": "00000000-0000-0000-0000-000000000000",
-                            "roles": ["root"],
-                            "login": "root",
-                            "password": "toor",
-                        }, "users", (e, d) => {
-                            if (e != null) {
-                                console.error("Error while creating root user:", e);
-                            }
+                        let salt = $db.newId();
+                        hash.calc("toor", salt, (e, d) => {
+                            $db.insert({
+                                "_id": "00000000-0000-0000-0000-000000000000",
+                                "roles": ["root"],
+                                "login": "root",
+                                "hashedPassword": d,
+                                "salt": salt,
+                            }, "users", (e, d) => {
+                                if (e != null) {
+                                    console.error("Error while creating root user:", e);
+                                }
+                            });
                         });
                     }
                 });
