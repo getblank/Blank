@@ -3,13 +3,12 @@ module.exports = {
         "type": "directory",
         "filters": {
             "_default": {
-                "conditions": [
-                    {
-                        "property": "name",
-                        "operator": "contains"
-                    }
-                ]
-            }
+                "query": {
+                    "name": {
+                        "$regex": "$value",
+                    },
+                },
+            },
         },
         "props": {
             "_id": {
