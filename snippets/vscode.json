@@ -1,0 +1,216 @@
+{
+    /*
+	 // Place your snippets for JavaScript React here. Each snippet is defined under a snippet name and has a prefix, body and
+	 // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	 // $1, $2 for tab stops, ${id} and ${id:label} and ${1:label} for variables. Variables with the same id are connected.
+	 // Example:
+	 "Print to console": {
+		"prefix": "log",
+		"body": [
+			"console.log('$1');",
+			"$2"
+		],
+		"description": "Log output to console"
+	}
+    */
+    "Blank store": {
+        "prefix": "bs",
+        "body": [
+            "module.exports = {",
+            "\t\"${class}\": {",
+            "\t\t\"display\": \"list\",",
+            "\t\t\"navOrder\": 0,",
+            "\t\t\"label\": \"{{$i18n.storeLabel}}\",",
+            "\t\t\"labels\": [],",
+            "\t\t\"props\": {",
+            "\t\t\t\"defaultProp\": {",
+            "\t\t\t\t\"type\": \"string\",",
+            "\t\t\t\t\"formOrder\": 10,",
+            "\t\t\t\t\"display\": \"textInput\",",
+            "\t\t\t},",
+            "\t\t},",
+            "\t\t\"actions\": [],",
+            "\t\t\"objectLifeCycle\": {},",
+            "\t\t\"storeLifeCycle\": {},",
+            "\t\t\"filters\": {},",
+            "\t\t\"httpHooks\": [],",
+            "\t\t\"tasks\": [],",
+            "\t\t\"i18n\": {",
+            "\t\t\t\"storeLabel\": \"${class}\",",
+            "\t\t},",
+            "\t},",
+            "};"
+        ],
+        "description": "Creates new Blank store"
+    },
+    "Blank action": {
+        "prefix": "ba",
+        "body": [
+            "{",
+            "\t\"_id\": \"$1\",",
+            "\t\"label\": \"$2\",",
+            "\t\"script\": function ($db, $item) {",
+            "\t\t$3",
+            "\t},",
+            "\t\"clientPostScript\": function ($result, $item, $history) {",
+            "\t\t$4",
+            "\t},",
+            "\t\"hidden\": \"false\",",
+            "},"
+        ],
+        "description": "Creates new Blank action"
+    },
+    "Blank form action": {
+        "prefix": "baf",
+        "body": [
+            "{",
+            "\t\"_id\": \"$1\",",
+            "\t\"label\": \"$2\",",
+            "\t\"script\": function ($db, $item) {",
+            "\t\t$3",
+            "\t},",
+            "\t\"props\": {",
+            "\t\t$4",
+            "\t},",
+            "\t\"clientPostScript\": function ($result, $item, $history) {",
+            "\t\t$5",
+            "\t},",
+            "\t\"hidden\": \"false\",",
+            "},"
+        ],
+        "description": "Creates new Blank action with props"
+    },
+    "Blank i18n": {
+        "prefix": "b18",
+        "body": [
+            //Will work properly in next version of VS code
+            "{{\\$i18n.$1}}"
+        ],
+        "description": "Creates Blank i18n getter"
+    },
+    "Blank prop": {
+        "prefix": "bp",
+        "body": [
+            "\"$1\": {",
+            "\t\"type\": \"$2\",",
+            "\t\"display\": \"$3\",",
+            "\t\"label\": \"$4\",",
+            "\t\"formOrder\": ${number:0},",
+            "},"
+        ],
+        "description": "Creates new Blank property"
+    },
+    "Blank text input": {
+        "prefix": "bps",
+        "body": [
+            "\"$1\": {",
+            "\t\"type\": \"string\",",
+            "\t\"display\": \"textInput\",",
+            "\t\"label\": \"$2\",",
+            "\t\"formOrder\": ${number:0},",
+            "},"
+        ],
+        "description": "Creates new Blank string property"
+    },
+    "Blank bool input": {
+        "prefix": "bpb",
+        "body": [
+            "\"$1\": {",
+            "\t\"type\": \"bool\",",
+            "\t\"display\": \"checkbox\",",
+            "\t\"label\": \"$2\",",
+            "\t\"formOrder\": ${number:0},",
+            "},"
+        ],
+        "description": "Creates new Blank bool property"
+    },
+    "Blank int input": {
+        "prefix": "bpi",
+        "body": [
+            "\"$1\": {",
+            "\t\"type\": \"int\",",
+            "\t\"display\": \"numberInput\",",
+            "\t\"label\": \"$2\",",
+            "\t\"formOrder\": ${number:0},",
+            "},"
+        ],
+        "description": "Creates new Blank int property"
+    },
+    "Blank float input": {
+        "prefix": "bpf",
+        "body": [
+            "\"$1\": {",
+            "\t\"type\": \"float\",",
+            "\t\"display\": \"numberInput\",",
+            "\t\"label\": \"$2\",",
+            "\t\"formOrder\": ${number:0},",
+            "},"
+        ],
+        "description": "Creates new Blank float property"
+    },
+    "Blank ref input": {
+        "prefix": "bpr",
+        "body": [
+            "\"$1\": {",
+            "\t\"type\": \"ref\",",
+            "\t\"display\": \"searchBox\",",
+            "\t\"store\": \"$2\",",
+            "\t\"searchBy\": [\"name\"],",
+            "\t\"label\": \"$3\",",
+            "\t\"formOrder\": ${number:0},",
+            "},"
+        ],
+        "description": "Creates new Blank ref property"
+    },
+    "Blank refList input": {
+        "prefix": "bprl",
+        "body": [
+            "\"$1\": {",
+            "\t\"type\": \"refList\",",
+            "\t\"display\": \"searchBox\",",
+            "\t\"store\": \"$2\",",
+            "\t\"searchBy\": [\"name\"],",
+            "\t\"label\": \"$3\",",
+            "\t\"formOrder\": ${number:0},",
+            "},"
+        ],
+        "description": "Creates new Blank refList property"
+    },
+    "Blank object input": {
+        "prefix": "bpo",
+        "body": [
+            "\"$1\": {",
+            "\t\"type\": \"object\",",
+            "\t\"label\": \"$2\",",
+            "\t\"formOrder\": ${number:0},",
+            "\t\"props\": {",
+            "\t\t$3",
+            "\t}",
+            "},"
+        ],
+        "description": "Creates new Blank object property"
+    },
+    "Blank objectList input": {
+        "prefix": "bpol",
+        "body": [
+            "\"$1\": {",
+            "\t\"type\": \"objectList\",",
+            "\t\"label\": \"$2\",",
+            "\t\"formOrder\": ${number:0},",
+            "\t\"props\": {",
+            "\t\t$3",
+            "\t},",
+            "},"
+        ],
+        "description": "Creates new Blank objectList property"
+    },
+    "Blank access": {
+        "prefix": "baccess",
+        "body": [
+            "\"access\": [",
+            "\t{\"role\": \"11111111-1111-1111-1111-111111111111\", \"permissions\": \"crud\", }",
+            "],"
+        ],
+        "description": "Creates new Blank objectList property"
+    },
+}
