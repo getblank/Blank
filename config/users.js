@@ -18,10 +18,7 @@ module.exports = {
             },
         },
         "access": [
-            {
-                "role": "root",
-                "permissions": "crud",
-            },
+            { "role": "root", "permissions": "crud" },
         ],
         "actions": [
             {
@@ -29,7 +26,7 @@ module.exports = {
                 "label": "Enable",
                 "multi": false,
                 "script": function ($db, $item) {
-                    $db.setSync({ "_id": $item._id, "isActive": true, "activationToken": "" }, "users");
+                    return $db.set({ "_id": $item._id, "isActive": true, "activationToken": "" }, "users");
                 },
                 "hidden": "$item.isActive || $item._id === '00000000-0000-0000-0000-000000000000'",
             },
@@ -39,7 +36,7 @@ module.exports = {
                 "icon": "material-icons text md-16 block",
                 "multi": false,
                 "script": function ($db, $item) {
-                    return $db.setSync({ "_id": $item._id, "isActive": false }, "users");
+                    return $db.set({ "_id": $item._id, "isActive": false }, "users");
                 },
                 "hidden": "!$item.isActive || $item._id === '00000000-0000-0000-0000-000000000000'",
             },
@@ -51,7 +48,23 @@ module.exports = {
                     if (!$data.newPassword) {
                         return "Please provide new password";
                     }
-                    $db.setSync({ "_id": $item._id, "password": $data.newPassword }, "users");
+                    return new Promise((reject, resolve) => {
+                        let hash = require("hash");
+                        let salt = $db.newId();
+                        hash.calc($data.newPassword, salt, (e, d) => {
+                            $db.set({
+                                "_id": $item._id,
+                                "hashedPassword": d,
+                                "salt": salt,
+                            }, "users", (e, d) => {
+                                if (e != null) {
+                                    reject("Error while changing password:", e);
+                                } else {
+                                    resolve();
+                                }
+                            });
+                        });
+                    });
                 },
                 "type": "form",
                 "props": {

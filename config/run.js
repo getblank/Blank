@@ -23,7 +23,7 @@ module.exports = {
             "run": {
                 "type": "action",
                 "actions": [
-                    {"_id": "run"},
+                    { "_id": "run" },
                 ],
                 "formOrder": 20,
             },
@@ -37,13 +37,19 @@ module.exports = {
             {
                 "_id": "run",
                 "label": "Выполнить",
-                "script": function ($db, $item) {
-                    var f = new Function("$db", "$item", "require", $item.code);
+                "disableItemReadyCheck": true,
+                "clientPreScript": function ($item) {
+                    return {
+                        "code": $item.code,
+                    };
+                },
+                "script": function ($db, $data, $item) {
+                    var f = new Function("$db", "$item", "require", $data.code);
                     var res = f($db, $item, require);
                     if (typeof res !== "string") {
                         res = JSON.stringify(res, "", "  ");
                     }
-                    $db.setSync({"_id": $item._id, "response": res + ""}, "run");
+                    return $db.set({"_id": $item._id, "response": res + ""}, "run");
                 },
             },
         ],
@@ -56,10 +62,7 @@ module.exports = {
             "storeLabel": "Run JS",
         },
         "access": [
-            {
-                "role": "root",
-                "permissions": "crud",
-            },
+            { "role": "root", "permissions": "crud" },
         ],
     },
 };

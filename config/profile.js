@@ -9,9 +9,15 @@ module.exports = {
         ],
         "labels": [],
         "access": [
+            { "role": "root", "permissions": "ru" },
             {
-                "role": "11111111-1111-1111-1111-111111111111",
-                "permissions": "|ru",
+                "role": "all",
+                "permissions": "ru",
+                "condition": {
+                    "_ownerId": {
+                        "$expression": "$user._id",
+                    },
+                },
             },
         ],
         "props": {
@@ -43,20 +49,39 @@ module.exports = {
                 "_id": "changePassword",
                 "label": "{{$i18n.changePasswordAction}}",
                 "multi": false,
-                "script": function($item, $user, $data) {
+                "script": function ($db, $item, $user, $data) {
                     var i18n = require("i18n");
                     if (!$data.newPassword || !$data.oldPassword) {
                         return "Invalid args";
                     }
-
-                    if (!$db.checkPasswordSync($user._id, $data.oldPassword)) {
-                        return i18n.get("profile.invalidPasswordError", $user.lang);
-                    }
-                    var e = $db.setSync({ "_id": $user._id, "password": $data.newPassword }, "users");
-                    if (e) {
-                        return e;
-                    }
-                    $db.notifySync([$user._id], "securityNotifications", { "message": i18n.get("profile.passwordChangedMessage", $user.lang) });
+                    return new Promise((reject, resolve) => {
+                        let hash = require("hash");
+                        $db.get($item._id, "users", (e, _user) => {
+                            if (e != null) {
+                                return reject(e);
+                            }
+                            hash.calc($data.oldPassword, _user.salt, (e, d) => {
+                                if (d !== _user.hashedPassword) {
+                                    return reject(i18n.get("profile.invalidPasswordError", $user.lang));
+                                }
+                                let salt = $db.newId();
+                                hash.calc($data.newPassword, salt, (e, d) => {
+                                    $db.set({
+                                        "_id": $item._id,
+                                        "hashedPassword": d,
+                                        "salt": salt,
+                                    }, "users", (e, d) => {
+                                        if (e != null) {
+                                            reject("Error while changing password:", e);
+                                        } else {
+                                            $db.notify([$user._id], "securityNotifications", { "message": i18n.get("profile.passwordChangedMessage", $user.lang) });
+                                            resolve();
+                                        }
+                                    });
+                                });
+                            });
+                        });
+                    });
                 },
                 "type": "form",
                 "props": {
@@ -78,12 +103,24 @@ module.exports = {
             },
         ],
         "objectLifeCycle": {
-            "didSave": function($db, $item, $user) {
-                $db.set({ "_id": $user._id, "name":  (($item.lastName || "") + " " + $item.name).trim() }, "users");
+            "didSave": function ($db, $item, $user) {
+                $db.set({ "_id": $user._id, "name": (($item.lastName || "") + " " + $item.name).trim() }, "users");
             },
         },
         "storeLifeCycle": {},
-        "filters": {},
+        "filters": {
+            "userFilter": {
+                "label": "User",
+                "display": "searchBox",
+                "store": "users",
+                "searchBy": ["name", "email", "clientId"],
+                "multi": true,
+                "query": {
+                    "_ownerId": "$value",
+                },
+                "filterBy": "_id",
+            },
+        },
         "httpHooks": [],
         "tasks": [],
         "i18n": {
