@@ -14,6 +14,7 @@ import merge from "./merge";
 let argv = minimist(process.argv.slice(2)),
     help = argv.help || argv.h,
     configPath = path.resolve(argv._[0] || process.cwd()),
+    defaultConfigPath = path.resolve(__dirname, "../config/"),
     watch = argv.watch || argv.w,
     output = (argv.out || argv.o || ".").trim();
 
@@ -43,7 +44,7 @@ console.log(`Building blank from: ${configPath}`);
 prepareConfig();
 if (watch) {
     let timer = null;
-    let configWatcher = chokidar.watch(path.normalize(configPath + path.sep), {
+    let configWatcher = chokidar.watch([path.normalize(configPath + path.sep), path.normalize(defaultConfigPath + path.sep)], {
         persistent: true,
         ignoreInitial: true,
         ignored: [/lib\//, /interfaces\//],
@@ -63,7 +64,7 @@ function prepareConfig() {
 
     var config = {};
     //Loading default config
-    loadFromFolder(config, path.resolve(__dirname, "../config/"));
+    loadFromFolder(config, defaultConfigPath);
 
     //Loading app config
     loadFromFolder(config, configPath, true);
