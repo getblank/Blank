@@ -177,7 +177,15 @@ module.exports = {
         "objectLifeCycle": {
             "willCreate": function ($db, $item) {
                 if (!$item.name) {
-                    $item.name = $db.nextSequenceStringSync("users");
+                    return new Promise((reject, resolve) => {
+                        $db.nextSequenceString("users", (err, sequence) => {
+                            if (err) {
+                                return reject();
+                            }
+                            $item.name = sequence;
+                            resolve();
+                        });
+                    });
                 }
             },
         },
