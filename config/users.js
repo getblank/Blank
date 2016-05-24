@@ -177,7 +177,7 @@ module.exports = {
         "objectLifeCycle": {
             "willCreate": function ($db, $item) {
                 if (!$item.name) {
-                    return new Promise((reject, resolve) => {
+                    return new Promise((resolve, reject) => {
                         $db.nextSequenceString("users", (err, sequence) => {
                             if (err) {
                                 return reject();

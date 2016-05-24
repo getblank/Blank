@@ -11,13 +11,10 @@ module.exports = {
                 "label": "API Key",
                 "display": "code",
                 "hidden": "!$item.key",
-            }
+            },
         },
         "access": [
-            {
-                "role": "root",
-                "permissions": "crud"
-            }
+            { "role": "root", "permissions": "crud" },
         ],
         "actions": [
             {

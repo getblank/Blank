@@ -1,248 +1,248 @@
 "use strict";
 
 module.exports = {
-    "systemHealth": {
-        "display": "table",
-        "navOrder": 200,
-        "navGroup": "config",
-        "label": "{{$i18n.storeLabel}}",
-        "labels": [],
-        "props": {
-            "dateTime": {
-                "type": "date",
-                "label": "DateTime",
-                "display": "text"
-            },
-            "type": {
-                "type": "int",
-                "display": "none",
-                "label": "",
-                "formOrder": 0,
-                "options": [
-                    { "label": "Realtime", "value": "0" },
-                    { "label": "Minutly", "value": "1" },
-                    { "label": "Hourly", "value": "2" },
-                    { "label": "Dayly", "value": "3" },
-                    { "label": "Monthly", "value": "4" },
-                ]
-            },
-            "totalMemory": {
-                "type": "int",
-                "display": "text",
-                "label": "Memory Total",
-                "formOrder": 10,
-            },
-            "availableMemory": {
-                "type": "int",
-                "display": "text",
-                "label": "Memory Available",
-                "formOrder": 20,
-            },
-            "usedMemory": {
-                "type": "int",
-                "display": "text",
-                "label": "Memory Used",
-                "formOrder": 30,
-            },
-            "usedPercentMemory": {
-                "type": "float",
-                "display": "text",
-                "label": "Memory Used Percent",
-                "formOrder": 32,
-            },
-            "alloc": {
-                "type": "int",
-                "display": "text",
-                "label": "Bytes allocated",
-                "formOrder": 36,
-            },
-            "sys": {
-                "type": "int",
-                "display": "text",
-                "label": "Bytes obtained from system",
-                "formOrder": 36,
-            },
-            "cpu": {
-                "type": "objectList",
-                "label": "CPU Usage",
-                "formOrder": 20,
-                "props": {
-                    "coreNo": {
-                        "type": "int",
-                        "display": "text",
-                        "label": "Core #",
-                        "formOrder": 10,
-                    },
-                    "usage": {
-                        "type": "float",
-                        "display": "text",
-                        "label": "Usage",
-                        "formOrder": 20,
-                    },
-                }
-            },
-            "disk": {
-                "type": "objectList",
-                "label": "Disk Usage",
-                "formOrder": 30,
-                "props": {
-                    "path": {
-                        "type": "string",
-                        "display": "text",
-                        "label": "Path",
-                        "formOrder": 10,
-                    },
-                    "fsType": {
-                        "type": "string",
-                        "display": "text",
-                        "label": "FS Type",
-                        "formOrder": 20,
-                    },
-                    "total": {
-                        "type": "int",
-                        "display": "text",
-                        "label": "Total",
-                        "formOrder": 30,
-                    },
-                    "free": {
-                        "type": "int",
-                        "display": "text",
-                        "label": "Free",
-                        "formOrder": 40,
-                    },
-                    "used": {
-                        "type": "int",
-                        "display": "text",
-                        "label": "Used",
-                        "formOrder": 50,
-                    },
-                    "usedPercent": {
-                        "type": "float",
-                        "display": "text",
-                        "label": "Used Percent",
-                        "formOrder": 50,
-                    },
-                }
-            },
-            "workers": {
-                "type": "objectList",
-                "label": "V8 workers health",
-                "formOrder": 40,
-                "props": {
-                    "workerNo": {
-                        "type": "int",
-                        "display": "text",
-                        "label": "Worker #",
-                        "formOrder": 10,
-                    },
-                    "totalHeapSize": {
-                        "type": "int",
-                        "display": "text",
-                        "label": "Total Heap Size",
-                        "formOrder": 20,
-                    },
-                    "totalHeapSizeExecutable": {
-                        "type": "int",
-                        "display": "text",
-                        "label": "Total Heap Size Executable",
-                        "formOrder": 30,
-                    },
-                    "totalPhysicalSize": {
-                        "type": "int",
-                        "display": "text",
-                        "label": "Total Physical Size",
-                        "formOrder": 40,
-                    },
-                    "totalAvailableSize": {
-                        "type": "int",
-                        "display": "text",
-                        "label": "Total Available Size",
-                        "formOrder": 50,
-                    },
-                    "usedHeapSize": {
-                        "type": "int",
-                        "display": "text",
-                        "label": "Used Heap Size",
-                        "formOrder": 60,
-                    },
-                    "heapSizeLimit": {
-                        "type": "int",
-                        "display": "text",
-                        "label": "Heap Size Limit",
-                        "formOrder": 70,
-                    },
-                    "mallocedMemory": {
-                        "type": "int",
-                        "display": "text",
-                        "label": "mallocedMemory",
-                        "formOrder": 80,
-                    },
-                    "doesZapGarbage": {
-                        "type": "int",
-                        "display": "text",
-                        "label": "Does Zap Garbage",
-                        "formOrder": 90,
-                    },
-                }
-            },
-        },
-        "tableColumns": [
-            { "prop": "dateTime", "tableLink": true },
-            "totalMemory",
-            "availableMemory",
-            "usedMemory",
-            "usedPercentMemory",
-            "alloc",
-            "sys",
-        ],
+    // "systemHealth": {
+    //     "display": "table",
+    //     "navOrder": 200,
+    //     "navGroup": "config",
+    //     "label": "{{$i18n.storeLabel}}",
+    //     "labels": [],
+    //     "props": {
+    //         "dateTime": {
+    //             "type": "date",
+    //             "label": "DateTime",
+    //             "display": "text"
+    //         },
+    //         "type": {
+    //             "type": "int",
+    //             "display": "none",
+    //             "label": "",
+    //             "formOrder": 0,
+    //             "options": [
+    //                 { "label": "Realtime", "value": "0" },
+    //                 { "label": "Minutly", "value": "1" },
+    //                 { "label": "Hourly", "value": "2" },
+    //                 { "label": "Dayly", "value": "3" },
+    //                 { "label": "Monthly", "value": "4" },
+    //             ]
+    //         },
+    //         "totalMemory": {
+    //             "type": "int",
+    //             "display": "text",
+    //             "label": "Memory Total",
+    //             "formOrder": 10,
+    //         },
+    //         "availableMemory": {
+    //             "type": "int",
+    //             "display": "text",
+    //             "label": "Memory Available",
+    //             "formOrder": 20,
+    //         },
+    //         "usedMemory": {
+    //             "type": "int",
+    //             "display": "text",
+    //             "label": "Memory Used",
+    //             "formOrder": 30,
+    //         },
+    //         "usedPercentMemory": {
+    //             "type": "float",
+    //             "display": "text",
+    //             "label": "Memory Used Percent",
+    //             "formOrder": 32,
+    //         },
+    //         "alloc": {
+    //             "type": "int",
+    //             "display": "text",
+    //             "label": "Bytes allocated",
+    //             "formOrder": 36,
+    //         },
+    //         "sys": {
+    //             "type": "int",
+    //             "display": "text",
+    //             "label": "Bytes obtained from system",
+    //             "formOrder": 36,
+    //         },
+    //         "cpu": {
+    //             "type": "objectList",
+    //             "label": "CPU Usage",
+    //             "formOrder": 20,
+    //             "props": {
+    //                 "coreNo": {
+    //                     "type": "int",
+    //                     "display": "text",
+    //                     "label": "Core #",
+    //                     "formOrder": 10,
+    //                 },
+    //                 "usage": {
+    //                     "type": "float",
+    //                     "display": "text",
+    //                     "label": "Usage",
+    //                     "formOrder": 20,
+    //                 },
+    //             }
+    //         },
+    //         "disk": {
+    //             "type": "objectList",
+    //             "label": "Disk Usage",
+    //             "formOrder": 30,
+    //             "props": {
+    //                 "path": {
+    //                     "type": "string",
+    //                     "display": "text",
+    //                     "label": "Path",
+    //                     "formOrder": 10,
+    //                 },
+    //                 "fsType": {
+    //                     "type": "string",
+    //                     "display": "text",
+    //                     "label": "FS Type",
+    //                     "formOrder": 20,
+    //                 },
+    //                 "total": {
+    //                     "type": "int",
+    //                     "display": "text",
+    //                     "label": "Total",
+    //                     "formOrder": 30,
+    //                 },
+    //                 "free": {
+    //                     "type": "int",
+    //                     "display": "text",
+    //                     "label": "Free",
+    //                     "formOrder": 40,
+    //                 },
+    //                 "used": {
+    //                     "type": "int",
+    //                     "display": "text",
+    //                     "label": "Used",
+    //                     "formOrder": 50,
+    //                 },
+    //                 "usedPercent": {
+    //                     "type": "float",
+    //                     "display": "text",
+    //                     "label": "Used Percent",
+    //                     "formOrder": 50,
+    //                 },
+    //             }
+    //         },
+    //         "workers": {
+    //             "type": "objectList",
+    //             "label": "V8 workers health",
+    //             "formOrder": 40,
+    //             "props": {
+    //                 "workerNo": {
+    //                     "type": "int",
+    //                     "display": "text",
+    //                     "label": "Worker #",
+    //                     "formOrder": 10,
+    //                 },
+    //                 "totalHeapSize": {
+    //                     "type": "int",
+    //                     "display": "text",
+    //                     "label": "Total Heap Size",
+    //                     "formOrder": 20,
+    //                 },
+    //                 "totalHeapSizeExecutable": {
+    //                     "type": "int",
+    //                     "display": "text",
+    //                     "label": "Total Heap Size Executable",
+    //                     "formOrder": 30,
+    //                 },
+    //                 "totalPhysicalSize": {
+    //                     "type": "int",
+    //                     "display": "text",
+    //                     "label": "Total Physical Size",
+    //                     "formOrder": 40,
+    //                 },
+    //                 "totalAvailableSize": {
+    //                     "type": "int",
+    //                     "display": "text",
+    //                     "label": "Total Available Size",
+    //                     "formOrder": 50,
+    //                 },
+    //                 "usedHeapSize": {
+    //                     "type": "int",
+    //                     "display": "text",
+    //                     "label": "Used Heap Size",
+    //                     "formOrder": 60,
+    //                 },
+    //                 "heapSizeLimit": {
+    //                     "type": "int",
+    //                     "display": "text",
+    //                     "label": "Heap Size Limit",
+    //                     "formOrder": 70,
+    //                 },
+    //                 "mallocedMemory": {
+    //                     "type": "int",
+    //                     "display": "text",
+    //                     "label": "mallocedMemory",
+    //                     "formOrder": 80,
+    //                 },
+    //                 "doesZapGarbage": {
+    //                     "type": "int",
+    //                     "display": "text",
+    //                     "label": "Does Zap Garbage",
+    //                     "formOrder": 90,
+    //                 },
+    //             }
+    //         },
+    //     },
+    //     "tableColumns": [
+    //         { "prop": "dateTime", "tableLink": true },
+    //         "totalMemory",
+    //         "availableMemory",
+    //         "usedMemory",
+    //         "usedPercentMemory",
+    //         "alloc",
+    //         "sys",
+    //     ],
 
-        "storeActions": [
-            {
-                "_id": "deleteAll",
-                "label": "Delete all records",
-                "type": "form",
-                "formLabel": "Please confirm action!",
-                "props": {
-                    "confirm": {
-                        "label": " ",
-                        "display": "textInput",
-                    },
-                    "foo": {
-                        "display": "text",
-                        "label": " ",
-                        "readOnly": true,
-                        "default": "Enter text \"Yes, delete all!\"",
-                        "style": {
-                            "userSelect": "none",
-                            "MozUserSelect": "none",
-                            "WebkitUserSelect": "none"
-                        }
-                    }
-                },
-                "script": function ($db, $data) {
-                    if ($data.confirm !== "Yes, delete all!") {
-                        return "Not confirmed"
-                    }
-                    return $db.deleteAllSync('systemHealth')
-                },
-                "access": [
-                    {
-                        "role": "root",
-                        "permissions": "rud"
-                    }
-                ]
-            },
-        ],
-        "objectLifeCycle": {},
-        "storeLifeCycle": {},
-        "filters": {},
-        "httpHooks": [],
-        "access": [
-            {
-                "role": "root",
-                "permissions": "rud"
-            }
-        ],
+    //     "storeActions": [
+    //         {
+    //             "_id": "deleteAll",
+    //             "label": "Delete all records",
+    //             "type": "form",
+    //             "formLabel": "Please confirm action!",
+    //             "props": {
+    //                 "confirm": {
+    //                     "label": " ",
+    //                     "display": "textInput",
+    //                 },
+    //                 "foo": {
+    //                     "display": "text",
+    //                     "label": " ",
+    //                     "readOnly": true,
+    //                     "default": "Enter text \"Yes, delete all!\"",
+    //                     "style": {
+    //                         "userSelect": "none",
+    //                         "MozUserSelect": "none",
+    //                         "WebkitUserSelect": "none"
+    //                     }
+    //                 }
+    //             },
+    //             "script": function ($db, $data) {
+    //                 if ($data.confirm !== "Yes, delete all!") {
+    //                     return "Not confirmed"
+    //                 }
+    //                 return $db.deleteAllSync('systemHealth')
+    //             },
+    //             "access": [
+    //                 {
+    //                     "role": "root",
+    //                     "permissions": "rud"
+    //                 }
+    //             ]
+    //         },
+    //     ],
+    //     "objectLifeCycle": {},
+    //     "storeLifeCycle": {},
+    //     "filters": {},
+    //     "httpHooks": [],
+    //     "access": [
+    //         {
+    //             "role": "root",
+    //             "permissions": "rud"
+    //         }
+    //     ],
         // "tasks": [
         //     {
         //         "schedule": "0  *   *   *   *   *",
@@ -392,8 +392,8 @@ module.exports = {
         //         }
         //     }
         // ],
-        "i18n": {
-            "storeLabel": "System Health"
-        }
-    }
+    //     "i18n": {
+    //         "storeLabel": "System Health"
+    //     }
+    // }
 };

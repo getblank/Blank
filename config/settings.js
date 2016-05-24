@@ -30,11 +30,11 @@ module.exports = {
             "defaultLocale": "en",
             "userActivation": false,
             "meta": [
-                {"name": "description", "content": "Application description"},
-                {"name": "author", "content": "Application author"},
+                { "name": "description", "content": "Application description" },
+                { "name": "author", "content": "Application author" },
             ],
             "links": [
-                {"rel": "canonical", "href": "http://mysite.com/example"},
+                { "rel": "canonical", "href": "http://mysite.com/example" },
             ],
             "lessVars": {
                 //"@baseColor": "#FF0044"
@@ -74,14 +74,14 @@ module.exports = {
                     "display": "textInput",
                     "label": "{{$i18n.$settings.common.email}}",
                     "required": true,
-                    "pattern": {"value": "^\\S+@\\S+\\.\\S+$", "message": "{{$i18n.$settings.signUp.invalidEmail}}"},
+                    "pattern": { "value": "^\\S+@\\S+\\.\\S+$", "message": "{{$i18n.$settings.signUp.invalidEmail}}" },
                 },
             },
             "signUpProps": {
                 "email": {
                     "type": "string",
                     "display": "newUsernameInput",
-                    "pattern": {"value": "^\\S+@\\S+\\.\\S+$", "message": "{{$i18n.$settings.signUp.invalidEmail}}"},
+                    "pattern": { "value": "^\\S+@\\S+\\.\\S+$", "message": "{{$i18n.$settings.signUp.invalidEmail}}" },
                     "label": "{{$i18n.$settings.common.email}}",
                     "required": true,
                     "formOrder": 1,

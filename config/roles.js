@@ -4,12 +4,12 @@ module.exports = {
         "entries": {
             "root": {
                 "label": "root",
-                "display": "none"
+                "display": "none",
             },
             "all": {
                 "label": "all",
-                "display": "none"
-            }
-        }
-    }
+                "display": "none",
+            },
+        },
+    },
 };

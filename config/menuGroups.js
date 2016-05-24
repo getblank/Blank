@@ -3,8 +3,8 @@ module.exports = {
         "type": "map",
         "entries": {
             "config": {
-                "label": "Administration"
-            }
-        }
-    }
+                "label": "Administration",
+            },
+        },
+    },
 };
