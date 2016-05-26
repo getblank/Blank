@@ -50,13 +50,13 @@ module.exports = {
                 "label": "{{$i18n.changePasswordAction}}",
                 "multi": false,
                 "script": function ($db, $item, $user, $data) {
-                    var i18n = require("i18n");
+                    let i18n = require("i18n");
                     if (!$data.newPassword || !$data.oldPassword) {
                         return "Invalid args";
                     }
-                    return new Promise((reject, resolve) => {
+                    return new Promise((resolve, reject) => {
                         let hash = require("hash");
-                        $db.get($item._id, "users", (e, _user) => {
+                        $db.get($item._ownerId, "users", (e, _user) => {
                             if (e != null) {
                                 return reject(e);
                             }
@@ -67,14 +67,16 @@ module.exports = {
                                 let salt = $db.newId();
                                 hash.calc($data.newPassword, salt, (e, d) => {
                                     $db.set({
-                                        "_id": $item._id,
+                                        "_id": $item._ownerId,
                                         "hashedPassword": d,
                                         "salt": salt,
                                     }, "users", (e, d) => {
                                         if (e != null) {
                                             reject("Error while changing password:", e);
                                         } else {
-                                            $db.notify([$user._id], "securityNotifications", { "message": i18n.get("profile.passwordChangedMessage", $user.lang) });
+                                            $db.notify([$user._id], "securityNotifications", {
+                                                "message": i18n.get("profile.passwordChangedMessage", $user.lang),
+                                            });
                                             resolve();
                                         }
                                     });
