@@ -16,7 +16,20 @@ let argv = minimist(process.argv.slice(2)),
     configPath = path.resolve(argv._[0] || process.cwd()),
     defaultConfigPath = path.resolve(__dirname, "../config/"),
     watch = argv.watch || argv.w,
-    output = (argv.out || argv.o || ".").trim();
+    output = (argv.out || argv.o || ".").trim(),
+    buildConfig = false;
+
+switch (argv._[0]) {
+    case "start": {
+        let jsPath = argv["js-path"] || argv.js,
+            update = argv.update || argv.u;
+        require("./start")(jsPath, update);
+        break;
+    }
+    default:
+        buildConfig = true;
+        break;
+}
 
 if (help) {
     console.log("Blank platform config builder.");
@@ -33,26 +46,28 @@ if (help) {
     process.exit();
 }
 
-babelRegister({
-    "only": new RegExp(configPath),
-    "plugins": [require("babel-plugin-transform-react-jsx")],
-});
-
-var usedModules = Object.keys(require.cache);
-
-console.log(`Building blank from: ${configPath}`);
-prepareConfig();
-if (watch) {
-    let timer = null;
-    let configWatcher = chokidar.watch([path.normalize(configPath + path.sep), path.normalize(defaultConfigPath + path.sep)], {
-        persistent: true,
-        ignoreInitial: true,
-        ignored: [/lib\//, /interfaces\//],
+if (buildConfig) {
+    babelRegister({
+        "only": new RegExp(configPath),
+        "plugins": [require("babel-plugin-transform-react-jsx")],
     });
-    configWatcher.on("change", function (path, stats) {
-        clearTimeout(timer);
-        timer = setTimeout(prepareConfig, 500);
-    });
+
+    var usedModules = Object.keys(require.cache);
+
+    console.log(`Building blank from: ${configPath}`);
+    prepareConfig();
+    if (watch) {
+        let timer = null;
+        let configWatcher = chokidar.watch([path.normalize(configPath + path.sep), path.normalize(defaultConfigPath + path.sep)], {
+            persistent: true,
+            ignoreInitial: true,
+            ignored: [/lib\//, /interfaces\//,/assets\//],
+        });
+        configWatcher.on("change", function (path, stats) {
+            clearTimeout(timer);
+            timer = setTimeout(prepareConfig, 500);
+        });
+    }
 }
 
 function prepareConfig() {
