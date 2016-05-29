@@ -10,7 +10,8 @@ import minimist from "minimist";
 import babelRegister from "babel-register";
 import mkdirp from "mkdirp";
 import merge from "./merge";
-import {EasyZip} from "easy-zip";
+import postZip from "./postZip";
+import blankJson from "./blankJson";
 
 let argv = minimist(process.argv.slice(2)),
     help = argv.help || argv.h,
@@ -54,78 +55,46 @@ if (buildConfig) {
     });
 
     var usedModules = Object.keys(require.cache);
-    let libPath = path.normalize(configPath + "/lib");
-    let assetsPath = path.normalize(configPath + "/assets");
+    let settings = blankJson.getSettings(configPath);
+    let libPaths = ["./lib"].concat(settings.lib.path || []);
+    let assetsPaths = ["./assets"].concat(settings.assets.path || []);
+    for (let i = 0; i < libPaths.length; i++) {
+        libPaths[i] = path.resolve(configPath, libPaths[i]) + path.sep;
+    }
+    for (let i = 0; i < assetsPaths.length; i++) {
+        assetsPaths[i] = path.resolve(configPath, assetsPaths[i]) + path.sep;
+    }
 
     console.log(`Building blank from: ${configPath}`);
     prepareConfig();
-    zipAndDeliver(libPath, "lib.zip");
-    zipAndDeliver(assetsPath, "assets.zip");
+    postZip(libPaths, "lib.zip", output);
+    postZip(assetsPaths, "assets.zip", output);
 
     if (watch) {
         let configTimer = null,
-            localTimer = null;
+            libTimer = null,
+            assetsTimer = null;
         let configWatcher = chokidar.watch([path.normalize(configPath + path.sep), path.normalize(defaultConfigPath + path.sep)], {
             persistent: true,
             ignoreInitial: true,
             ignored: [/lib\//, /interfaces\//, /assets\//],
         });
-        configWatcher.on("change", function (path, stats) {
-            clearTimeout(timer);
-            timer = setTimeout(prepareConfig, 500);
+        configWatcher.on("change", function () {
+            clearTimeout(configTimer);
+            configTimer = setTimeout(prepareConfig, 500);
         });
 
-        let localWatcher = chokidar.watch([libPath, assetsPath], {
-            persistent: true,
-            ignoreInitial: true,
+        let libWatcher = chokidar.watch(libPaths, { persistent: true, ignoreInitial: true });
+        libWatcher.on("change", function (_path) {
+            clearTimeout(libTimer);
+            libTimer = setTimeout(() => postZip(libPaths, "lib.zip", output), 500);
         });
-        localWatcher.on("change", function (path) {
-            clearTimeout(localTimer);
-            if (path.indexOf(assetsPath) === 0) {
-                // upload lib
-                localTimer = setTimeout(() => zipAndDeliver(assetsPath, "assets.zip"), 500);
-                return;
-            }
-            localTimer = setTimeout(() => zipAndDeliver(libPath, "lib.zip"), 500);
+        let assetsWatcher = chokidar.watch(assetsPaths, { persistent: true, ignoreInitial: true });
+        assetsWatcher.on("change", function (_path) {
+            clearTimeout(assetsTimer);
+            assetsTimer = setTimeout(() => postZip(assetsPaths, "assets.zip", output), 500);
         });
     }
-}
-
-function zipAndDeliver(path, fileName) {
-    let zip = new EasyZip();
-    zip.zipFolder(path, function (err) {
-        if (err) {
-            return console.error(`Can't zip folder ${path}`);
-        }
-        if (output.indexOf("http") === 0) {
-            let localOuput = output + "/" + fileName.replace(".zip", "") + "/" + fileName;
-            console.log(`Posting ${fileName} to service registry: "${localOuput}"`);
-            let srUrl = url.parse(localOuput);
-            let h = srUrl.protocol === "https:" ? https : http;
-            let req = h.request(Object.assign(srUrl, {
-                "method": "POST",
-            }), (res) => {
-                console.log(`Post ${fileName} to service registry result: ${res.statusCode}/${res.statusMessage}`);
-            });
-            req.write(zip.generate({ base64: false, compression: "DEFLATE" }), "binary");
-            req.end();
-            return;
-        }
-        output = path.resolve(output);
-        mkdirp(output, function (e) {
-            if (e) {
-                return console.error(e);
-            }
-            let outputFile = output + path.sep + fileName;
-            console.log(`${new Date()}  Writing ${fileName} to: ${outputFile}`);
-            zip.writeToFile(fileName, function (e) {
-                if (e) {
-                    return console.log(e);
-                }
-                console.log(`${new Date()} The ${fileName} was saved!`);
-            });
-        });
-    });
 }
 
 function prepareConfig() {
