@@ -1,6 +1,6 @@
 "use strict";
 
-import {exec, execSync, execFile, spawn} from "child_process";
+import {execSync, execFile, spawn} from "child_process";
 import fs from "fs";
 import path from "path";
 import {StringDecoder} from "string_decoder";
@@ -57,27 +57,6 @@ function _update() {
     if (done) {
         _run();
     }
-    // let updater = exec(`pkill -f blank- && echo 'All Blank processes stopped' &&
-    //   ${node.map(p => `cd ${_jsPath + p} && git pull && npm run prestart &&`).join(" ")}
-    //   ${go.map(p => `cd ${process.env.GOPATH}/src/github.com/getblank/${p} && go get -u -d && go generate && go install && echo '${p} done' &&`).join(" ")}
-    //   echo 'Completed'`,
-    //     (error, stdout, stderr) => {
-    //         if (error || e) {
-    //             console.error(`Error while updating packages: ${error || "see above messages..."}`);
-    //             return;
-    //         }
-    //         _run();
-    //     }
-    // );
-
-    // updater.stdout.on("data", (data) => {
-    //     console.log("Updating packages:", data);
-    // });
-
-    // updater.stderr.on("data", (data) => {
-    //     e = true;
-    //     console.log("Error while updating packages:", data);
-    // });
 }
 
 function _run() {

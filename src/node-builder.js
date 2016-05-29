@@ -19,13 +19,18 @@ let argv = minimist(process.argv.slice(2)),
     defaultConfigPath = path.resolve(__dirname, "../config/"),
     watch = argv.watch || argv.w,
     output = (argv.out || argv.o || ".").trim(),
+    jsPath = argv["js-path"] || argv.js,
+    update = argv.update || argv.u,
+    run = !!(argv.run || argv.r),
     buildConfig = false;
 
+if (help) {
+    require("./help");
+}
+
 switch (argv._[0]) {
-    case "start": {
-        let jsPath = argv["js-path"] || argv.js,
-            update = argv.update || argv.u;
-        require("./start")(jsPath, update);
+    case "run": {
+        require("./runDev")(jsPath, update);
         break;
     }
     default:
@@ -33,22 +38,18 @@ switch (argv._[0]) {
         break;
 }
 
-if (help) {
-    console.log("Blank platform config builder.");
-    console.log("");
-    console.log("Usage:");
-    console.log("   blank config_path [flags]");
-    console.log("");
-    console.log("Flags:");
-    console.log("   -o --output string    path or http server address for config write to");
-    console.log("   -w --watch            watch for config changes");
-    console.log("");
-    console.log("Example:");
-    console.log("   blank ./src -o http://httpbin.org -w");
-    process.exit();
+if (buildConfig) {
+    if (run) {
+        require("./runDev")(jsPath, update);
+        setTimeout(() => {
+            build();
+        }, 1000);
+    } else {
+        build();
+    }
 }
 
-if (buildConfig) {
+function build() {
     babelRegister({
         "only": new RegExp(configPath),
         "plugins": [require("babel-plugin-transform-react-jsx")],
@@ -95,73 +96,73 @@ if (buildConfig) {
             assetsTimer = setTimeout(() => postZip(assetsPaths, "assets.zip", output), 500);
         });
     }
-}
 
-function prepareConfig() {
-    for (var prop in require.cache) {
-        if (usedModules.indexOf(prop) < 0 && require.cache.hasOwnProperty(prop)) {
-            delete require.cache[prop];
-        }
-    }
-
-    var config = {};
-    //Loading default config
-    loadFromFolder(config, defaultConfigPath);
-
-    //Loading app config
-    loadFromFolder(config, configPath, true);
-    let configString = JSON.stringify(config, function (key, val) {
-        if (typeof val === "function") {
-            var fn = val.toString();
-            return fn.substring(fn.indexOf("{") + 1, fn.lastIndexOf("}")).replace(/(\/\*.*\*\/)/g, "").replace(/(\/\/.*\n)|(\/\/.*\r\n)|(\/\/.*\r\n)/g, "");
-        }
-        return val;
-    }, "  ");
-    if (output.indexOf("http") === 0) {
-        let confOutput = output + "/config";
-        console.log(`Posting config to service registry: "${confOutput}"`);
-        let srUrl = url.parse(confOutput);
-        let h = srUrl.protocol === "https:" ? https : http;
-        let req = h.request(Object.assign(srUrl, {
-            "method": "POST",
-        }), (res) => {
-            console.log("Post to service registry result: ", res.statusCode, "/", res.statusMessage);
-        });
-        req.write(configString);
-        req.end();
-    } else {
-        output = path.resolve(output);
-        mkdirp(output, function (e) {
-            if (e) {
-                return console.error(e);
+    function prepareConfig() {
+        for (var prop in require.cache) {
+            if (usedModules.indexOf(prop) < 0 && require.cache.hasOwnProperty(prop)) {
+                delete require.cache[prop];
             }
-            let outputFile = path.normalize(output + path.sep + "config.json");
-            console.log(new Date(), "Writing config to: ", outputFile);
-            fs.writeFile(outputFile, configString, function (e) {
-                if (e) {
-                    return console.log(e);
-                }
-                console.log(new Date(), "The config was saved!");
+        }
+
+        var config = {};
+        //Loading default config
+        loadFromFolder(config, defaultConfigPath);
+
+        //Loading app config
+        loadFromFolder(config, configPath, true);
+        let configString = JSON.stringify(config, function (key, val) {
+            if (typeof val === "function") {
+                var fn = val.toString();
+                return fn.substring(fn.indexOf("{") + 1, fn.lastIndexOf("}")).replace(/(\/\*.*\*\/)/g, "").replace(/(\/\/.*\n)|(\/\/.*\r\n)|(\/\/.*\r\n)/g, "");
+            }
+            return val;
+        }, "  ");
+        if (output.indexOf("http") === 0) {
+            let confOutput = output + "/config";
+            console.log(`Posting config to service registry: "${confOutput}"`);
+            let srUrl = url.parse(confOutput);
+            let h = srUrl.protocol === "https:" ? https : http;
+            let req = h.request(Object.assign(srUrl, {
+                "method": "POST",
+            }), (res) => {
+                console.log("Post to service registry result: ", res.statusCode, "/", res.statusMessage);
             });
+            req.write(configString);
+            req.end();
+        } else {
+            output = path.resolve(output);
+            mkdirp(output, function (e) {
+                if (e) {
+                    return console.error(e);
+                }
+                let outputFile = path.normalize(output + path.sep + "config.json");
+                console.log(new Date(), "Writing config to: ", outputFile);
+                fs.writeFile(outputFile, configString, function (e) {
+                    if (e) {
+                        return console.log(e);
+                    }
+                    console.log(new Date(), "The config was saved!");
+                });
+            });
+        }
+    }
+
+    function loadFromFolder(config, configPath, recursive) {
+        fs.readdirSync(configPath).forEach(function (file) {
+            let itemPath = path.normalize(configPath + path.sep + file);
+            var stats = fs.lstatSync(itemPath);
+            if (file.indexOf("_") !== 0 && file.indexOf(".js") === (file.length - 3) && stats.isFile()) {
+                try {
+                    let c = require(itemPath);
+                    merge(config, c);
+                } catch (e) {
+                    console.error("\x1b[31m     >>>>>>>>>>>     Bad config file ", configPath + file, e, "     <<<<<<<<<<<\x1b[0m");
+                }
+            } else if (recursive && stats.isDirectory()) {
+                if (file !== "lib" && file !== "templates" && file !== "assets" && file !== ".git" && file !== "node_modules") {
+                    loadFromFolder(config, itemPath + "/");
+                }
+            }
         });
     }
-}
-
-function loadFromFolder(config, configPath, recursive) {
-    fs.readdirSync(configPath).forEach(function (file) {
-        let itemPath = path.normalize(configPath + path.sep + file);
-        var stats = fs.lstatSync(itemPath);
-        if (file.indexOf("_") !== 0 && file.indexOf(".js") === (file.length - 3) && stats.isFile()) {
-            try {
-                let c = require(itemPath);
-                merge(config, c);
-            } catch (e) {
-                console.error("\x1b[31m     >>>>>>>>>>>     Bad config file ", configPath + file, e, "     <<<<<<<<<<<\x1b[0m");
-            }
-        } else if (recursive && stats.isDirectory()) {
-            if (file !== "lib" && file !== "templates" && file !== "assets" && file !== ".git" && file !== "node_modules") {
-                loadFromFolder(config, itemPath + "/");
-            }
-        }
-    });
 }
