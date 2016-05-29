@@ -28,7 +28,7 @@ function addFolder(folder, zip) {
 }
 
 module.exports = function (_paths, fileName, output) {
-    let zip = new JSZip().folder(fileName);
+    let zip = new JSZip();
     if (!Array.isArray(_paths)) {
         _paths = [_paths];
     }
@@ -37,7 +37,7 @@ module.exports = function (_paths, fileName, output) {
         addFolder(p, zip);
     }
     if (output.indexOf("http") === 0) {
-        let postUrlString = output + "/" + fileName.replace(".zip", "") + "/" + fileName;
+        let postUrlString = output + "/" + fileName + "/" + fileName + ".zip";
         let postUrl = url.parse(postUrlString);
         let h = postUrl.protocol === "https:" ? https : http;
         let req = h.request(Object.assign(postUrl, {
@@ -58,7 +58,7 @@ module.exports = function (_paths, fileName, output) {
         if (e) {
             return console.error(e);
         }
-        let outputFile = output + path.sep + fileName;
+        let outputFile = output + path.sep + fileName + ".zip";
         console.log(`${new Date()}  Writing ${fileName} to: ${outputFile}`);
         zip.generateNodeStream({ type: "nodebuffer", streamFiles: true })
             .pipe(fs.createWriteStream(outputFile))

@@ -9,7 +9,7 @@ var decoder = new StringDecoder("utf8");
 
 let go = ["blank-sr", "blank-router", "blank-cron"];
 let node = ["blank-node-worker"];
-let jsPath = ".";
+let jsPath = "../";
 
 module.exports = function (jsPathArg, update) {
     jsPath = jsPathArg || jsPath;

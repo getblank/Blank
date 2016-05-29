@@ -68,8 +68,8 @@ function build() {
 
     console.log(`Building blank from: ${configPath}`);
     prepareConfig();
-    postZip(libPaths, "lib.zip", output);
-    postZip(assetsPaths, "assets.zip", output);
+    postZip(libPaths, "lib", output);
+    postZip(assetsPaths, "assets", output);
 
     if (watch) {
         let configTimer = null,
@@ -88,12 +88,12 @@ function build() {
         let libWatcher = chokidar.watch(libPaths, { persistent: true, ignoreInitial: true });
         libWatcher.on("change", function (_path) {
             clearTimeout(libTimer);
-            libTimer = setTimeout(() => postZip(libPaths, "lib.zip", output), 500);
+            libTimer = setTimeout(() => postZip(libPaths, "lib", output), 500);
         });
         let assetsWatcher = chokidar.watch(assetsPaths, { persistent: true, ignoreInitial: true });
         assetsWatcher.on("change", function (_path) {
             clearTimeout(assetsTimer);
-            assetsTimer = setTimeout(() => postZip(assetsPaths, "assets.zip", output), 500);
+            assetsTimer = setTimeout(() => postZip(assetsPaths, "assets", output), 500);
         });
     }
 
