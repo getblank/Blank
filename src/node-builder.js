@@ -29,10 +29,9 @@ if (help) {
 }
 
 switch (argv._[0]) {
-    case "run": {
+    case "run":
         require("./runDev")(jsPath, update);
         break;
-    }
     default:
         buildConfig = true;
         break;

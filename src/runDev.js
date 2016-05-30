@@ -36,6 +36,8 @@ function _update() {
     try {
         execSync("pkill -f blank-");
         console.log("All Blank processes stopped");
+    } catch (e) { }
+    try {
         for (let i = 0; i < go.length; i++) {
             let p = go[i];
             console.log(`Updating Go package ${i} of ${go.length}`);
@@ -61,7 +63,9 @@ function _update() {
 
 function _run() {
     for (let packageName of go) {
-        let p = execFile(packageName);
+        let p = execFile(packageName, {
+            "cwd": `${process.env.GOPATH}/src/github.com/getblank/${packageName}`,
+        });
         _bindProcessStreams(p, packageName);
     }
     for (let packageName of node) {
