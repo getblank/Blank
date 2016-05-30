@@ -58,11 +58,16 @@ function build() {
     let settings = blankJson.getSettings(configPath);
     let libPaths = ["./lib"].concat(settings.lib.path || []);
     let assetsPaths = ["./assets"].concat(settings.assets.path || []);
+    let confPaths = [path.normalize(configPath + path.sep), path.normalize(defaultConfigPath + path.sep)];
     for (let i = 0; i < libPaths.length; i++) {
         libPaths[i] = path.resolve(configPath, libPaths[i]) + path.sep;
     }
     for (let i = 0; i < assetsPaths.length; i++) {
         assetsPaths[i] = path.resolve(configPath, assetsPaths[i]) + path.sep;
+    }
+    let extraWatch = settings.conf.watch || [];
+    for (let i = 0; i < extraWatch.length; i++) {
+        confPaths.push(path.resolve(configPath, extraWatch[i]) + path.sep);
     }
 
     console.log(`Building blank from: ${configPath}`);
@@ -74,7 +79,7 @@ function build() {
         let configTimer = null,
             libTimer = null,
             assetsTimer = null;
-        let configWatcher = chokidar.watch([path.normalize(configPath + path.sep), path.normalize(defaultConfigPath + path.sep)], {
+        let configWatcher = chokidar.watch(confPaths, {
             persistent: true,
             ignoreInitial: true,
             ignored: [/lib\//, /interfaces\//, /assets\//],

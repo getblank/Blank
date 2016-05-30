@@ -89,7 +89,7 @@ function _run() {
 
 function _bindProcessStreams(p, packageName, buffered) {
     let shortName = packageName.replace("blank-", "");
-    shortName = "            ".slice(shortName.length) + shortName;
+    // shortName += "            ".slice(shortName.length);
     p.stdout.on("data", (data) => {
         _log(shortName, buffered ? decoder.write(data) : data);
     });
@@ -105,9 +105,9 @@ function _log(process, msg, err) {
     let data = msg;
     try {
         let m = JSON.parse(msg);
-        data = `${process}: ${m.timestamp || m.time} - ${m.level}: ${m.message}`;
+        data = `${m.timestamp || m.time} - ${m.level}: ${m.message}`;
     } catch (e) {
-        data = `${process}: ${msg}`;
+        data = msg;
     }
-    console.log(err ? sc.fgRed : sc.fgNormal, data, sc.fgNormal);
+    console.log((err ? `${sc.fgRed}[ERR]` : "[OUT]") + `${sc.fgNormal}[${process}]: ${data}`);
 }

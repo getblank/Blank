@@ -2,7 +2,7 @@ import fs from "fs";
 import path from  "path";
 
 module.exports.getSettings = function (configPath) {
-    let rc = { "lib": {}, "assets": {} },
+    let rc = { "lib": {}, "assets": {}, "conf": {} },
         fPath = path.normalize(configPath + path.sep + "blank.json");
     try {
         var rcStats = fs.statSync(fPath);
