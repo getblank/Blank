@@ -7,7 +7,7 @@ import {StringDecoder} from "string_decoder";
 import sc from "./shellColors";
 var decoder = new StringDecoder("utf8");
 
-let go = ["blank-sr", "blank-router", "blank-cron"];
+let go = ["blank-sr", "blank-router", "blank-cron", "blank-filestore"];
 let node = ["blank-node-worker"];
 let jsPath = "../";
 
@@ -21,6 +21,12 @@ module.exports = function (jsPathArg, update) {
         }
     } catch (e) {
         console.log("Cannot find one or more js packages, check '--js-path' argument");
+        return;
+    }
+    try {
+        fs.accessSync(process.env.GOPATH, fs.F_OK);
+    } catch (e) {
+        console.log("$GOPATH env variable is not accessible. $GOPATH value:", process.env.GOPATH);
         return;
     }
     if (update) {
@@ -42,13 +48,13 @@ function _update() {
             let p = go[i];
             console.log(`Updating Go package ${i} of ${go.length}`);
             let _path = `${process.env.GOPATH}/src/github.com/getblank/${p}`;
-            execSync(`cd ${_path} && go get -u -d && go generate && go install`);
+            execSync(`go get -u -d github.com/getblank/${p} && cd ${_path} && go generate && go install`);
             console.log(p, "done");
         }
         for (let i = 0; i < node.length; i++) {
             let p = node[i];
             console.log(`Updating Node package ${i} of ${node.length}`);
-            execSync(`cd ${_jsPath + p} && git pull && npm run prestart`);
+            execSync(`cd ${_jsPath + p} && git pull && npm install && npm run prestart`);
             console.log(p, "done");
         }
         done = true;
