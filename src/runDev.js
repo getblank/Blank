@@ -5,6 +5,9 @@ import fs from "fs";
 import path from "path";
 import {StringDecoder} from "string_decoder";
 import sc from "./shellColors";
+import logfmt from "logfmt";
+import speedDate from "speed-date";
+var formatter = speedDate("HH:mm:ss.SS");
 var decoder = new StringDecoder("utf8");
 
 let go = ["blank-sr", "blank-router", "blank-cron", "blank-filestore"];
@@ -89,25 +92,39 @@ function _run() {
 
 function _bindProcessStreams(p, packageName, buffered) {
     let shortName = packageName.replace("blank-", "");
-    // shortName += "            ".slice(shortName.length);
-    p.stdout.on("data", (data) => {
-        _log(shortName, buffered ? decoder.write(data) : data);
-    });
-    p.stderr.on("data", (data) => {
-        _log(shortName, buffered ? decoder.write(data) : data, true);
-    });
+    shortName += "           ".slice(shortName.length);
+    p.stdout.on("data", _outHandler.bind(this, shortName, false));
+    p.stderr.on("data", _outHandler.bind(this, shortName, true));
     p.on("close", (code) => {
         console.log(`${packageName} exited with code ${code}`);
     });
+}
+
+function _outHandler(name, stdErr, data) {
+    if (typeof data !== "string") {
+        var str = data.toString(), lines = str.split(/(\r?\n)/g);
+        for (var i = 0; i < lines.length; i++) {
+            if (lines[i].trim()) {
+                _log(name, lines[i], stdErr);
+            }
+        }
+    } else {
+        _log(name, data, stdErr);
+    }
 }
 
 function _log(process, msg, err) {
     let data = msg;
     try {
         let m = JSON.parse(msg);
-        data = `${m.timestamp || m.time} - ${m.level}: ${m.message}`;
+        data = `${formatter(new Date(m.timestamp || m.time))} - ${m.level}: ${m.message}`;
     } catch (e) {
-        data = msg;
+        let m = logfmt.parse(msg);
+        if (m.level && m.msg) {
+            data = `${formatter(new Date(m.timestamp || m.time))} - ${m.level}: ${m.msg} ${m.error}`;
+        } else {
+            data = msg;
+        }
     }
-    console.log((err ? `${sc.fgRed}[ERR]` : "[OUT]") + `${sc.fgNormal}[${process}]: ${data}`);
+    console.log((err ? `${sc.fgRed}[ERR]` : "[OUT]") + `${sc.fgNormal}[${process}] ${data}`);
 }

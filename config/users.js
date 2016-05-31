@@ -188,6 +188,11 @@ module.exports = {
                     });
                 }
             },
+            "willDelete": function ($db, $item) {
+                if ($item._id === "00000000-0000-0000-0000-000000000000") {
+                    return "Cannot delete root user";
+                }
+            },
         },
         "storeLifeCycle": {
             "didStart": function ($db) {
