@@ -1,6 +1,20 @@
 # Blank
 Microservices platform for rapid CRUD applicaitons developing
 
+## Install
+
+```
+npm install blank-cli -g
+```
+
+## Usage
+
+```
+blank init newApp
+cd ./newApp
+blank server
+```
+
 ## Services
 ### blank-sr
 https://github.com/getblank/blank-sr
