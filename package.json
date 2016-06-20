@@ -1,6 +1,6 @@
 {
   "name": "blank-cli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Blank is a microservices platform for rapid CRUD applicaitons developing",
   "main": "index.js",
   "scripts": {
@@ -39,6 +39,7 @@
     "logfmt": "^1.2.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "speed-date": "^0.2.1"
+    "speed-date": "^0.2.1",
+    "blank-node-worker": "latest"
   }
 }
