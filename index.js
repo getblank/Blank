@@ -1,3 +1,6 @@
 #!/usr/bin/env node
 process.title = "Blank";
-module.exports = require("./lib/node-builder.js").default;
+module.exports.getPath = function () {
+    return __dirname;
+};
+require("./lib/blank.js");

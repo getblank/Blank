@@ -1,9 +1,10 @@
 {
   "name": "blank-cli",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Blank is a microservices platform for rapid CRUD applicaitons developing",
   "main": "index.js",
   "scripts": {
+    "postinstall" : "node ./postinstall.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./index.js"
   },
