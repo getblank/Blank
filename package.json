@@ -15,6 +15,7 @@
     "url": "git+ssh://git@github.com/getblank/Blank.git"
   },
   "keywords": [
+    "Blank",
     "CRUD",
     "microservices",
     "golang",
