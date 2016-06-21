@@ -1,10 +1,10 @@
 {
   "name": "blank-cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Blank is a microservices platform for rapid CRUD applicaitons developing",
   "main": "index.js",
   "scripts": {
-    "postinstall" : "node ./postinstall.js",
+    "postinstall": "node ./postinstall.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./index.js"
   },
@@ -35,12 +35,14 @@
   "dependencies": {
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-register": "^6.9.0",
+    "blank-node-worker": "latest",
+    "blank-web-app": "latest",
     "chokidar": "^1.5.0",
     "jszip": "^3.0.0",
+    "less": "^2.7.1",
     "logfmt": "^1.2.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "speed-date": "^0.2.1",
-    "blank-node-worker": "latest"
+    "speed-date": "^0.2.1"
   }
 }
