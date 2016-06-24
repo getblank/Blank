@@ -1,37 +1,37 @@
 module.exports = {
     "_defaultNotifications": {
         "type": "notification",
-         "access": [
-             {
+        "access": [
+            {
                 "role": "root",
-                "permissions": "|rud"
+                "permissions": "|rud",
             },
             {
                 "role": "all",
-                "permissions": "|rud"
-            }
+                "permissions": "|rud",
+            },
         ],
         "props": {
             "_id": {
                 "type": "string",
                 "display": "none",
-                "readOnly": true
+                "readOnly": true,
             },
             "event": {
                 "type": "string",
-                "display": "none"
+                "display": "none",
             },
             "level": {
                 "type": "string",
-                "display": "none"
+                "display": "none",
             },
             "message": {
                 "type": "string",
-                "display": "none"
+                "display": "none",
             },
             "details": {
                 "type": "string",
-                "display": "none"
+                "display": "none",
             },
             "ttl": {
                 "type": "int",
@@ -44,22 +44,22 @@ module.exports = {
                 "props": {
                     "_id": {
                         "type": "string",
-                        "display": "none"
+                        "display": "none",
                     },
                     "name": {
                         "type": "string",
-                        "display": "none"
+                        "display": "none",
                     },
                     "mode": {
                         "type": "string",
-                        "display": "none"
+                        "display": "none",
                     },
                     "store": {
                         "type": "string",
-                        "display": "none"
-                    }
-                }
-            }
-        }
-    }
+                        "display": "none",
+                    },
+                },
+            },
+        },
+    },
 };
