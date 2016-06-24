@@ -196,10 +196,11 @@ module.exports = {
         },
         "storeLifeCycle": {
             "didStart": function ($db) {
+                var k = Math.random();
                 $db.waitForConnection().then(() => {
-                    console.log("Checking root user in DB...");
+                    console.log("Checking root user in DB...", k);
                     $db.get("00000000-0000-0000-0000-000000000000", "users", (e, d) => {
-                        if (e != null) {
+                        if (d == null || d._deleted) {
                             console.log("Root user not exists, creating...");
                             let hash = require("hash");
                             let salt = $db.newId();
