@@ -14,6 +14,14 @@ blank init newApp
 cd ./newApp
 blank server
 ```
+Web server will start on:
+```
+http://localhost:8080/
+```
+Default username/password: 
+```
+root/toor
+```
 
 ## Services
 ### blank-sr
