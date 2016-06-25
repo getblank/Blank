@@ -54,34 +54,22 @@ module.exports = {
                     if (!$data.newPassword || !$data.oldPassword) {
                         return "Invalid args";
                     }
-                    return new Promise((resolve, reject) => {
+                    let user;
+                    return $db.get($item._ownerId, "users").then((_user) => {
+                        user = _user;
+                        if (user._deleted || user.password == null) {
+                            throw new Error();
+                        }
                         let hash = require("hash");
-                        $db.get($item._ownerId, "users", (e, _user) => {
-                            if (e != null) {
-                                return reject(e);
-                            }
-                            hash.calc($data.oldPassword, _user.salt, (e, d) => {
-                                if (d !== _user.hashedPassword) {
-                                    return reject(i18n.get("profile.invalidPasswordError", $user.lang));
-                                }
-                                let salt = $db.newId();
-                                hash.calc($data.newPassword, salt, (e, d) => {
-                                    $db.set({
-                                        "_id": $item._ownerId,
-                                        "hashedPassword": d,
-                                        "salt": salt,
-                                    }, "users", (e, d) => {
-                                        if (e != null) {
-                                            reject("Error while changing password:", e);
-                                        } else {
-                                            $db.notify([$user._id], "securityNotifications", {
-                                                "message": i18n.get("profile.passwordChangedMessage", $user.lang),
-                                            });
-                                            resolve();
-                                        }
-                                    });
-                                });
-                            });
+                        return hash.calc($data.oldPassword, user.password.salt);
+                    }).then((d) => {
+                        if (d !== user.password.key) {
+                            throw new UserError(i18n.get("profile.invalidPasswordError", $user.lang));
+                        }
+                        return $db.set({ "_id": $item._ownerId, "password": $data.newPassword }, "users");
+                    }).then(d => {
+                        $db.notify([$user._id], "securityNotifications", {
+                            "message": i18n.get("profile.passwordChangedMessage", $user.lang),
                         });
                     });
                 },

@@ -46,25 +46,9 @@ module.exports = {
                 "multi": false,
                 "script": function ($db, $data, $item) {
                     if (!$data.newPassword) {
-                        return "Please provide new password";
+                        throw new UserError("Please provide new password");
                     }
-                    return new Promise((reject, resolve) => {
-                        let hash = require("hash");
-                        let salt = $db.newId();
-                        hash.calc($data.newPassword, salt, (e, d) => {
-                            $db.set({
-                                "_id": $item._id,
-                                "hashedPassword": d,
-                                "salt": salt,
-                            }, "users", (e, d) => {
-                                if (e != null) {
-                                    reject("Error while changing password:", e);
-                                } else {
-                                    resolve();
-                                }
-                            });
-                        });
-                    });
+                    return $db.set({ "_id": $item._id, "password": $data.newPassword }, "users");
                 },
                 "type": "form",
                 "props": {
@@ -119,10 +103,9 @@ module.exports = {
                 "formOrder": 1,
             },
             "password": {
-                "type": "string",
+                "type": "password",
+                // "type": "string",
                 "display": "none",
-                "label": "Password",
-                "formOrder": 2,
             },
             "workspace": {
                 "type": "string",
@@ -177,47 +160,35 @@ module.exports = {
         "objectLifeCycle": {
             "willCreate": function ($db, $item) {
                 if (!$item.name) {
-                    return new Promise((resolve, reject) => {
-                        $db.nextSequenceString("users", (err, sequence) => {
-                            if (err) {
-                                return reject();
-                            }
-                            $item.name = sequence;
-                            resolve();
-                        });
-                    });
+                    return $db.nextSequenceString("users").then(sequence => { $item.name = sequence });
                 }
             },
             "willRemove": function ($db, $item) {
                 if ($item._id === "00000000-0000-0000-0000-000000000000") {
-                    throw new Error("Cannot delete root user");
+                    throw new UserError("Cannot delete root user");
                 }
             },
         },
         "storeLifeCycle": {
             "didStart": function ($db) {
+                console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 var k = Math.random();
                 $db.waitForConnection().then(() => {
                     console.log("Checking root user in DB...", k);
                     $db.get("00000000-0000-0000-0000-000000000000", "users", (e, d) => {
                         if (d == null || d._deleted) {
                             console.log("Root user not exists, creating...");
-                            let hash = require("hash");
-                            let salt = $db.newId();
-                            hash.calc("toor", salt, (e, d) => {
-                                $db.set({
-                                    "_id": "00000000-0000-0000-0000-000000000000",
-                                    "roles": ["root"],
-                                    "login": "root",
-                                    "hashedPassword": d,
-                                    "salt": salt,
-                                }, "users", (e, d) => {
-                                    if (e != null) {
-                                        console.error("Error while creating root user:", e);
-                                    } else {
-                                        console.log("Root user created");
-                                    }
-                                });
+                            $db.set({
+                                "_id": "00000000-0000-0000-0000-000000000000",
+                                "roles": ["root"],
+                                "login": "root",
+                                "password": "toor",
+                            }, "users", (e, d) => {
+                                if (e != null) {
+                                    console.error("Error while creating root user:", e);
+                                } else {
+                                    console.log("Root user created");
+                                }
                             });
                         } else {
                             console.log("Root user OK");
