@@ -3,6 +3,9 @@ Microservices platform for rapid CRUD applicaitons developing
 
 ## Install
 
+You need [Node.js](https://nodejs.org), npm and [MongoDB](https://www.mongodb.com/) installed on your system. We suggest to use [Docker MongoDB 3.2 image](https://hub.docker.com/_/mongo/)
+
+After setting up MongoDB  run:
 ```
 npm install blank-cli -g
 ```
