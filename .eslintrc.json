@@ -51,8 +51,5 @@
             "always-multiline"
         ],
         "no-unused-vars": ["error", { "vars": "all", "args": "none" }]
-    },
-    "globals": {
-        "UserError": false
     }
 }

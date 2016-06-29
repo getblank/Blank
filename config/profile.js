@@ -1,13 +1,5 @@
 module.exports = {
     "profile": {
-        "display": "single",
-        "navGroup": "profile",
-        "label": "{{$i18n.storeLabel}}",
-        "formTabs": [
-            { "_id": "info", "label": "{{$i18n.infoTabLabel}}" },
-            { "_id": "security", "label": "{{$i18n.securityTabLabel}}" },
-        ],
-        "labels": [],
         "access": [
             { "role": "root", "permissions": "ru" },
             {
@@ -20,6 +12,14 @@ module.exports = {
                 },
             },
         ],
+        "display": "single",
+        "navGroup": "profile",
+        "label": "{{$i18n.storeLabel}}",
+        "formTabs": [
+            { "_id": "info", "label": "{{$i18n.infoTabLabel}}" },
+            { "_id": "security", "label": "{{$i18n.securityTabLabel}}" },
+        ],
+        "labels": [],
         "props": {
             "lastName": {
                 "display": "textInput",
@@ -35,6 +35,27 @@ module.exports = {
                 "formOrder": 20,
                 "required": true,
                 "maxLength": 50,
+            },
+            "sessions": {
+                "type": "objectList",
+                "label": "{{$i18n.sessionsLabel}}",
+                "formTab": "info",
+                "formOrder": 30,
+                "props": {
+                    "apiKey": {
+                        "type": "string",
+                        "display": "text",
+                        "label": "ID",
+                        "formOrder": 0,
+                    },
+                    "connections": {
+                        "type": "int",
+                        "display": "text",
+                        "label": "Active connections",
+                        "formOrder": 10,
+                    },
+                },
+                "disabled": true,
             },
             "securityActions": {
                 "type": "action",
@@ -93,11 +114,49 @@ module.exports = {
             },
         ],
         "objectLifeCycle": {
-            "didSave": function ($db, $item, $user) {
-                $db.set({ "_id": $user._id, "name": (($item.lastName || "") + " " + $item.name).trim() }, "users");
+            "didSave": function ($db, $item, $prevItem, $user) {
+                if ($item.name !== $prevItem.name || $item.lastName !== $prevItem.lastName) {
+                    $db.set({ "_id": $user._id, "name": (($item.lastName || "") + " " + $item.name).trim() }, "users");
+                }
             },
         },
-        "storeLifeCycle": {},
+        "storeLifeCycle": {
+            "didStart": function () {
+                let r = 0;
+                let updateUserSessions = (session) => {
+                    let _r = ++r;
+                    var locker = "sessions-update-" + session.apiKey + "-__v:" + session.__v;
+                    console.log("Session locker:", locker);
+                    sync.once(locker, () => {
+                        let userSessions = sessions.get().filter(s => s.userId === session.userId).map((s) => {
+                            return {
+                                "apiKey": s.apiKey,
+                                "connections": (s.connections || []).length,
+                            };
+                        });
+                        console.log("Sessions update for user", session.userId, "Sessions:", JSON.stringify(userSessions));
+                        $db.get({ "_ownerId": session.userId }, "profile").then((p) => {
+                            if (_r === r) {
+                                console.log("Updating profile sessions");
+                                $db.set({ "_id": p._id, "sessions": userSessions }, "profile", (e, r) => {
+                                    console.log("Update error:", e);
+                                });
+                            }
+                        }).catch(() => {
+                            if (_r === r) {
+                                console.log("Profile not found, creating...");
+                                $db.insert({ "_ownerId": session.userId, "sessions": userSessions }, "profile", (e, r) => {
+                                    console.log("Create error:", e);
+                                });
+                            }
+                        });
+                    });
+                };
+                sessions.on("create", updateUserSessions);
+                sessions.on("update", updateUserSessions);
+                sessions.on("delete", updateUserSessions);
+            },
+        },
         "filters": {
             "userFilter": {
                 "label": "User",
@@ -119,6 +178,7 @@ module.exports = {
             "securityTabLabel": "Безопасность",
             "nameLabel": "Имя",
             "lastNameLabel": "Фамилия",
+            "sessionsLabel": "Сессии",
             "changePasswordAction": "Сменить пароль",
             "oldPasswordLabel": "Текущий пароль",
             "newPasswordLabel": "Новый пароль",

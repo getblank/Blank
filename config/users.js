@@ -171,28 +171,28 @@ module.exports = {
         },
         "storeLifeCycle": {
             "didStart": function ($db) {
-                console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                var k = Math.random();
-                $db.waitForConnection().then(() => {
-                    console.log("Checking root user in DB...", k);
-                    $db.get("00000000-0000-0000-0000-000000000000", "users", (e, d) => {
-                        if (d == null || d._deleted) {
-                            console.log("Root user not exists, creating...");
-                            $db.set({
-                                "_id": "00000000-0000-0000-0000-000000000000",
-                                "roles": ["root"],
-                                "login": "root",
-                                "password": "toor",
-                            }, "users", (e, d) => {
-                                if (e != null) {
-                                    console.error("Error while creating root user:", e);
-                                } else {
-                                    console.log("Root user created");
-                                }
-                            });
-                        } else {
-                            console.log("Root user OK");
-                        }
+                sync.once("$$usersDidStart", () => {
+                    $db.waitForConnection().then(() => {
+                        console.log("Checking root user in DB...");
+                        $db.get("00000000-0000-0000-0000-000000000000", "users", (e, d) => {
+                            if (d == null || d._deleted) {
+                                console.log("Root user not exists, creating...");
+                                $db.set({
+                                    "_id": "00000000-0000-0000-0000-000000000000",
+                                    "roles": ["root"],
+                                    "login": "root",
+                                    "password": "toor",
+                                }, "users", (e, d) => {
+                                    if (e != null) {
+                                        console.error("Error while creating root user:", e);
+                                    } else {
+                                        console.log("Root user created");
+                                    }
+                                });
+                            } else {
+                                console.log("Root user OK");
+                            }
+                        });
                     });
                 });
             },

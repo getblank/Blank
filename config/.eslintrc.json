@@ -1,0 +1,8 @@
+{
+    "globals": {
+        "$db": false,
+        "UserError": false,
+        "sync": false,
+        "sessions": false
+    }
+}
