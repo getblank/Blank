@@ -1,16 +1,6 @@
 module.exports = {
     "_defaultNotifications": {
         "type": "notification",
-        "access": [
-            {
-                "role": "root",
-                "permissions": "|rud",
-            },
-            {
-                "role": "all",
-                "permissions": "|rud",
-            },
-        ],
         "props": {
             "_id": {
                 "type": "string",
