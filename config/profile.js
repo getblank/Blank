@@ -7,7 +7,7 @@ module.exports = {
         "display": "list",
         "navGroup": "config",
         "navOrder": 1000,
-        "headerTemplate": "{{#if $item.name}}{{$item.lastName}} {{$item.name}}{{else}}{{$item._id}}{{/if}}",
+        "headerTemplate": "{{#if $item.login}}{{$item.login}}{{else}}{{$item._ownerId}}{{/if}}",
         "actions": [],
         "i18n": {
             "storeLabel": "Профили",
@@ -35,6 +35,12 @@ module.exports = {
         ],
         "labels": [],
         "props": {
+            "login": {
+                "type": "string",
+                "display": "textInput",
+                "label": "{{$i18n.$stores.users.loginLabel}}",
+                "formOrder": 0,
+            },
             "lastName": {
                 "display": "textInput",
                 "label": "{{$i18n.lastNameLabel}}",
@@ -69,6 +75,18 @@ module.exports = {
                     },
                 },
                 "disabled": true,
+            },
+            "_ownerId": {
+                "type": "ref",
+                "display": "searchBox",
+                "label": "{{$i18n._ownerIdLabel}}",
+                "store": "users",
+                "oppositeProp": "profileId",
+                "searchBy": ["login"],
+                "formTab": "info",
+                "formOrder": 500,
+                "disabled": true,
+                "access": [{ "role": "root", "permissions": "crud" }],
             },
             "securityActions": {
                 "type": "action",
@@ -126,14 +144,7 @@ module.exports = {
                 },
             },
         ],
-        "objectLifeCycle": {
-            "didSave": function ($db, $item, $prevItem, $user) {
-                if ($item.name !== $prevItem.name || $item.lastName !== $prevItem.lastName) {
-                    console.log("DID SAVE _____", $item._ownerId);
-                    $db.set({ "_id": $item._ownerId, "name": (($item.lastName || "") + " " + $item.name).trim() }, "users");
-                }
-            },
-        },
+        "objectLifeCycle": {},
         "storeLifeCycle": {
             "didStart": function () {
                 let r = 0;
@@ -142,6 +153,7 @@ module.exports = {
                     var locker = "sessions-update-" + session.apiKey + "-__v:" + session.__v;
                     console.log("Session locker:", locker);
                     sync.once(locker, () => {
+                        let user = session.user;
                         let userSessions = sessions.get().filter(s => s.userId === session.userId).map((s) => {
                             return {
                                 "apiKey": s.apiKey,
@@ -152,15 +164,18 @@ module.exports = {
                         $db.get({ "_ownerId": session.userId }, "profile").then((p) => {
                             if (_r === r) {
                                 console.log("Updating profile sessions");
-                                $db.set({ "_id": p._id, "sessions": userSessions }, "profile", { "noValidate": true }, (e, r) => {
-                                    console.log("Update error:", e);
-                                });
+                                $db.set({ "_id": p._id, "sessions": userSessions },
+                                    "profile",
+                                    { "noValidate": true },
+                                    (e, r) => {
+                                        console.log("Update error:", e);
+                                    });
                             }
                         }).catch(() => {
                             if (_r === r) {
                                 console.log("Profile not found, creating...");
                                 $db.insert(
-                                    { "_ownerId": session.userId, "sessions": userSessions },
+                                    { "_ownerId": session.userId, "sessions": userSessions, "login": user.login },
                                     "profile",
                                     { "noValidate": true },
                                     (e, r) => {
@@ -202,6 +217,7 @@ module.exports = {
             "newPasswordLabel": "Новый пароль",
             "invalidPasswordError": "Текущий пароль не совпадает",
             "passwordChangedMessage": "Пароль изменён",
+            "_ownerIdLabel": "Учетная запись",
         },
     },
 };

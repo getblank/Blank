@@ -3,20 +3,7 @@ module.exports = {
         "type": "directory",
         "navGroup": "config",
         "label": "{{$i18n.label}}",
-        "i18n": {
-            "ru": {
-                "label": "Пользователи",
-                "activeLabel": "Включен",
-                "inactiveLabel": "Отключен",
-                "createdAt": "Зарегистрирован: ",
-            },
-            "en": {
-                "label": "Users",
-                "activeLabel": "Enabled",
-                "inactiveLabel": "Disabled",
-                "createdAt": "Registered: ",
-            },
-        },
+        "headerProperty": "login",
         "access": [
             { "role": "root", "permissions": "crud" },
         ],
@@ -81,8 +68,7 @@ module.exports = {
         ],
         "props": {
             "name": {
-                "type": "string",
-                "placeholder": "Username",
+                "display": "none",
             },
             "isActive": {
                 "type": "bool",
@@ -97,14 +83,12 @@ module.exports = {
             },
             "login": {
                 "type": "string",
-                "display": "textInput",
-                "label": "Login",
+                "label": "{{$i18n.loginLabel}}",
                 "maxLength": 50,
                 "formOrder": 1,
             },
             "password": {
                 "type": "password",
-                // "type": "string",
                 "display": "none",
             },
             "workspace": {
@@ -156,12 +140,19 @@ module.exports = {
                     },
                 ],
             },
+            "profileId": {
+                "type": "ref",
+                "display": "searchBox",
+                "store": "profiles",
+                "oppositeProp": "_ownerId",
+                "searchBy": ["name"],
+                "label": "",
+                "formOrder": 0,
+            },
         },
         "objectLifeCycle": {
             "willCreate": function ($db, $item) {
-                if (!$item.name) {
-                    return $db.nextSequenceString("users").then(sequence => { $item.name = sequence });
-                }
+
             },
             "willRemove": function ($db, $item) {
                 if ($item._id === "00000000-0000-0000-0000-000000000000") {
@@ -179,7 +170,6 @@ module.exports = {
                                 console.log("Root user not exists, creating...");
                                 $db.set({
                                     "_id": "00000000-0000-0000-0000-000000000000",
-                                    "name": "Root",
                                     "roles": ["root"],
                                     "login": "root",
                                     "password": "toor",
@@ -207,5 +197,21 @@ module.exports = {
                 },
             },
         ],
+        "i18n": {
+            "ru": {
+                "label": "Пользователи",
+                "activeLabel": "Включен",
+                "inactiveLabel": "Отключен",
+                "loginLabel": "Имя для входа",
+                "createdAt": "Зарегистрирован: ",
+            },
+            "en": {
+                "label": "Users",
+                "activeLabel": "Enabled",
+                "inactiveLabel": "Disabled",
+                "loginLabel": "Login",
+                "createdAt": "Registered: ",
+            },
+        },
     },
 };
