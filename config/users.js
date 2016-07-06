@@ -179,6 +179,7 @@ module.exports = {
                                 console.log("Root user not exists, creating...");
                                 $db.set({
                                     "_id": "00000000-0000-0000-0000-000000000000",
+                                    "name": "Root",
                                     "roles": ["root"],
                                     "login": "root",
                                     "password": "toor",
