@@ -6,7 +6,9 @@ module.exports = {
         ],
         "display": "list",
         "navGroup": "config",
+        "navOrder": 1000,
         "headerTemplate": "{{#if $item.name}}{{$item.lastName}} {{$item.name}}{{else}}{{$item._id}}{{/if}}",
+        "actions": [],
         "i18n": {
             "storeLabel": "Профили",
         },
