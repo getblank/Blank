@@ -1,4 +1,16 @@
 module.exports = {
+    "profiles": {
+        "baseStore": "profile",
+        "access": [
+            { "role": "root", "permissions": "ru" },
+        ],
+        "display": "list",
+        "navGroup": "config",
+        "headerTemplate": "{{#if $item.name}}{{$item.lastName}} {{$item.name}}{{else}}{{$item._id}}{{/if}}",
+        "i18n": {
+            "storeLabel": "Профили",
+        },
+    },
     "profile": {
         "access": [
             { "role": "root", "permissions": "ru" },
@@ -28,7 +40,7 @@ module.exports = {
                 "formOrder": 10,
                 "maxLength": 50,
             },
-            "firstName": {
+            "name": {
                 "display": "textInput",
                 "label": "{{$i18n.nameLabel}}",
                 "formTab": "info",
@@ -115,7 +127,8 @@ module.exports = {
         "objectLifeCycle": {
             "didSave": function ($db, $item, $prevItem, $user) {
                 if ($item.name !== $prevItem.name || $item.lastName !== $prevItem.lastName) {
-                    $db.set({ "_id": $user._id, "name": (($item.lastName || "") + " " + $item.name).trim() }, "users");
+                    console.log("DID SAVE _____", $item._ownerId);
+                    $db.set({ "_id": $item._ownerId, "name": (($item.lastName || "") + " " + $item.name).trim() }, "users");
                 }
             },
         },
