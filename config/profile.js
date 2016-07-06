@@ -137,7 +137,7 @@ module.exports = {
                         $db.get({ "_ownerId": session.userId }, "profile").then((p) => {
                             if (_r === r) {
                                 console.log("Updating profile sessions");
-                                $db.set({ "_id": p._id, "sessions": userSessions }, "profile", (e, r) => {
+                                $db.set({ "_id": p._id, "sessions": userSessions }, "profile", { "noValidate": true }, (e, r) => {
                                     console.log("Update error:", e);
                                 });
                             }
