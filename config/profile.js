@@ -28,12 +28,11 @@ module.exports = {
                 "formOrder": 10,
                 "maxLength": 50,
             },
-            "name": {
+            "firstName": {
                 "display": "textInput",
                 "label": "{{$i18n.nameLabel}}",
                 "formTab": "info",
                 "formOrder": 20,
-                "required": true,
                 "maxLength": 50,
             },
             "sessions": {
@@ -145,9 +144,13 @@ module.exports = {
                         }).catch(() => {
                             if (_r === r) {
                                 console.log("Profile not found, creating...");
-                                $db.insert({ "_ownerId": session.userId, "sessions": userSessions }, "profile", (e, r) => {
-                                    console.log("Create error:", e);
-                                });
+                                $db.insert(
+                                    { "_ownerId": session.userId, "sessions": userSessions },
+                                    "profile",
+                                    { "noValidate": true },
+                                    (e, r) => {
+                                        console.log("Create error:", e);
+                                    });
                             }
                         });
                     });
