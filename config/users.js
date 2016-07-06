@@ -143,11 +143,12 @@ module.exports = {
             "profileId": {
                 "type": "ref",
                 "display": "searchBox",
+                "label": "{{$i18n.profileIdLabel}}",
                 "store": "profiles",
                 "oppositeProp": "_ownerId",
-                "searchBy": ["name"],
-                "label": "",
+                "searchBy": ["login"],
                 "formOrder": 0,
+                "disabled": true,
             },
         },
         "objectLifeCycle": {
@@ -203,6 +204,7 @@ module.exports = {
                 "activeLabel": "Включен",
                 "inactiveLabel": "Отключен",
                 "loginLabel": "Имя для входа",
+                "profileIdLabel": "Данные профиля",
                 "createdAt": "Зарегистрирован: ",
             },
             "en": {
@@ -210,6 +212,7 @@ module.exports = {
                 "activeLabel": "Enabled",
                 "inactiveLabel": "Disabled",
                 "loginLabel": "Login",
+                "profileIdLabel": "Profile data",
                 "createdAt": "Registered: ",
             },
         },
