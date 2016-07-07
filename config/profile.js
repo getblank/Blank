@@ -153,7 +153,6 @@ module.exports = {
                     var locker = "sessions-update-" + session.apiKey + "-__v:" + session.__v;
                     console.log("Session locker:", locker);
                     sync.once(locker, () => {
-                        let user = session.user;
                         let userSessions = sessions.get().filter(s => s.userId === session.userId).map((s) => {
                             return {
                                 "apiKey": s.apiKey,
@@ -174,13 +173,16 @@ module.exports = {
                         }).catch(() => {
                             if (_r === r) {
                                 console.log("Profile not found, creating...");
-                                $db.insert(
-                                    { "_ownerId": session.userId, "sessions": userSessions, "login": user.login },
-                                    "profile",
-                                    { "noValidate": true },
-                                    (e, r) => {
-                                        console.log("Create error:", e);
-                                    });
+                                $db.get(session.userId, "users").then(u => {
+                                    if (u == null) { throw new Error("user not found") }
+                                    return $db.insert(
+                                        { "_ownerId": session.userId, "sessions": userSessions, "login": u.login },
+                                        "profile",
+                                        { "noValidate": true },
+                                        (e, r) => {
+                                            console.log("Create error:", e);
+                                        });
+                                }).catch(e => console.log("Error while creating profile for user:", session.userId));
                             }
                         });
                     });
