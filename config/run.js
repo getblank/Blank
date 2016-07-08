@@ -46,10 +46,23 @@ module.exports = {
                 "script": function ($db, $data, $item) {
                     var f = new Function("$db", "$item", "require", $data.code);
                     var res = f($db, $item, require);
+                    if (res instanceof Promise) {
+                        return res.then(promiseRes => {
+                            if (typeof promiseRes !== "string") {
+                                promiseRes = JSON.stringify(promiseRes, "", "  ");
+                            }
+                            return $db.set({ "_id": $item._id, "response": promiseRes + "" }, "run");
+                        }).catch(promiseErr => {
+                            if (typeof promiseErr !== "string") {
+                                promiseErr = JSON.stringify(promiseErr, "", "  ");
+                            }
+                            return $db.set({ "_id": $item._id, "response": "ERROR: " + promiseErr }, "run");
+                        });
+                    }
                     if (typeof res !== "string") {
                         res = JSON.stringify(res, "", "  ");
                     }
-                    return $db.set({"_id": $item._id, "response": res + ""}, "run");
+                    return $db.set({ "_id": $item._id, "response": res + "" }, "run");
                 },
             },
         ],
