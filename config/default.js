@@ -11,6 +11,11 @@ module.exports = {
                 },
             },
         },
+        "dashboardProps": {
+            "_default": {
+                "display": "dateRange",
+            },
+        },
         "props": {
             "_id": {
                 "type": "string",
