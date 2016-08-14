@@ -83,19 +83,40 @@ module.exports = {
             },
             "login": {
                 "type": "string",
+                "display": "textInput",
                 "label": "{{$i18n.loginLabel}}",
                 "maxLength": 50,
-                "formOrder": 1,
+                "formOrder": 10,
+                "disabled": true,
+            },
+            "email": {
+                "type": "string",
+                "display": "textInput",
+                "label": "{{$i18n.emailLabel}}",
+                "maxLength": 50,
+                "formOrder": 20,
+                "disabled": true,
             },
             "password": {
                 "type": "password",
                 "display": "none",
             },
+            "lang": {
+                "type": "string",
+                "display": "select",
+                "label": "Language",
+                "formOrder": 30,
+                "default": "en",
+                "options": [
+                    { "label": "English", "value": "en" },
+                    { "label": "Русский", "value": "ru" },
+                ],
+            },
             "workspace": {
                 "type": "string",
                 "display": "none",
                 "label": "Interface",
-                "formOrder": 3,
+                "formOrder": 40,
                 "options": [],
                 "access": [
                     {
@@ -109,7 +130,7 @@ module.exports = {
                 "store": "_roles",
                 "display": "checkList",
                 "label": "Roles",
-                "formOrder": 10,
+                "formOrder": 100,
                 "style": { "display": "block" },
                 "hidden": "$item._id === '00000000-0000-0000-0000-000000000000'",
                 "access": [
@@ -117,17 +138,6 @@ module.exports = {
                         "role": "root",
                         "permissions": "crud",
                     },
-                ],
-            },
-            "lang": {
-                "type": "string",
-                "display": "select",
-                "label": "Language",
-                "formOrder": 3,
-                "default": "en",
-                "options": [
-                    { "label": "English", "value": "en" },
-                    { "label": "Русский", "value": "ru" },
                 ],
             },
             "_activationToken": {
@@ -204,6 +214,7 @@ module.exports = {
                 "activeLabel": "Включен",
                 "inactiveLabel": "Отключен",
                 "loginLabel": "Имя для входа",
+                "emailLabel": "Email",
                 "profileIdLabel": "Данные профиля",
                 "createdAt": "Зарегистрирован: ",
             },
@@ -212,6 +223,7 @@ module.exports = {
                 "activeLabel": "Enabled",
                 "inactiveLabel": "Disabled",
                 "loginLabel": "Login",
+                "emailLabel": "Email",
                 "profileIdLabel": "Profile data",
                 "createdAt": "Registered: ",
             },
