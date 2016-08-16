@@ -74,6 +74,7 @@ module.exports = {
                 "type": "bool",
                 "display": "none",
                 "label": "Активен",
+                "default": true,
                 "access": [
                     {
                         "role": "root",
@@ -150,6 +151,36 @@ module.exports = {
                     },
                 ],
             },
+            "_activationExpires": {
+                "type": "date",
+                "display": "none",
+                "access": [
+                    {
+                        "role": "root",
+                        "permissions": "crud",
+                    },
+                ],
+            },
+            "_passwordResetToken": {
+                "type": "string",
+                "display": "none",
+                "access": [
+                    {
+                        "role": "root",
+                        "permissions": "crud",
+                    },
+                ],
+            },
+            "_passwordResetExpires": {
+                "type": "date",
+                "display": "none",
+                "access": [
+                    {
+                        "role": "root",
+                        "permissions": "crud",
+                    },
+                ],
+            },
             "profileId": {
                 "type": "ref",
                 "display": "searchBox",
@@ -201,10 +232,86 @@ module.exports = {
         },
         "httpHooks": [
             {
-                "uri": "activation",
+                "uri": "activation/:token",
                 "method": "GET",
-                "script": function ($db, $request, $response) {
-                    $response.redirect(303, "/");
+                "script": function ($db, $request) {
+                    let fs = require("fs");
+                    let handlebars = require("handlebars");
+                    let user;
+                    return $db.get({ _activationToken: $request.params["token"] }, "users").then(_user => {
+                        user = _user;
+                        return $db.set({ _id: user._id, _activationToken: null, _activationExpires: null, isActive: true }, "users");
+                    }).then(() => {
+                        return fs.readLib("templates/activation-success.html");
+                    }).then(template => {
+                        let body = handlebars.compile(template)({ user: user });
+                        return {
+                            "type": "html",
+                            "data": body,
+                        };
+                    }).catch(err => {
+                        console.debug(`[user activation] user not found with token: ${$request.params["token"]}`, err);
+                        return fs.readLib("templates/activation-error.html");
+                    }).then(template => {
+                        if (typeof template === "object") {
+                            return template;
+                        }
+                        let body = handlebars.compile(template)({});
+                        return {
+                            "type": "html",
+                            "data": body,
+                        };
+                    }).catch(err => {
+                        console.debug(`[user activation] error processing activation with token: ${$request.params["token"]}`, err);
+                        return {
+                            "type": "html",
+                            "data": "activation error",
+                        };
+                    });
+                },
+            },
+        ],
+        "tasks": [
+            {
+                "schedule": "*/30  *   *   *   *",
+                "script": function ($db) {
+                    // unactivated users
+                    $db.find({
+                        query: {
+                            _activationExpires: { "$lte": new Date() },
+                        },
+                        take: 100,
+                    }, "users").then(res => {
+                        if (res.items.length > 0) {
+                            console.debug(`[users][tasks][delete unactivated users] found ${res.items.length} unactivated users`);
+                            let promises = [];
+                            for (let user of res.items) {
+                                promises.push($db.delete(user._id, "users"));
+                            }
+                            return Promise.all(promises);
+                        }
+                    }).catch(err => {
+                        console.error("[users][tasks] can't process unactivated users");
+                    }).then(() => {
+                        // rotten password reset tokens
+                        return $db.find({
+                            query: {
+                                _passwordResetExpires: { "$lte": new Date() },
+                            },
+                            take: 100,
+                        }, "users");
+                    }).then(res => {
+                        if (res.items.length > 0) {
+                            console.debug(`[users][tasks][rotten password reset requests] found ${res.items.length} rotten requests`);
+                            let promises = [];
+                            for (let user of res.items) {
+                                promises.push($db.set({_id: user._id, _passwordResetExpires: null, _passwordResetToken: null}, "users"));
+                            }
+                            return Promise.all(promises);
+                        }
+                    }).catch(err => {
+                        console.error("[users][tasks] can't process rotten password reset requests");
+                    });
                 },
             },
         ],
