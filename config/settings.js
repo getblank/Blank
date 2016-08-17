@@ -5,6 +5,28 @@ module.exports = {
             "registerTokenExpiration": "0:60",
             "passwordResetTokenExpiration": "0:10",
         },
+        "storeActions": [
+            {
+                "_id": "restdoc",
+                "script": function ($data) {
+                    let fs = require("fs");
+                    let hs = require("handlebars");
+                    hs.registerHelper("toJSON", function (object) {
+                        return new hs.SafeString(JSON.stringify(object));
+                    });
+                    let src, partial;
+                    return fs.readLib("templates/rest-api-template.html").then(res => {
+                        src = res;
+                        return fs.readLib("templates/rest-api-list-partial.html");
+                    }).then(res => {
+                        partial = res;
+                        let template = hs.compile(src);
+                        hs.registerPartial("propsList", partial);
+                        return template({ config: $data });
+                    });
+                },
+            },
+        ],
     },
     "_commonSettings": {
         "type": "map",
