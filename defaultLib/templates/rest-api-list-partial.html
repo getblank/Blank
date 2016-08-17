@@ -1,0 +1,18 @@
+{
+<ul class="props-list">
+    {{#each props}}
+    <li>
+        <span class="prop-name">"{{name}}"</span>: <span class="prop-type">{{type}}</span>
+        {{#if required}}<span class="prop-extra">required: <span class="prop-code">{{toJSON required}}</span></span>{{/if}}
+        {{#if min}}<span class="prop-extra">min: <span class="prop-code">{{toJSON min}}</span></span>{{/if}}
+        {{#if max}}<span class="prop-extra">max: <span class="prop-code">{{toJSON max}}</span></span>{{/if}}
+        {{#if minLength}}<span class="prop-extra">minLength: <span class="prop-code">{{toJSON minLength}}</span></span>{{/if}}
+        {{#if maxLength}}<span class="prop-extra">maxLength: <span class="prop-code">{{toJSON maxLength}}</span></span>{{/if}}
+        {{#if pattern}}<span class="prop-extra">pattern: <span class="prop-code">{{toJSON pattern}}</span></span>{{/if}}
+        {{#if mask}}<span class="prop-extra">mask: <span class="prop-code">{{toJSON mask}}</span></span>{{/if}}
+        {{#if options}}<span class="prop-extra">options: <span class="prop-code">[{{#each options}}{{value}}{{#if @last}}{{else}},{{/if}}{{/each}}]</span></span>{{/if}}
+        {{#if props}}<div class="prop-extra">{{> propsList}}</div>{{/if}}
+    </li>
+    {{/each}}
+</ul>
+}
