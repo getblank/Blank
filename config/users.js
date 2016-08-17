@@ -287,7 +287,7 @@ module.exports = {
                             console.debug(`[users][tasks][delete unactivated users] found ${res.items.length} unactivated users`);
                             let promises = [];
                             for (let user of res.items) {
-                                promises.push($db.delete(user._id, "users"));
+                                promises.push($db.delete(user._id, "users", { drop: true }));
                             }
                             return Promise.all(promises);
                         }
@@ -306,7 +306,7 @@ module.exports = {
                             console.debug(`[users][tasks][rotten password reset requests] found ${res.items.length} rotten requests`);
                             let promises = [];
                             for (let user of res.items) {
-                                promises.push($db.set({_id: user._id, _passwordResetExpires: null, _passwordResetToken: null}, "users"));
+                                promises.push($db.set({ _id: user._id, _passwordResetExpires: null, _passwordResetToken: null }, "users"));
                             }
                             return Promise.all(promises);
                         }
