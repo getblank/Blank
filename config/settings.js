@@ -2,14 +2,8 @@ module.exports = {
     "_serverSettings": {
         "type": "map",
         "entries": {
-            "activationEmailTemplate": "./templates/activation-email.html",
-            "activationSuccessPage": "./templates/activation-success.html",
-            "activationErrorPage": "./templates/activation-error.html",
-            "passwordResetEmailTemplate": "./templates/password-reset-email.html",
-            "passwordResetSuccessEmailTemplate": "./templates/password-reset-success-email.html",
-            "registrationSuccessEmailTemplate": "./templates/registration-success-email.html",
-            "registerTokenExpiration": 120,
-            "passwordResetTokenExpiration": 60,
+            "registerTokenExpiration": "0:60",
+            "passwordResetTokenExpiration": "0:10",
         },
     },
     "_commonSettings": {
