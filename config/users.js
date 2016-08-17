@@ -93,6 +93,7 @@ module.exports = {
             "email": {
                 "type": "string",
                 "display": "textInput",
+                "pattern": "^\\S+@\\S+\\.\\S+$",
                 "label": "{{$i18n.emailLabel}}",
                 "maxLength": 50,
                 "formOrder": 20,
