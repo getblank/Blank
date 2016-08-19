@@ -82,6 +82,16 @@ module.exports = {
                     },
                 ],
             },
+            "facebookId": {
+                "type": "string",
+                "display": "none",
+                "access": [
+                    {
+                        "role": "root",
+                        "permissions": "crud",
+                    },
+                ],
+            },
             "login": {
                 "type": "string",
                 "display": "textInput",
@@ -89,6 +99,21 @@ module.exports = {
                 "maxLength": 50,
                 "formOrder": 10,
                 "disabled": true,
+                "access": [
+                    {
+                        "role": "root",
+                        "permissions": "crud",
+                    },
+                    {
+                        "role": "all",
+                        "permissions": "r",
+                        "condition": {
+                            "_id": {
+                                "$expression": "$user._id",
+                            },
+                        },
+                    },
+                ],
             },
             "email": {
                 "type": "string",
@@ -98,9 +123,28 @@ module.exports = {
                 "maxLength": 50,
                 "formOrder": 20,
                 "disabled": true,
+                "access": [
+                    {
+                        "role": "root",
+                        "permissions": "crud",
+                    },
+                    {
+                        "role": "all",
+                        "permissions": "r",
+                        "condition": {
+                            "_id": {
+                                "$expression": "$user._id",
+                            },
+                        },
+                    },
+                ],
             },
             "password": {
                 "type": "password",
+                "display": "none",
+            },
+            "noPassword": {
+                "type": "bool",
                 "display": "none",
             },
             "lang": {
@@ -191,6 +235,21 @@ module.exports = {
                 "searchBy": ["login"],
                 "formOrder": 0,
                 "disabled": true,
+                "access": [
+                    {
+                        "role": "root",
+                        "permissions": "crud",
+                    },
+                    {
+                        "role": "all",
+                        "permissions": "r",
+                        "condition": {
+                            "_id": {
+                                "$expression": "$user._id",
+                            },
+                        },
+                    },
+                ],
             },
         },
         "objectLifeCycle": {

@@ -103,22 +103,28 @@ module.exports = {
                 "multi": false,
                 "script": function ($db, $item, $user, $data) {
                     let i18n = require("i18n");
-                    if (!$data.newPassword || !$data.oldPassword) {
+                    if (!$data.newPassword || (!$data.oldPassword && !$user.noPassword)) {
                         return "Invalid args";
                     }
                     let user;
                     return $db.get($item._ownerId, "users").then((_user) => {
+                        if (_user._deleted) {
+                            throw new Error();
+                        }
                         user = _user;
-                        if (user._deleted || user.password == null) {
+                        if ($user.noPassword) {
+                            return;
+                        }
+                        if (user.password == null) {
                             throw new Error();
                         }
                         let hash = require("hash");
                         return hash.calc($data.oldPassword, user.password.salt);
                     }).then((d) => {
-                        if (d !== user.password.key) {
+                        if (!$user.noPassword && d !== user.password.key) {
                             throw new UserError(i18n.get("profile.invalidPasswordError", $user.lang));
                         }
-                        return $db.set({ "_id": $item._ownerId, "password": $data.newPassword }, "users");
+                        return $db.set({ "_id": $item._ownerId, "password": $data.newPassword, noPassword: null }, "users");
                     }).then(d => {
                         $db.notify([$user._id], "securityNotifications", {
                             "message": i18n.get("profile.passwordChangedMessage", $user.lang),
@@ -132,7 +138,8 @@ module.exports = {
                         "display": "password",
                         "label": "{{$i18n.oldPasswordLabel}}",
                         "formOrder": 0,
-                        "required": true,
+                        "required": "!$user.noPassword",
+                        "hidden": "$user.noPassword",
                     },
                     "newPassword": {
                         "type": "string",
