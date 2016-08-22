@@ -27,16 +27,21 @@
         </a>
     </div>
 </div>
-<script type="text/javascript">
+  <script type="text/javascript">
     var apiKey = '{{apiKey}}';
     if (apiKey != '') {
         localStorage.setItem('tempKey', apiKey);
     }
+    let redirectUrl = location.search.match(/redirectUrl=([^&]*)&?/);
+    redirectUrl = redirectUrl ? decodeURIComponent(redirectUrl[1]) : "/"
     var rest = 5, timer = document.getElementById('timer');
     (function countDown() {
-        timer.innerHTML = rest-- + '';
-        return rest > 0 ? setTimeout(countDown, 1000) : (window.location = "/");
+        rest--;
+        if (timer) {
+          timer.innerHTML = rest + '';
+        }
+        return rest > 0 ? setTimeout(countDown, 1000) : (window.location = redirectUrl);
     })();
-</script>
+  </script>
 </body>
 </html>
