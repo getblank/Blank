@@ -339,6 +339,7 @@ module.exports = {
                     $db.find({
                         query: {
                             _activationExpires: { "$lte": new Date() },
+                            isActive: false,
                         },
                         take: 100,
                     }, "users").then(res => {
