@@ -59,7 +59,7 @@ module.exports = {
                 "type": "objectList",
                 "label": "{{$i18n.sessionsLabel}}",
                 "formTab": "info",
-                "formOrder": 30,
+                "formOrder": 1000,
                 "props": {
                     "apiKey": {
                         "type": "string",
