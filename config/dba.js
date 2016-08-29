@@ -15,7 +15,7 @@ module.exports = {
             },
         },
         "access": [
-            { "role": "root", "permissions": "crud" },
+            { "role": "root", "permissions": "crux" },
         ],
         "actions": [
             {

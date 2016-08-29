@@ -75,7 +75,7 @@ module.exports = {
             "storeLabel": "Run JS",
         },
         "access": [
-            { "role": "root", "permissions": "vcrud" },
+            { "role": "root", "permissions": "vcrudx" },
         ],
     },
 };

@@ -2,7 +2,7 @@ module.exports = {
     "profiles": {
         "baseStore": "profile",
         "access": [
-            { "role": "root", "permissions": "vru" },
+            { "role": "root", "permissions": "vrux" },
         ],
         "display": "list",
         "navGroup": "config",
@@ -15,10 +15,10 @@ module.exports = {
     },
     "profile": {
         "access": [
-            { "role": "root", "permissions": "vru" },
+            { "role": "root", "permissions": "vrux" },
             {
                 "role": "all",
-                "permissions": "vru",
+                "permissions": "vrux",
                 "condition": {
                     "_ownerId": {
                         "$expression": "$user._id",
