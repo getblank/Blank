@@ -21,12 +21,12 @@ module.exports = {
         ],
         "props": {
             "createdAt": {
-                "label": "DateTime"
+                "label": "DateTime",
             },
             "store": {
                 "type": "string",
                 "label": "Store",
-                "display": "text"
+                "display": "text",
             },
             "userId": {
                 "type": "ref",
@@ -39,32 +39,32 @@ module.exports = {
                 "type": "virtual",
                 "label": "User",
                 "load": function ($item) {
-                    return $item.user ? $item.user.name : ""
-                }
+                    return $item.user ? $item.user.name : "";
+                },
             },
             "itemId": {
                 "type": "string",
                 "label": "Item Id",
-                "display": "none"
+                "display": "none",
             },
             "actionSource": {
-              "display": "select",
-              "options": [
-                  {"value": "JS", "label": "JavaScript API"},
-                  {"value": "WAMP", "label": "WAMP API"},
-                  {"value": "HTTP", "label": "HTTP API"},
-                  {"value": "System", "label": "System"},
-              ],
+                "display": "select",
+                "options": [
+                    { "value": "JS", "label": "JavaScript API" },
+                    { "value": "WAMP", "label": "WAMP API" },
+                    { "value": "HTTP", "label": "HTTP API" },
+                    { "value": "System", "label": "System" },
+                ],
             },
             "action": {
                 "type": "string",
                 "label": "Action",
-                "display": "text"
+                "display": "text",
             },
             "actionData": {
                 "type": "string",
                 "label": "Action data",
-                "display": "text"
+                "display": "text",
             },
         },
         "actions": [],
@@ -76,16 +76,16 @@ module.exports = {
         "access": [
             {
                 "role": "root",
-                "permissions": "crud"
-            }
+                "permissions": "vcrud",
+            },
         ],
         "i18n": {
             "ru": {
-                "storeLabel": "Журнал операций"
+                "storeLabel": "Журнал операций",
             },
             "en": {
-                "storeLabel": "Actions history"
-            }
+                "storeLabel": "Actions history",
+            },
         },
-    }
+    },
 };

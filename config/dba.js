@@ -2,6 +2,7 @@ module.exports = {
     "dba": {
         "type": "single",
         "navGroup": "config",
+        "display": "none",
         "navOrder": 110,
         "label": "{{$i18n.storeLabel}}",
         "labels": [],

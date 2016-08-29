@@ -5,7 +5,7 @@ module.exports = {
         "label": "{{$i18n.label}}",
         "headerProperty": "login",
         "access": [
-            { "role": "root", "permissions": "crud" },
+            { "role": "root", "permissions": "vcrud" },
         ],
         "actions": [
             {

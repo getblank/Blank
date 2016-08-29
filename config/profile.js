@@ -2,7 +2,7 @@ module.exports = {
     "profiles": {
         "baseStore": "profile",
         "access": [
-            { "role": "root", "permissions": "ru" },
+            { "role": "root", "permissions": "vru" },
         ],
         "display": "list",
         "navGroup": "config",

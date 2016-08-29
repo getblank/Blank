@@ -24,7 +24,7 @@ module.exports = {
             },
         },
         "access": [
-            { "role": "root", "permissions": "crud" },
+            { "role": "root", "permissions": "vcrud" },
         ],
         "label": "{{$i18n.pluralLocal}}",
         "actions": [
