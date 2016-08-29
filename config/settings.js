@@ -90,14 +90,14 @@ module.exports = {
                     "display": "textInput",
                     "label": "{{$i18n.$settings.common.email}}",
                     "required": true,
-                    "pattern": { "value": "^\\S+@\\S+\\.\\S+$", "message": "{{$i18n.$settings.signUp.invalidEmail}}" },
+                    "pattern": { "expression": "^\\S+@\\S+\\.\\S+$", "message": "{{$i18n.$settings.signUp.invalidEmail}}" },
                 },
             },
             "signUpProps": {
                 "email": {
                     "type": "string",
                     "display": "newUsernameInput",
-                    "pattern": { "value": "^\\S+@\\S+\\.\\S+$", "message": "{{$i18n.$settings.signUp.invalidEmail}}" },
+                    "pattern": { "expression": "^\\S+@\\S+\\.\\S+$", "message": "{{$i18n.$settings.signUp.invalidEmail}}" },
                     "label": "{{$i18n.$settings.common.email}}",
                     "required": true,
                     "formOrder": 1,
