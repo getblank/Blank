@@ -13,7 +13,7 @@ module.exports = {
                 "label": "Enable",
                 "multi": false,
                 "script": function ($db, $item) {
-                    return $db.set({ "_id": $item._id, "isActive": true, "activationToken": "" }, "users");
+                    return $db.set({ "_id": $item._id, "isActive": true, "_activationToken": null }, "users");
                 },
                 "hidden": "$item.isActive || $item._id === '00000000-0000-0000-0000-000000000000'",
             },
