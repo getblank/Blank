@@ -15,10 +15,10 @@ module.exports = {
     },
     "profile": {
         "access": [
-            { "role": "root", "permissions": "ru" },
+            { "role": "root", "permissions": "vru" },
             {
                 "role": "all",
-                "permissions": "ru",
+                "permissions": "vru",
                 "condition": {
                     "_ownerId": {
                         "$expression": "$user._id",
