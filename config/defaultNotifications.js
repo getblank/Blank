@@ -1,6 +1,10 @@
 module.exports = {
     "_defaultNotifications": {
         "type": "notification",
+        "access": [
+            { "role": "all", "permissions": "rdv", "condition": { "_ownerId": { "$expression": "$user._id" } } },
+            { "role": "root", "permissions": "rdv", "condition": { "_ownerId": { "$expression": "$user._id" } } },
+        ],
         "props": {
             "_id": {
                 "type": "string",
