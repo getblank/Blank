@@ -86,7 +86,7 @@ module.exports = {
                 "formTab": "info",
                 "formOrder": 500,
                 "disabled": true,
-                "access": [{ "role": "root", "permissions": "crud" }],
+                "access": [{ "role": "all", "permissions": "r" }],
             },
             "securityActions": {
                 "type": "action",
