@@ -86,6 +86,7 @@ module.exports = {
                 "formTab": "info",
                 "formOrder": 500,
                 "disabled": true,
+                "hidden": "$user.roles.indexOf('root') < 0",
                 "access": [{ "role": "all", "permissions": "r" }],
             },
             "securityActions": {
