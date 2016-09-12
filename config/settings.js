@@ -55,8 +55,6 @@ module.exports = {
             "lessVars": {
                 //"@baseColor": "#FF0044"
             },
-            //"profileLabel": "",
-            //"profileIcon": "",
             "signInProps": {
                 "login": {
                     "type": "string",
