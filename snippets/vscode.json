@@ -17,26 +17,26 @@
         "prefix": "bs",
         "body": [
             "module.exports = {",
-            "\t\"${class}\": {",
-            "\t\t\"display\": \"list\",",
-            "\t\t\"navOrder\": 0,",
-            "\t\t\"label\": \"{{$i18n.storeLabel}}\",",
-            "\t\t\"labels\": [],",
-            "\t\t\"props\": {",
-            "\t\t\t\"defaultProp\": {",
-            "\t\t\t\t\"type\": \"string\",",
-            "\t\t\t\t\"formOrder\": 10,",
-            "\t\t\t\t\"display\": \"textInput\",",
+            "\t${class}: {",
+            "\t\tdisplay: \"list\",",
+            "\t\tnavOrder: 0,",
+            "\t\tlabel: \"{{$i18n.storeLabel}}\",",
+            "\t\tlabels: [],",
+            "\t\tprops: {",
+            "\t\t\tdefaultProp: {",
+            "\t\t\t\ttype: \"string\",",
+            "\t\t\t\tformOrder: 10,",
+            "\t\t\t\tdisplay: \"textInput\",",
             "\t\t\t},",
             "\t\t},",
-            "\t\t\"actions\": [],",
-            "\t\t\"objectLifeCycle\": {},",
-            "\t\t\"storeLifeCycle\": {},",
-            "\t\t\"filters\": {},",
-            "\t\t\"httpHooks\": [],",
-            "\t\t\"tasks\": [],",
-            "\t\t\"i18n\": {",
-            "\t\t\t\"storeLabel\": \"${class}\",",
+            "\t\tactions: [],",
+            "\t\tobjectLifeCycle: {},",
+            "\t\tstoreLifeCycle: {},",
+            "\t\tfilters: {},",
+            "\t\thttpHooks: [],",
+            "\t\ttasks: [],",
+            "\t\ti18n: {",
+            "\t\t\tstoreLabel: \"${class}\",",
             "\t\t},",
             "\t},",
             "};"
@@ -47,15 +47,15 @@
         "prefix": "ba",
         "body": [
             "{",
-            "\t\"_id\": \"$1\",",
-            "\t\"label\": \"$2\",",
-            "\t\"script\": function ($db, $item) {",
+            "\t_id: \"$1\",",
+            "\tlabel: \"$2\",",
+            "\tscript: function ($db, $item) {",
             "\t\t$3",
             "\t},",
-            "\t\"clientPostScript\": function ($result, $item, $history) {",
+            "\tclientPostScript: function ($result, $item, $history) {",
             "\t\t$4",
             "\t},",
-            "\t\"hidden\": \"false\",",
+            "\thidden: \"false\",",
             "},"
         ],
         "description": "Creates new Blank action"
@@ -64,18 +64,18 @@
         "prefix": "baf",
         "body": [
             "{",
-            "\t\"_id\": \"$1\",",
-            "\t\"label\": \"$2\",",
-            "\t\"script\": function ($db, $item) {",
+            "\t_id: \"$1\",",
+            "\tlabel: \"$2\",",
+            "\tscript: function ($db, $item) {",
             "\t\t$3",
             "\t},",
-            "\t\"props\": {",
+            "\tprops: {",
             "\t\t$4",
             "\t},",
-            "\t\"clientPostScript\": function ($result, $item, $history) {",
+            "\tclientPostScript: function ($result, $item, $history) {",
             "\t\t$5",
             "\t},",
-            "\t\"hidden\": \"false\",",
+            "\thidden: \"false\",",
             "},"
         ],
         "description": "Creates new Blank action with props"
@@ -92,10 +92,10 @@
         "prefix": "bp",
         "body": [
             "\"$1\": {",
-            "\t\"type\": \"$2\",",
-            "\t\"display\": \"$3\",",
-            "\t\"label\": \"$4\",",
-            "\t\"formOrder\": ${number:0},",
+            "\ttype: \"$2\",",
+            "\tdisplay: \"$3\",",
+            "\tlabel: \"$4\",",
+            "\tformOrder: 0,",
             "},"
         ],
         "description": "Creates new Blank property"
@@ -104,10 +104,10 @@
         "prefix": "bps",
         "body": [
             "\"$1\": {",
-            "\t\"type\": \"string\",",
-            "\t\"display\": \"textInput\",",
-            "\t\"label\": \"$2\",",
-            "\t\"formOrder\": ${number:0},",
+            "\ttype: \"string\",",
+            "\tdisplay: \"textInput\",",
+            "\tlabel: \"$2\",",
+            "\tformOrder: 0,",
             "},"
         ],
         "description": "Creates new Blank string property"
@@ -116,10 +116,10 @@
         "prefix": "bpb",
         "body": [
             "\"$1\": {",
-            "\t\"type\": \"bool\",",
-            "\t\"display\": \"checkbox\",",
-            "\t\"label\": \"$2\",",
-            "\t\"formOrder\": ${number:0},",
+            "\ttype: \"bool\",",
+            "\tdisplay: \"checkbox\",",
+            "\tlabel: \"$2\",",
+            "\tformOrder: 0,",
             "},"
         ],
         "description": "Creates new Blank bool property"
@@ -128,10 +128,10 @@
         "prefix": "bpi",
         "body": [
             "\"$1\": {",
-            "\t\"type\": \"int\",",
-            "\t\"display\": \"numberInput\",",
-            "\t\"label\": \"$2\",",
-            "\t\"formOrder\": ${number:0},",
+            "\ttype: \"int\",",
+            "\tdisplay: \"numberInput\",",
+            "\tlabel: \"$2\",",
+            "\tformOrder: 0,",
             "},"
         ],
         "description": "Creates new Blank int property"
@@ -140,10 +140,10 @@
         "prefix": "bpf",
         "body": [
             "\"$1\": {",
-            "\t\"type\": \"float\",",
-            "\t\"display\": \"numberInput\",",
-            "\t\"label\": \"$2\",",
-            "\t\"formOrder\": ${number:0},",
+            "\ttype: \"float\",",
+            "\tdisplay: \"numberInput\",",
+            "\tlabel: \"$2\",",
+            "\tformOrder: 0,",
             "},"
         ],
         "description": "Creates new Blank float property"
@@ -152,12 +152,12 @@
         "prefix": "bpr",
         "body": [
             "\"$1\": {",
-            "\t\"type\": \"ref\",",
-            "\t\"display\": \"searchBox\",",
-            "\t\"store\": \"$2\",",
-            "\t\"searchBy\": [\"name\"],",
-            "\t\"label\": \"$3\",",
-            "\t\"formOrder\": ${number:0},",
+            "\ttype: \"ref\",",
+            "\tdisplay: \"searchBox\",",
+            "\tstore: \"$2\",",
+            "\tsearchBy: [\"name\"],",
+            "\tlabel: \"$3\",",
+            "\tformOrder: 0,",
             "},"
         ],
         "description": "Creates new Blank ref property"
@@ -166,12 +166,12 @@
         "prefix": "bprl",
         "body": [
             "\"$1\": {",
-            "\t\"type\": \"refList\",",
-            "\t\"display\": \"searchBox\",",
-            "\t\"store\": \"$2\",",
-            "\t\"searchBy\": [\"name\"],",
-            "\t\"label\": \"$3\",",
-            "\t\"formOrder\": ${number:0},",
+            "\ttype: \"refList\",",
+            "\tdisplay: \"searchBox\",",
+            "\tstore: \"$2\",",
+            "\tsearchBy: [\"name\"],",
+            "\tlabel: \"$3\",",
+            "\tformOrder: 0,",
             "},"
         ],
         "description": "Creates new Blank refList property"
@@ -180,10 +180,10 @@
         "prefix": "bpo",
         "body": [
             "\"$1\": {",
-            "\t\"type\": \"object\",",
-            "\t\"label\": \"$2\",",
-            "\t\"formOrder\": ${number:0},",
-            "\t\"props\": {",
+            "\ttype: \"object\",",
+            "\tlabel: \"$2\",",
+            "\tformOrder: 0,",
+            "\tprops: {",
             "\t\t$3",
             "\t}",
             "},"
@@ -194,10 +194,10 @@
         "prefix": "bpol",
         "body": [
             "\"$1\": {",
-            "\t\"type\": \"objectList\",",
-            "\t\"label\": \"$2\",",
-            "\t\"formOrder\": ${number:0},",
-            "\t\"props\": {",
+            "\ttype: \"objectList\",",
+            "\tlabel: \"$2\",",
+            "\tformOrder: 0,",
+            "\tprops: {",
             "\t\t$3",
             "\t},",
             "},"
@@ -207,10 +207,10 @@
     "Blank access": {
         "prefix": "baccess",
         "body": [
-            "\"access\": [",
-            "\t{\"role\": \"11111111-1111-1111-1111-111111111111\", \"permissions\": \"crud\", }",
+            "access: [",
+            "\t{ role: \"11111111-1111-1111-1111-111111111111\", permissions: \"crud\" }",
             "],"
         ],
         "description": "Creates new Blank objectList property"
-    },
+    }
 }
