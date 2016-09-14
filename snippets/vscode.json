@@ -91,7 +91,7 @@
     "Blank prop": {
         "prefix": "bp",
         "body": [
-            "\"$1\": {",
+            "$1: {",
             "\ttype: \"$2\",",
             "\tdisplay: \"$3\",",
             "\tlabel: \"$4\",",
@@ -103,7 +103,7 @@
     "Blank text input": {
         "prefix": "bps",
         "body": [
-            "\"$1\": {",
+            "$1: {",
             "\ttype: \"string\",",
             "\tdisplay: \"textInput\",",
             "\tlabel: \"$2\",",
@@ -115,7 +115,7 @@
     "Blank bool input": {
         "prefix": "bpb",
         "body": [
-            "\"$1\": {",
+            "$1: {",
             "\ttype: \"bool\",",
             "\tdisplay: \"checkbox\",",
             "\tlabel: \"$2\",",
@@ -127,7 +127,7 @@
     "Blank int input": {
         "prefix": "bpi",
         "body": [
-            "\"$1\": {",
+            "$1: {",
             "\ttype: \"int\",",
             "\tdisplay: \"numberInput\",",
             "\tlabel: \"$2\",",
@@ -139,7 +139,7 @@
     "Blank float input": {
         "prefix": "bpf",
         "body": [
-            "\"$1\": {",
+            "$1: {",
             "\ttype: \"float\",",
             "\tdisplay: \"numberInput\",",
             "\tlabel: \"$2\",",
@@ -151,7 +151,7 @@
     "Blank ref input": {
         "prefix": "bpr",
         "body": [
-            "\"$1\": {",
+            "$1: {",
             "\ttype: \"ref\",",
             "\tdisplay: \"searchBox\",",
             "\tstore: \"$2\",",
@@ -165,7 +165,7 @@
     "Blank refList input": {
         "prefix": "bprl",
         "body": [
-            "\"$1\": {",
+            "$1: {",
             "\ttype: \"refList\",",
             "\tdisplay: \"searchBox\",",
             "\tstore: \"$2\",",
@@ -179,7 +179,7 @@
     "Blank object input": {
         "prefix": "bpo",
         "body": [
-            "\"$1\": {",
+            "$1: {",
             "\ttype: \"object\",",
             "\tlabel: \"$2\",",
             "\tformOrder: 0,",
@@ -193,7 +193,7 @@
     "Blank objectList input": {
         "prefix": "bpol",
         "body": [
-            "\"$1\": {",
+            "$1: {",
             "\ttype: \"objectList\",",
             "\tlabel: \"$2\",",
             "\tformOrder: 0,",
@@ -208,7 +208,7 @@
         "prefix": "baccess",
         "body": [
             "access: [",
-            "\t{ role: \"11111111-1111-1111-1111-111111111111\", permissions: \"crud\" }",
+            "\t{ role: \"$1\", permissions: \"vcrudx\" },",
             "],"
         ],
         "description": "Creates new Blank objectList property"
