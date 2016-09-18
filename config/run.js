@@ -51,18 +51,18 @@ module.exports = {
                             if (typeof promiseRes !== "string") {
                                 promiseRes = JSON.stringify(promiseRes, "", "  ");
                             }
-                            return $db.set({ "_id": $item._id, "response": promiseRes + "" }, "run");
+                            return $db.set("run", { "_id": $item._id, "response": promiseRes + "" });
                         }).catch(promiseErr => {
                             if (typeof promiseErr !== "string") {
                                 promiseErr = JSON.stringify(promiseErr, "", "  ");
                             }
-                            return $db.set({ "_id": $item._id, "response": "ERROR: " + promiseErr }, "run");
+                            return $db.set("run", { "_id": $item._id, "response": "ERROR: " + promiseErr });
                         });
                     }
                     if (typeof res !== "string") {
                         res = JSON.stringify(res, "", "  ");
                     }
-                    return $db.set({ "_id": $item._id, "response": res + "" }, "run");
+                    return $db.set("run", { "_id": $item._id, "response": res + "" });
                 },
             },
         ],

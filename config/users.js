@@ -13,7 +13,7 @@ module.exports = {
                 "label": "Enable",
                 "multi": false,
                 "script": function ($db, $item) {
-                    return $db.set({ "_id": $item._id, "isActive": true, "_activationToken": null }, "users");
+                    return $db.set("users", { "_id": $item._id, "isActive": true, "_activationToken": null });
                 },
                 "hidden": "$item.isActive || $item._id === '00000000-0000-0000-0000-000000000000'",
             },
@@ -23,7 +23,7 @@ module.exports = {
                 "icon": "material-icons text md-16 block",
                 "multi": false,
                 "script": function ($db, $item) {
-                    return $db.set({ "_id": $item._id, "isActive": false }, "users");
+                    return $db.set("users", { "_id": $item._id, "isActive": false });
                 },
                 "hidden": "!$item.isActive || $item._id === '00000000-0000-0000-0000-000000000000'",
             },
@@ -35,7 +35,7 @@ module.exports = {
                     if (!$data.newPassword) {
                         throw new UserError("Please provide new password");
                     }
-                    return $db.set({ "_id": $item._id, "password": $data.newPassword }, "users");
+                    return $db.set("users", { "_id": $item._id, "password": $data.newPassword });
                 },
                 "type": "form",
                 "props": {
@@ -267,15 +267,15 @@ module.exports = {
                 sync.once("$$usersDidStart", () => {
                     $db.waitForConnection().then(() => {
                         console.log("Checking root user in DB...");
-                        $db.get("00000000-0000-0000-0000-000000000000", "users", (e, d) => {
+                        $db.get("users", "00000000-0000-0000-0000-000000000000", (e, d) => {
                             if (d == null || d._deleted) {
                                 console.log("Root user not exists, creating...");
-                                $db.set({
+                                $db.set("users", {
                                     "_id": "00000000-0000-0000-0000-000000000000",
                                     "roles": ["root"],
                                     "login": "root",
                                     "password": "toor",
-                                }, "users", (e, d) => {
+                                }, (e, d) => {
                                     if (e != null) {
                                         console.error("Error while creating root user:", e);
                                     } else {
@@ -298,9 +298,9 @@ module.exports = {
                     let fs = require("fs");
                     let handlebars = require("handlebars");
                     let user;
-                    return $db.get({ _activationToken: $request.params["token"] }, "users").then(_user => {
+                    return $db.get("users", { _activationToken: $request.params["token"] }).then(_user => {
                         user = _user;
-                        return $db.set({ _id: user._id, _activationToken: null, _activationExpires: null, isActive: true }, "users");
+                        return $db.set("users", { _id: user._id, _activationToken: null, _activationExpires: null, isActive: true });
                     }).then(() => {
                         return fs.readLib("templates/activation-success.html");
                     }).then(template => {
@@ -336,18 +336,18 @@ module.exports = {
                 "schedule": "*/30  *   *   *   *",
                 "script": function ($db) {
                     // unactivated users
-                    $db.find({
+                    $db.find("users", {
                         query: {
                             _activationExpires: { "$lte": new Date() },
                             isActive: false,
                         },
                         take: 100,
-                    }, "users").then(res => {
+                    }).then(res => {
                         if (res.items.length > 0) {
                             console.debug(`[users][tasks][delete unactivated users] found ${res.items.length} unactivated users`);
                             let promises = [];
                             for (let user of res.items) {
-                                promises.push($db.delete(user._id, "users", { drop: true }));
+                                promises.push($db.delete("users", user._id, { drop: true }));
                             }
                             return Promise.all(promises);
                         }
@@ -355,18 +355,18 @@ module.exports = {
                         console.error("[users][tasks] can't process unactivated users");
                     }).then(() => {
                         // rotten password reset tokens
-                        return $db.find({
+                        return $db.find("users", {
                             query: {
                                 _passwordResetExpires: { "$lte": new Date() },
                             },
                             take: 100,
-                        }, "users");
+                        });
                     }).then(res => {
                         if (res.items.length > 0) {
                             console.debug(`[users][tasks][rotten password reset requests] found ${res.items.length} rotten requests`);
                             let promises = [];
                             for (let user of res.items) {
-                                promises.push($db.set({ _id: user._id, _passwordResetExpires: null, _passwordResetToken: null }, "users"));
+                                promises.push($db.set("users", { _id: user._id, _passwordResetExpires: null, _passwordResetToken: null }));
                             }
                             return Promise.all(promises);
                         }

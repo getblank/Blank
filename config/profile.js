@@ -108,7 +108,7 @@ module.exports = {
                         return "Invalid args";
                     }
                     let user;
-                    return $db.get($item._ownerId, "users").then((_user) => {
+                    return $db.get("users", $item._ownerId).then((_user) => {
                         if (_user._deleted) {
                             throw new Error();
                         }
@@ -125,9 +125,9 @@ module.exports = {
                         if (!$user.noPassword && d !== user.password.key) {
                             throw new UserError(i18n.get("profile.invalidPasswordError", $user.lang));
                         }
-                        return $db.set({ "_id": $item._ownerId, "password": $data.newPassword, noPassword: null }, "users");
+                        return $db.set("users", { "_id": $item._ownerId, "password": $data.newPassword, noPassword: null });
                     }).then(d => {
-                        $db.notify([$user._id], "securityNotifications", {
+                        $db.notify("securityNotifications", [$user._id], {
                             "message": i18n.get("profile.passwordChangedMessage", $user.lang),
                         });
                     });
@@ -168,11 +168,11 @@ module.exports = {
                             };
                         });
                         console.log("Sessions update for user", session.userId, "Sessions:", JSON.stringify(userSessions));
-                        $db.get({ "_ownerId": session.userId }, "profile").then((p) => {
+                        $db.get("profile", { "_ownerId": session.userId }).then((p) => {
                             if (_r === r) {
                                 console.log("Updating profile sessions");
-                                $db.set({ "_id": p._id, "sessions": userSessions },
-                                    "profile",
+                                $db.set("profile",
+                                    { "_id": p._id, "sessions": userSessions },
                                     { "noValidate": true },
                                     (e, r) => {
                                         console.log("Update error:", e);
@@ -181,11 +181,11 @@ module.exports = {
                         }).catch(() => {
                             if (_r === r) {
                                 console.log("Profile not found, creating...");
-                                $db.get(session.userId, "users").then(u => {
+                                $db.get("users", session.userId).then(u => {
                                     if (u == null) { throw new Error("user not found") }
                                     return $db.insert(
-                                        { "_ownerId": session.userId, "sessions": userSessions, "login": u.login },
                                         "profile",
+                                        { "_ownerId": session.userId, "sessions": userSessions, "login": u.login },
                                         { "noValidate": true },
                                         (e, r) => {
                                             console.log("Create error:", e);
