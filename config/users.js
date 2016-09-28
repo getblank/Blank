@@ -6,6 +6,15 @@ module.exports = {
         headerProperty: "login",
         access: [
             { role: "root", permissions: "vcrudx" },
+            {
+                role: "all",
+                permissions: "r",
+                condition: {
+                    _id: {
+                        $expression: "$user._id",
+                    },
+                },
+            },
         ],
         actions: [
             {
