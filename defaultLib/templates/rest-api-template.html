@@ -2,291 +2,275 @@
 <html lang="en" ng-app="loop">
 
 <head>
-    <meta charset="utf-8">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="Blank" name="author" data-head-element>
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
-    <style type="text/css">
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            padding: 0;
-            margin: 0;
-        }
-
-        h1 {
-            padding: 14px 24px;
-            margin: 0;
-            background-color: #607D8B;
-            color: #FFFFFF;
-            font-weight: 200;
-        }
-
-        h2 {
-            font-size: 28px;
-            margin: 36px 0 20px 0;
-        }
-
-        .docs {
-            padding: 24px;
-        }
-
-        .method-type {
-            display: inline-block;
-            padding: 4px 7px;
-            background-color: #69F0AE;
-            border-radius: 3px;
-        }
-
-        .method-type.post {
-            background-color: #FFD180;
-        }
-
-        .method-type.put {
-            background-color: #BCAAA4;
-        }
-
-        .method-type.delete {
-            background-color: #FF8A80;
-        }
-
-        .method-uri {
-            /*display: inline-block;
+	<meta charset="utf-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="Blank" name="author" data-head-element>
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+	<style type="text/css">
+		* {
+			box-sizing: border-box;
+		}
+		
+		body {
+			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+			padding: 0;
+			margin: 0;
+		}
+		
+		h1 {
+			padding: 14px 24px;
+			margin: 0;
+			background-color: #607D8B;
+			color: #FFFFFF;
+			font-weight: 200;
+		}
+		
+		h2 {
+			font-size: 28px;
+			margin: 36px 0 20px 0;
+		}
+		
+		.docs {
+			padding: 24px;
+		}
+		
+		.method-type {
+			display: inline-block;
+			padding: 4px 7px;
+			background-color: #69F0AE;
+			border-radius: 3px;
+		}
+		
+		.method-type.post {
+			background-color: #FFD180;
+		}
+		
+		.method-type.put {
+			background-color: #BCAAA4;
+		}
+		
+		.method-type.delete {
+			background-color: #FF8A80;
+		}
+		
+		.method-uri {
+			/*display: inline-block;
             padding: 4px 7px;*/
-            margin-left: 14px;
-            text-decoration: underline;
-            text-transform: lowercase;
-            /*background-color: #CFD8DC;
+			margin-left: 14px;
+			text-decoration: underline;
+			text-transform: lowercase;
+			/*background-color: #CFD8DC;
             border-radius: 3px;*/
-        }
-
-        .response-code {
-            display: inline-block;
-            padding: 4px 7px;
-            background-color: #80D8FF;
-            border-radius: 3px;
-        }
-
-        .uri-param {
-            display: inline-block;
-            padding: 2px 5px;
-            font-weight: 600;
-            background-color: #DDDDDD;
-        }
-
-        pre {
-            width: 830px;
-            margin: 7px 0;
-            padding: 10px;
-            overflow: auto;
-            background-color: #ECEFF1;
-            white-space: pre-wrap;
-        }
-
-        table {
-            width: 830px;
-        }
-
-        thead {
-            text-align: left;
-        }
-
-        tr:nth-child(2n) {
-            background-color: #EEEEEE;
-        }
-
-        th {
-            background-color: #B0BEC5;
-        }
-
-        th,
-        td {
-            padding: 7px 14px;
-            border-width: 0 0 1px;
-            border-bottom: 1px solid #cbcbcb;
-        }
-
-        td:first-of-type {
-            font-weight: bold;
-        }
-
-        .props-list {
-            list-style: none;
-        }
-
-        .props-list li {
-            padding: 0 0 7px 0;
-        }
-
-        .props-list li .prop-name {
-            color: #036;
-        }
-
-        .props-list li .prop-type {
-            color: #800;
-        }
-
-        .props-list li .prop-code {
-            color: #080;
-            font-style: italic;
-        }
-
-        .props-list li .prop-extra {
-            display: block;
-            padding: 2px 7px 2px 24px;
-        }
-    </style>
+		}
+		
+		.response-code {
+			display: inline-block;
+			padding: 4px 7px;
+			background-color: #80D8FF;
+			border-radius: 3px;
+		}
+		
+		.uri-param {
+			display: inline-block;
+			padding: 2px 5px;
+			font-weight: 600;
+			background-color: #DDDDDD;
+		}
+		
+		pre {
+			width: 830px;
+			margin: 7px 0;
+			padding: 10px;
+			overflow: auto;
+			background-color: #ECEFF1;
+			white-space: pre-wrap;
+		}
+		
+		table {
+			width: 830px;
+		}
+		
+		thead {
+			text-align: left;
+		}
+		
+		tr:nth-child(2n) {
+			background-color: #EEEEEE;
+		}
+		
+		th {
+			background-color: #B0BEC5;
+		}
+		
+		th,
+		td {
+			padding: 7px 14px;
+			border-width: 0 0 1px;
+			border-bottom: 1px solid #cbcbcb;
+		}
+		
+		td:first-of-type {
+			font-weight: bold;
+		}
+		
+		.props-list {
+			list-style: none;
+		}
+		
+		.props-list li {
+			padding: 0 0 7px 0;
+		}
+		
+		.props-list li .prop-name {
+			color: #036;
+		}
+		
+		.props-list li .prop-type {
+			color: #800;
+		}
+		
+		.props-list li .prop-code {
+			color: #080;
+			font-style: italic;
+		}
+		
+		.props-list li .prop-extra {
+			display: block;
+			padding: 2px 7px 2px 24px;
+		}
+	</style>
 </head>
 
 <body>
-    <div>
-        <h1>REST API Docs (autogenerated)</h1>
-        <div class="docs">
-            <h3>Authorization for all methods</h3>
-            <p>Use uri parameter "key" which is session apiKey in every request, like:</p>
-            <pre>http[s]://yourdomain.com/api/v1/{storeName}?key=c3fc89f9-263c-4256-bab5-0cad3b429fba</pre>
-            <h3>Data structure annotations</h3>
-            <p><b>objectList</b> – array of objects, like [{}, {}, ..., {}].</p>
-            <p><b>ref</b> – string (UUID), reference to another item by identificator.</p>
-            <p><b>refList</b> – array of strings (UUID), references to another items.</p>
-            <p><b>date</b> – string formatted in ISO 8601 standard.</p> {{#each config}}
-            <h2>{{store}}</h2>
-            <h3>Data structure:</h3> {{> propsList}}
-            <h3>Methods:</h3>
-            <!-----------------------------GET ALL------------------------------->
-            <p>
-                <span class="method-type">GET</span>
-                <span class="method-uri">api/v1/{{store}}/</span>
-            </p>
-            <p>Returns first 10 elements from store. You can specify <span class="uri-param">skip</span> and <span class="uri-param">take</span>                uri params to retrieve needed page.</p>
-            <p>URI params:</p>
-            <table cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Desc</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>skip</td>
-                        <td>Count of elements to skip</td>
-                    </tr>
-                    <tr>
-                        <td>take</td>
-                        <td>Count of elements to load</td>
-                    </tr>
-                    <tr>
-                        <td>orderBy</td>
-                        <td>Property name for order. Use "-propertyName" for descendant order</td>
-                    </tr>
-                    <tr>
-                        <td>prettify</td>
-                        <td>If "true", response JSON will be formatted</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p>Request example</p>
-            <pre>
-GET /api/v1/{{store}}/?skip=0&take=50&orderBy=-name&prettify=true&key=c3fc89f9-263c-4256-bab5-0cad3b429fba
-        </pre>
-            <p>Response code: <span class="response-code">200</span></p>
-            <p>Response structure:</p>
-            <pre>
-{
-    "count": int,          //Full count of items in store
-    "items": []            //Array with current requested items
-    "request": {           //Request as it was parsed by server
-        "skip": int        //Skipped items count
-        "take": int        //Requested items count
-        "orderBy": string  //Items order
-    }
-}
-        </pre>
-            <!-----------------------------READ------------------------------->
-            <p>
-                <span class="method-type">GET</span>
-                <span class="method-uri">api/v1/{{store}}/{:id}/</span>
-            </p>
-            <p>Returns element with requested id.</p>
-            <p>Request example</p>
-            <pre>
-GET /api/v1/{{store}}/7c4f3d29-a664-4c50-8c56-96e742fe62f5/?key=c3fc89f9-263c-4256-bab5-0cad3b429fba
-        </pre>
-            <p>Response code: <span class="response-code">200</span></p>
-            <p>Response structure:</p>
-            <pre>
-{
-    ...Element data...
-}
-        </pre>
-            <!-----------------------------CREATE------------------------------->
-            <p>
-                <span class="method-type post">POST</span>
-                <span class="method-uri">api/v1/{{store}}/</span>
-            </p>
-            <p>Creates new element and returns element identificator ('_id' property).</p>
-            <p>If validation error occured, server will response with status code <span class="response-code">500</span> and
-                details in body</p>
-            <p>Request example</p>
-            <pre>
-POST /api/v1/{{store}}/?key=c3fc89f9-263c-4256-bab5-0cad3b429fba
-Content-Type: application/json
-
-{
-    ...Element data...
-}
-        </pre>
-            <p>Response code: <span class="response-code">201</span></p>
-            <p>Response structure:</p>
-            <pre>
-"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx" // UUID string
-        </pre>
-            <!-----------------------------UPDATE------------------------------->
-            <p>
-                <span class="method-type put">PUT</span>
-                <span class="method-uri">api/v1/{{store}}/{:id}/</span>
-            </p>
-            <p>Updates element data</p>
-            <p>If item with specified identificator not found, server will response with status code <span class="response-code">404</span></p>
-            <p>If validation error occured, server will response with status code <span class="response-code">500</span> and
-                details in body</p>
-            <p>Request example</p>
-            <pre>
-PUT /api/v1/{{store}}/7c4f3d29-a664-4c50-8c56-96e742fe62f5/?key=c3fc89f9-263c-4256-bab5-0cad3b429fba
-Content-Type: application/json
-
-{
-    ...Element data...
-}
-        </pre>
-            <p>Response code: <span class="response-code">200</span></p>
-            <p>Response structure:</p>
-            <pre>
-"OK"
-        </pre>
-            <!-----------------------------DELETE------------------------------->
-            <p>
-                <span class="method-type delete">DELETE</span>
-                <span class="method-uri">api/v1/{{store}}/{:id}/</span>
-            </p>
-            <p>Deletes element.</p>
-            <p>If item with specified identificator not found, server will response with status code <span class="response-code">404</span></p>
-            <p>Request example</p>
-            <pre>
-DELETE /api/v1/{{store}}/7c4f3d29-a664-4c50-8c56-96e742fe62f5/?key=c3fc89f9-263c-4256-bab5-0cad3b429fba
-        </pre>
-            <p>Response code: <span class="response-code">200</span></p>
-            <p>Response structure:</p>
-            <pre>
-"OK"
-        </pre> {{/each}}
-        </div>
-    </div>
+	<div>
+		<h1>REST API Docs (autogenerated)</h1>
+		<div class="docs">
+			<h3>Authorization for all methods</h3>
+			<p>Use uri parameter "access_token" which is session access_token in every request, like:</p>
+			<pre>http[s]://yourdomain.com/api/v1/{storeName}?access_token=c3fc89f9-263c-4256-bab5-0cad3b429fba</pre>
+			<h3>Data structure annotations</h3>
+			<p><b>objectList</b> – array of objects, like [{}, {}, ..., {}].</p>
+			<p><b>ref</b> – string (UUID), reference to another item by identificator.</p>
+			<p><b>refList</b> – array of strings (UUID), references to another items.</p>
+			<p><b>date</b> – string formatted in ISO 8601 standard.</p> {{#each config}}
+			<h2>{{store}}</h2>
+			<h3>Data structure:</h3> {{> propsList}}
+			<h3>Methods:</h3>
+			<!-----------------------------GET ALL------------------------------->
+			<p>
+				<span class="method-type">GET</span>
+				<span class="method-uri">api/v1/{{store}}/</span>
+			</p>
+			<p>Returns first 10 elements from store. You can specify <span class="uri-param">skip</span> and <span class="uri-param">take</span>				uri params to retrieve needed page.</p>
+			<p>URI params:</p>
+			<table cellspacing="0">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Desc</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>skip</td>
+						<td>Count of elements to skip</td>
+					</tr>
+					<tr>
+						<td>take</td>
+						<td>Count of elements to load</td>
+					</tr>
+					<tr>
+						<td>orderBy</td>
+						<td>Property name for order. Use "-propertyName" for descendant order</td>
+					</tr>
+					<tr>
+						<td>prettify</td>
+						<td>If "true", response JSON will be formatted</td>
+					</tr>
+				</tbody>
+			</table>
+			<p>Request example</p>
+			<pre>
+				GET /api/v1/{{store}}/?skip=0&take=50&orderBy=-name&prettify=true&access_token=c3fc89f9-263c-4256-bab5-0cad3b429fba
+			</pre>
+			<p>Response code: <span class="response-code">200</span></p>
+			<p>Response structure:</p>
+			<pre>
+				{ "count": int, //Full count of items in store "items": [] //Array with current requested items "request": { //Request as
+				it was parsed by server "skip": int //Skipped items count "take": int //Requested items count "orderBy": string //Items
+				order } }
+			</pre>
+			<!-----------------------------READ------------------------------->
+			<p>
+				<span class="method-type">GET</span>
+				<span class="method-uri">api/v1/{{store}}/{:id}/</span>
+			</p>
+			<p>Returns element with requested id.</p>
+			<p>Request example</p>
+			<pre>
+				GET /api/v1/{{store}}/7c4f3d29-a664-4c50-8c56-96e742fe62f5/?access_token=c3fc89f9-263c-4256-bab5-0cad3b429fba
+			</pre>
+			<p>Response code: <span class="response-code">200</span></p>
+			<p>Response structure:</p>
+			<pre>
+				{ ...Element data... }
+			</pre>
+			<!-----------------------------CREATE------------------------------->
+			<p>
+				<span class="method-type post">POST</span>
+				<span class="method-uri">api/v1/{{store}}/</span>
+			</p>
+			<p>Creates new element and returns element identificator ('_id' property).</p>
+			<p>If validation error occured, server will response with status code <span class="response-code">500</span> and details
+				in body</p>
+			<p>Request example</p>
+			<pre>
+				POST /api/v1/{{store}}/?access_token=c3fc89f9-263c-4256-bab5-0cad3b429fba Content-Type: application/json { ...Element data...
+				}
+			</pre>
+			<p>Response code: <span class="response-code">201</span></p>
+			<p>Response structure:</p>
+			<pre>
+				"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx" // UUID string
+			</pre>
+			<!-----------------------------UPDATE------------------------------->
+			<p>
+				<span class="method-type put">PUT</span>
+				<span class="method-uri">api/v1/{{store}}/{:id}/</span>
+			</p>
+			<p>Updates element data</p>
+			<p>If item with specified identificator not found, server will response with status code <span class="response-code">404</span></p>
+			<p>If validation error occured, server will response with status code <span class="response-code">500</span> and details
+				in body</p>
+			<p>Request example</p>
+			<pre>
+				PUT /api/v1/{{store}}/7c4f3d29-a664-4c50-8c56-96e742fe62f5/?access_token=c3fc89f9-263c-4256-bab5-0cad3b429fba Content-Type:
+				application/json { ...Element data... }
+			</pre>
+			<p>Response code: <span class="response-code">200</span></p>
+			<p>Response structure:</p>
+			<pre>
+				"OK"
+			</pre>
+			<!-----------------------------DELETE------------------------------->
+			<p>
+				<span class="method-type delete">DELETE</span>
+				<span class="method-uri">api/v1/{{store}}/{:id}/</span>
+			</p>
+			<p>Deletes element.</p>
+			<p>If item with specified identificator not found, server will response with status code <span class="response-code">404</span></p>
+			<p>Request example</p>
+			<pre>
+				DELETE /api/v1/{{store}}/7c4f3d29-a664-4c50-8c56-96e742fe62f5/?access_token=c3fc89f9-263c-4256-bab5-0cad3b429fba
+			</pre>
+			<p>Response code: <span class="response-code">200</span></p>
+			<p>Response structure:</p>
+			<pre>
+				"OK"
+			</pre> {{/each}}
+		</div>
+	</div>
 </body>
 
 </html>
