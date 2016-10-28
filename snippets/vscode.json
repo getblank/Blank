@@ -83,7 +83,6 @@
     "Blank i18n": {
         "prefix": "b18",
         "body": [
-            //Will work properly in next version of VS code
             "{{\\$i18n.$1}}"
         ],
         "description": "Creates Blank i18n getter"
