@@ -43,12 +43,15 @@
     "blank-node-worker": "latest",
     "blank-web-app": "latest",
     "chokidar": "^1.5.0",
+    "form-data": "^2.1.2",
     "jszip": "^3.0.0",
     "less": "^2.7.1",
     "logfmt": "^1.2.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "mocha": "^2.5.3",
-    "speed-date": "^0.2.1"
+    "node-fetch": "^1.6.3",
+    "speed-date": "^0.2.1",
+    "tar-fs": "^1.14.0"
   }
 }
