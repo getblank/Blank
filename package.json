@@ -11,7 +11,7 @@
     "push": "git push origin master --follow-tags && npm publish"
   },
   "bin": {
-    "blank": "node --harmony ./index.js"
+    "blank": "./index.js"
   },
   "repository": {
     "type": "git",

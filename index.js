@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony
 process.title = "Blank";
 module.exports.getPath = function () {
     return __dirname;
