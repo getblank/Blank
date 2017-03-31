@@ -3,47 +3,47 @@
  */
 
 module.exports = {
-    "run": {
-        "display": "list",
-        "navOrder": 100,
-        "navGroup": "config",
-        "label": "{{$i18n.storeLabel}}",
-        "labels": [],
-        "props": {
-            "name": {
-                "type": "string",
-                "label": "Script name",
-                "default": "New script",
+    run: {
+        display: "list",
+        navOrder: 100,
+        navGroup: "config",
+        label: "{{$i18n.storeLabel}}",
+        labels: [],
+        props: {
+            name: {
+                type: "string",
+                label: "Script name",
+                default: "New script",
             },
-            "code": {
-                "type": "string",
-                "display": "codeEditor",
-                "formOrder": 10,
+            code: {
+                type: "string",
+                display: "codeEditor",
+                formOrder: 10,
             },
-            "run": {
-                "type": "action",
-                "actions": [
-                    { "_id": "run" },
+            run: {
+                type: "action",
+                actions: [
+                    { _id: "run" },
                 ],
-                "formOrder": 20,
+                formOrder: 20,
             },
-            "response": {
-                "type": "string",
-                "display": "code",
-                "formOrder": 30,
+            response: {
+                type: "string",
+                display: "code",
+                formOrder: 30,
             },
         },
-        "actions": [
+        actions: [
             {
-                "_id": "run",
-                "label": "Выполнить",
-                "disableItemReadyCheck": true,
-                "clientPreScript": function ($item) {
+                _id: "run",
+                label: "Выполнить",
+                disableItemReadyCheck: true,
+                clientPreScript: function ($item) {
                     return {
-                        "code": $item.code,
+                        code: $item.code,
                     };
                 },
-                "script": function ($db, $data, $item) {
+                script: function ($db, $data, $item) {
                     var f = new Function("$db", "$item", "require", $data.code);
                     var res = f($db, $item, require);
                     if (res instanceof Promise) {
@@ -51,31 +51,31 @@ module.exports = {
                             if (typeof promiseRes !== "string") {
                                 promiseRes = JSON.stringify(promiseRes, "", "  ");
                             }
-                            return $db.set("run", { "_id": $item._id, "response": promiseRes + "" });
+                            return $db.set("run", { _id: $item._id, response: promiseRes + "" });
                         }).catch(promiseErr => {
                             if (typeof promiseErr !== "string") {
                                 promiseErr = JSON.stringify(promiseErr, "", "  ");
                             }
-                            return $db.set("run", { "_id": $item._id, "response": "ERROR: " + promiseErr });
+                            return $db.set("run", { _id: $item._id, response: "ERROR: " + promiseErr });
                         });
                     }
                     if (typeof res !== "string") {
                         res = JSON.stringify(res, "", "  ");
                     }
-                    return $db.set("run", { "_id": $item._id, "response": res + "" });
+                    return $db.set("run", { _id: $item._id, response: res + "" });
                 },
             },
         ],
-        "objectLifeCycle": {},
-        "storeLifeCycle": {},
-        "filters": {},
-        "httpHooks": [],
-        "tasks": [],
-        "i18n": {
-            "storeLabel": "Run JS",
+        objectLifeCycle: {},
+        storeLifeCycle: {},
+        filters: {},
+        httpHooks: [],
+        tasks: [],
+        i18n: {
+            storeLabel: "Run JS",
         },
-        "access": [
-            { "role": "root", "permissions": "vcrudx" },
+        access: [
+            { role: "root", permissions: "vcrudx" },
         ],
     },
 };
