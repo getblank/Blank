@@ -27,10 +27,9 @@ module.exports = {
                 type: "string",
                 display: "none",
             },
-            ttl: {
-                type: "int",
+            expireAt: {
+                type: "date",
                 display: "none",
-                min: 0,
             },
             relatedObjects: {
                 type: "objectList",
