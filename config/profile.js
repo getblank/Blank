@@ -156,10 +156,9 @@ module.exports = {
         storeLifeCycle: {
             didStart: function () {
                 let r = 0;
-                let updateUserSessions = (session) => {
+                const updateUserSessions = (session) => {
                     let _r = ++r;
-                    var locker = "sessions-update-" + session.apiKey + "-__v:" + session.__v;
-                    console.log("Session locker:", locker);
+                    const locker = "sessions-update-" + session.apiKey + "-__v:" + session.__v;
                     sync.once(locker, () => {
                         let userSessions = sessions.get().filter(s => s.userId === session.userId).map((s) => {
                             return {
@@ -167,34 +166,38 @@ module.exports = {
                                 connections: (s.connections || []).length,
                             };
                         });
-                        console.log("Sessions update for user", session.userId, "Sessions:", JSON.stringify(userSessions));
-                        $db.get("profile", { _ownerId: session.userId }).then((p) => {
-                            if (_r === r) {
-                                console.log("Updating profile sessions");
-                                $db.set(
-                                    "profile",
-                                    { _id: p._id, sessions: userSessions },
-                                    { noValidate: true },
-                                    (e, r) => {
-                                        console.log("Update error:", e);
-                                    }
-                                );
-                            }
-                        }).catch(() => {
-                            if (_r === r) {
-                                console.log("Profile not found, creating...");
-                                $db.get("users", session.userId).then(u => {
-                                    if (u == null) { throw new Error("user not found") }
-                                    return $db.insert(
+                        console.debug("Sessions update for user", session.userId, "Sessions:", JSON.stringify(userSessions));
+                        $db.get("profile", { _ownerId: session.userId })
+                            .then((p) => {
+                                if (_r === r) {
+                                    console.debug("Updating profile sessions");
+                                    $db.set(
                                         "profile",
-                                        { _ownerId: session.userId, sessions: userSessions, login: u.login },
+                                        { _id: p._id, sessions: userSessions },
                                         { noValidate: true },
-                                        (e, r) => {
-                                            console.log("Create error:", e);
-                                        });
-                                }).catch(e => console.log("Error while creating profile for user:", session.userId));
-                            }
-                        });
+                                        (err, res) => {
+                                            console.error("Profile update error:", err);
+                                        }
+                                    );
+                                }
+                            })
+                            .catch(() => {
+                                if (_r === r) {
+                                    console.debug("Profile not found, creating...");
+                                    $db.get("users", session.userId)
+                                        .then(u => {
+                                            if (u == null) { throw new Error("user not found") }
+                                            return $db.insert(
+                                                "profile",
+                                                { _ownerId: session.userId, sessions: userSessions, login: u.login },
+                                                { noValidate: true },
+                                                (e, r) => {
+                                                    console.error("Profile create error:", e);
+                                                });
+                                        })
+                                        .catch(e => console.log("Error while creating profile for user:", session.userId));
+                                }
+                            });
                     });
                 };
                 sessions.on("create", updateUserSessions);
