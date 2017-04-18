@@ -175,8 +175,10 @@ module.exports = {
                                         "profile",
                                         { _id: p._id, sessions: userSessions },
                                         { noValidate: true },
-                                        (err, res) => {
-                                            console.error("Profile update error:", err);
+                                        (err) => {
+                                            if (err) {
+                                                console.error("Profile update error:", err);
+                                            }
                                         }
                                     );
                                 }
@@ -191,11 +193,13 @@ module.exports = {
                                                 "profile",
                                                 { _ownerId: session.userId, sessions: userSessions, login: u.login },
                                                 { noValidate: true },
-                                                (e, r) => {
-                                                    console.error("Profile create error:", e);
+                                                (err) => {
+                                                    if (err) {
+                                                        console.error("Profile create error:", err);
+                                                    }
                                                 });
                                         })
-                                        .catch(e => console.log("Error while creating profile for user:", session.userId));
+                                        .catch(e => console.debug("Error while creating profile for user:", session.userId));
                                 }
                             });
                     });
