@@ -19,7 +19,7 @@ module.exports = {
         actions: [
             {
                 _id: "activate",
-                label: "Enable",
+                label: "{{$i18n.activateActionLabel}}",
                 multi: false,
                 script: function ($db, $item) {
                     return $db.set("users", { _id: $item._id, isActive: true, _activationToken: null });
@@ -28,7 +28,7 @@ module.exports = {
             },
             {
                 _id: "deactivate",
-                label: "Disable",
+                label: "{{$i18n.deactivateActionLabel}}",
                 icon: "material-icons text md-16 block",
                 multi: false,
                 script: function ($db, $item) {
@@ -38,7 +38,7 @@ module.exports = {
             },
             {
                 _id: "changePassword",
-                label: "Change password",
+                label: "{{$i18n.changePasswordActionLabel}}",
                 multi: false,
                 script: function ($db, $data, $item) {
                     if (!$data.newPassword) {
@@ -159,7 +159,7 @@ module.exports = {
             lang: {
                 type: "string",
                 display: "select",
-                label: "Language",
+                label: "{{$i18n.langLabel}}",
                 formOrder: 30,
                 default: "en",
                 options: [
@@ -396,6 +396,10 @@ module.exports = {
                 createdAt: "Зарегистрирован: ",
                 rolesLabel: "Роли",
                 workspaceLabel: "Интерфейс",
+                langLabel: "Язык",
+                activateActionLabel: "Активировать",
+                deactivateActionLabel: "Деактивировать",
+                changePasswordActionLabel: "Сменить пароль",
             },
             en: {
                 label: "Users",
@@ -407,6 +411,10 @@ module.exports = {
                 createdAt: "Registered: ",
                 rolesLabel: "Roles",
                 workspaceLabel: "Interface",
+                langLabel: "Language",
+                activateActionLabel: "Activate",
+                deactivateActionLabel: "Deactivate",
+                changePasswordActionLabel: "Change password",
             },
         },
     },
