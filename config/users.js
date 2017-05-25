@@ -170,7 +170,7 @@ module.exports = {
             workspace: {
                 type: "string",
                 display: "none",
-                label: "Interface",
+                label: "{{$i18n.workspaceLabel}}",
                 formOrder: 40,
                 options: [],
                 access: [
@@ -184,7 +184,7 @@ module.exports = {
                 type: "refList",
                 store: "_roles",
                 display: "checkList",
-                label: "Roles",
+                label: "{{$i18n.rolesLabel}}",
                 formOrder: 100,
                 style: { display: "block" },
                 hidden: "$item._id === '00000000-0000-0000-0000-000000000000'",
@@ -394,6 +394,8 @@ module.exports = {
                 emailLabel: "Email",
                 profileIdLabel: "Данные профиля",
                 createdAt: "Зарегистрирован: ",
+                rolesLabel: "Роли",
+                workspaceLabel: "Интерфейс",
             },
             en: {
                 label: "Users",
@@ -403,6 +405,8 @@ module.exports = {
                 emailLabel: "Email",
                 profileIdLabel: "Profile data",
                 createdAt: "Registered: ",
+                rolesLabel: "Roles",
+                workspaceLabel: "Interface",
             },
         },
     },
