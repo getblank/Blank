@@ -276,17 +276,17 @@ module.exports = {
                 sync.once("$$usersDidStart", () => {
                     $db.waitForConnection().then(() => {
                         console.log("Checking root user in DB...");
-                        $db.get("users", "00000000-0000-0000-0000-000000000000", (e, d) => {
-                            if (d == null || d._deleted) {
+                        $db.get("users", "00000000-0000-0000-0000-000000000000", (err, res) => {
+                            if (res == null || res._deleted || !res.password.hashed) {
                                 console.log("Root user not exists, creating...");
                                 $db.set("users", {
                                     _id: "00000000-0000-0000-0000-000000000000",
                                     roles: ["root"],
                                     login: "root",
                                     password: "toor",
-                                }, (e, d) => {
-                                    if (e != null) {
-                                        console.error("Error while creating root user:", e);
+                                }, (err, res) => {
+                                    if (err != null) {
+                                        console.error("Error while creating root user:", err);
                                     } else {
                                         console.log("Root user created");
                                     }
