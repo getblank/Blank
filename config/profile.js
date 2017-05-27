@@ -103,30 +103,37 @@ module.exports = {
                 label: "{{$i18n.changePasswordAction}}",
                 multi: false,
                 script: function ($db, $item, $user, $data) {
-                    let i18n = require("i18n");
+                    const i18n = require("i18n");
                     if (!$data.newPassword || (!$data.oldPassword && !$user.noPassword)) {
                         return "Invalid args";
                     }
+
                     let user;
                     return $db.get("users", $item._ownerId).then((_user) => {
                         if (_user._deleted) {
                             throw new Error();
                         }
+
                         user = _user;
                         if ($user.noPassword) {
                             return;
                         }
+
                         if (user.password == null) {
                             throw new Error();
                         }
-                        let hash = require("hash");
+
+                        const hash = require("hash");
                         return hash.calc($data.oldPassword, user.password.salt);
-                    }).then((d) => {
-                        if (!$user.noPassword && d !== user.password.key) {
+                    }).then((res) => {
+                        if (!$user.noPassword && res !== user.password.key) {
                             throw new UserError(i18n.get("profile.invalidPasswordError", $user.lang));
                         }
-                        return $db.set("users", { _id: $item._ownerId, password: $data.newPassword, noPassword: null });
-                    }).then(d => {
+
+                        const crypto = require("crypto");
+                        const password = crypto.createHash("md5").update($data.newPassword).digest("hex");
+                        return $db.set("users", { _id: $item._ownerId, noPassword: null, password });
+                    }).then(() => {
                         $db.notify("securityNotifications", [$user._id], {
                             message: i18n.get("profile.passwordChangedMessage", $user.lang),
                         });

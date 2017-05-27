@@ -44,7 +44,9 @@ module.exports = {
                     if (!$data.newPassword) {
                         throw new UserError("Please provide new password");
                     }
-                    return $db.set("users", { _id: $item._id, password: $data.newPassword });
+                    const crypto = require("crypto");
+                    const password = crypto.createHash("md5").update($data.newPassword).digest("hex");
+                    return $db.set("users", { _id: $item._id, password });
                 },
                 type: "form",
                 props: {
