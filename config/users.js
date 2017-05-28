@@ -281,11 +281,13 @@ module.exports = {
                         $db.get("users", "00000000-0000-0000-0000-000000000000", (err, res) => {
                             if (res == null || res._deleted || !res.password.hashed) {
                                 console.log("Root user not exists, creating...");
+                                const crypto = require("crypto");
+                                const password = crypto.createHash("md5").update("toor").digest("hex");
                                 $db.set("users", {
                                     _id: "00000000-0000-0000-0000-000000000000",
                                     roles: ["root"],
                                     login: "root",
-                                    password: "toor",
+                                    password,
                                 }, (err, res) => {
                                     if (err != null) {
                                         console.error("Error while creating root user:", err);
