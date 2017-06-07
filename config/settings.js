@@ -230,7 +230,7 @@ module.exports = {
                     emailInvalid: "Некорректный e-mail",
                     emailUsed: "E-mail занят",
                     save: "Ошибка при сохранении изменений",
-                    common: "Ой, что-то пошло не так...",
+                    common: "Произошла ошибка.",
                     action: "Ошибка",
                     delete: "Ошибка при удалении",
                     INVALID_OLD_PASSWORD: "Старый пароль не правильный",
