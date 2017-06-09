@@ -53,7 +53,37 @@ module.exports = {
                     newPassword: {
                         type: "string",
                         display: "textInput",
-                        label: "New password",
+                        label: "{{$i18n.newPasswordLabel}}",
+                        required: true,
+                    },
+                },
+            },
+            {
+                _id: "changeLogin",
+                label: "{{$i18n.changeLoginActionLabel}}",
+                multi: false,
+                script: function ($db, $data, $item, $user) {
+                    if (!$data.newLogin) {
+                        throw new UserError("Please provide new login");
+                    }
+                    const fn = async () => {
+                        const user = await $db.find("users", { login: $data.newLogin }, { returnNull: true });
+                        if (user) {
+                            const i18n = require("i18n");
+                            throw new UserError(i18n.get("users.loginBusyError", $user.lang || "en", $data.newLogin));
+                        }
+
+                        return $db.set("users", { _id: $item._id, login: $data.newLogin });
+                    };
+
+                    return fn();
+                },
+                type: "form",
+                props: {
+                    newLogin: {
+                        type: "string",
+                        display: "textInput",
+                        label: "{{$i18n.newLoginLabel}}",
                         required: true,
                     },
                 },
@@ -404,6 +434,10 @@ module.exports = {
                 activateActionLabel: "Активировать",
                 deactivateActionLabel: "Деактивировать",
                 changePasswordActionLabel: "Сменить пароль",
+                changeLoginActionLabel: "Сменить логин",
+                newLoginLabel: "Новый логин",
+                newPasswordLabel: "Новый пароль",
+                loginBusyError: "Логин %s занят другим пользователем",
             },
             en: {
                 label: "Users",
@@ -419,6 +453,10 @@ module.exports = {
                 activateActionLabel: "Activate",
                 deactivateActionLabel: "Deactivate",
                 changePasswordActionLabel: "Change password",
+                changeLoginActionLabel: "Change login",
+                newLoginLabel: "New login",
+                newPasswordLabel: "New password",
+                loginBusyError: "Login %s used another by user",
             },
         },
     },
