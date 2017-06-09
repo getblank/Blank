@@ -122,12 +122,6 @@ module.exports = {
                 display: "none",
                 label: "Активен",
                 default: true,
-                access: [
-                    {
-                        role: "root",
-                        permissions: "crud",
-                    },
-                ],
             },
             facebookId: {
                 type: "string",
