@@ -60,6 +60,7 @@ module.exports = {
                 label: "{{$i18n.sessionsLabel}}",
                 formTab: "info",
                 formOrder: 1000,
+                hidden: true,
                 props: {
                     apiKey: {
                         type: "string",
