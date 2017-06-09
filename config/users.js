@@ -44,6 +44,7 @@ module.exports = {
                     if (!$data.newPassword) {
                         throw new UserError("Please provide new password");
                     }
+
                     const crypto = require("crypto");
                     const password = crypto.createHash("md5").update($data.newPassword).digest("hex");
                     return $db.set("users", { _id: $item._id, password });
@@ -66,10 +67,15 @@ module.exports = {
                     if (!$data.newLogin) {
                         throw new UserError("Please provide new login");
                     }
+
                     const fn = async () => {
+                        const i18n = require("i18n");
+                        if ($item.login === $data.newLogin) {
+                            throw new UserError(i18n.get("users.sameLoginError"), $user.lang);
+                        }
+
                         const user = await $db.get("users", { login: $data.newLogin }, { returnNull: true });
                         if (user) {
-                            const i18n = require("i18n");
                             throw new UserError(i18n.get("users.loginBusyError", $user.lang || "en", $data.newLogin));
                         }
 
@@ -438,6 +444,7 @@ module.exports = {
                 newLoginLabel: "Новый логин",
                 newPasswordLabel: "Новый пароль",
                 loginBusyError: "Логин %s занят другим пользователем",
+                sameLoginError: "Вы ввели текущий логин",
             },
             en: {
                 label: "Users",
@@ -457,6 +464,7 @@ module.exports = {
                 newLoginLabel: "New login",
                 newPasswordLabel: "New password",
                 loginBusyError: "Login %s used another by user",
+                sameLoginError: "You entered the current login",
             },
         },
     },
