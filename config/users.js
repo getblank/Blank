@@ -67,7 +67,7 @@ module.exports = {
                         throw new UserError("Please provide new login");
                     }
                     const fn = async () => {
-                        const user = await $db.find("users", { login: $data.newLogin }, { returnNull: true });
+                        const user = await $db.get("users", { login: $data.newLogin }, { returnNull: true });
                         if (user) {
                             const i18n = require("i18n");
                             throw new UserError(i18n.get("users.loginBusyError", $user.lang || "en", $data.newLogin));
