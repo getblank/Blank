@@ -47,7 +47,7 @@ module.exports = {
 
                     const crypto = require("crypto");
                     const password = crypto.createHash("md5").update($data.newPassword).digest("hex");
-                    return $db.set("users", { _id: $item._id, password });
+                    return $db.set("users", { _id: $item._id, noPassword: null, password });
                 },
                 type: "form",
                 props: {
@@ -294,9 +294,6 @@ module.exports = {
             },
         },
         objectLifeCycle: {
-            willCreate: function ($db, $item) {
-
-            },
             willRemove: function ($db, $item) {
                 if ($item._id === "00000000-0000-0000-0000-000000000000") {
                     throw new UserError("Cannot delete root user");
