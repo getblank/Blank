@@ -16,6 +16,10 @@ module.exports = {
                 },
             },
         ],
+        indexes: [
+            [{ login: 1 }, { unique: true }],
+            [{ email: 1 }, { unique: true }],
+        ],
         actions: [
             {
                 _id: "activate",
