@@ -129,6 +129,8 @@ module.exports = {
                     action: "Войти",
                     title: "Вход",
                     error: "Неверное имя пользователя или пароль",
+                    userNotFound: "Пользователь не найден",
+                    invalidPassword: "Неверный пароль",
                     restoreLinkSent: "Письмо со ссылкой для сброса пароля отправлено. Если был указан корректный адрес, вы получите письмо в течение 10 минут",
                 },
                 signOut: {
@@ -250,6 +252,8 @@ module.exports = {
                     action: "Sign in",
                     title: "Sign in",
                     error: "Login or password incorrect",
+                    userNotFound: "User not found",
+                    invalidPassword: "Invalid password",
                     restoreLinkSent: "Email with recent link sent. If you provide correct address, you will receive it within 10 minutes",
                 },
                 signOut: {
