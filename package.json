@@ -43,6 +43,7 @@
     "blank-node-worker": "latest",
     "blank-web-app": "latest",
     "chokidar": "^1.5.0",
+    "dotenv": "^4.0.0",
     "form-data": "^2.1.2",
     "git-rev": "^0.2.1",
     "jszip": "^3.0.0",
