@@ -239,6 +239,7 @@ module.exports = {
                     INVALID_OLD_PASSWORD: "Старый пароль не правильный",
                     PASSWORD_NOT_MATCHED: "Неверный пароль",
                     EMAIL_NOT_FOUND: "E-mail адрес не найден",
+                    sessionExpired: "Время жизни сессии вышло, либо она была удалена",
                 },
             },
             en: {
@@ -363,6 +364,7 @@ module.exports = {
                     INVALID_OLD_PASSWORD: "Invalid old password",
                     PASSWORD_NOT_MATCHED: "Invalid password",
                     EMAIL_NOT_FOUND: "E-mail address not found",
+                    sessionExpired: "Session deleted or expired",
                 },
             },
         },
