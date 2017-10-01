@@ -36,8 +36,8 @@
   },
   "dependencies": {
     "babel-core": "^6.17.0",
-    "babel-plugin-transform-react-jsx": "^6.8.0",
-    "babel-preset-latest": "^6.16.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.16.0",
     "babel-register": "^6.9.0",
     "blank-node-worker": "latest",
