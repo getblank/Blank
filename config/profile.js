@@ -104,7 +104,9 @@ module.exports = {
                 label: "{{$i18n.changePasswordAction}}",
                 multi: false,
                 script: function ($db, $item, $user, $data) {
+                    const crypto = require("crypto");
                     const i18n = require("i18n");
+                    const hash = require("hash");
                     if (!$data.newPassword || (!$data.oldPassword && !$user.noPassword)) {
                         return "Invalid args";
                     }
@@ -124,14 +126,13 @@ module.exports = {
                             throw new Error();
                         }
 
-                        const hash = require("hash");
-                        return hash.calc($data.oldPassword, user.password.salt);
+                        const md5pass = crypto.createHash("md5").update($data.oldPassword).digest("hex");
+                        return hash.calc(md5pass, user.password.salt);
                     }).then((res) => {
                         if (!$user.noPassword && res !== user.password.key) {
                             throw new UserError(i18n.get("profile.invalidPasswordError", $user.lang));
                         }
 
-                        const crypto = require("crypto");
                         const password = crypto.createHash("md5").update($data.newPassword).digest("hex");
                         return $db.set("users", { _id: $item._ownerId, noPassword: null, password });
                     }).then(() => {
