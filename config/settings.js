@@ -9,21 +9,24 @@ module.exports = {
             {
                 _id: "restdoc",
                 script: function ($data) {
-                    let fs = require("fs");
-                    let hs = require("handlebars");
+                    const fs = require("fs");
+                    const hs = require("handlebars");
                     hs.registerHelper("toJSON", function (object) {
                         return new hs.SafeString(JSON.stringify(object));
                     });
                     let src, partial;
-                    return fs.readLib("templates/rest-api-template.html").then(res => {
-                        src = res;
-                        return fs.readLib("templates/rest-api-list-partial.html");
-                    }).then(res => {
-                        partial = res;
-                        let template = hs.compile(src);
-                        hs.registerPartial("propsList", partial);
-                        return template({ config: $data });
-                    });
+
+                    return fs.readLib("templates/rest-api-template.html")
+                        .then(res => {
+                            src = res;
+                            return fs.readLib("templates/rest-api-list-partial.html");
+                        })
+                        .then(res => {
+                            partial = res;
+                            const template = hs.compile(src);
+                            hs.registerPartial("propsList", partial);
+                            return template({ config: $data });
+                        });
                 },
             },
         ],
@@ -176,6 +179,8 @@ module.exports = {
                     all: "Все",
                     search: "Поиск",
                     enterSearchText: "Поиск",
+                    load: "Загрузить",
+                    save: "Сохранить",
                 },
                 form: {
                     save: "Сохранить",
@@ -301,6 +306,8 @@ module.exports = {
                     all: "All",
                     search: "Search",
                     enterSearchText: "Search",
+                    load: "Load",
+                    save: "Save",
                 },
                 form: {
                     save: "Save",
