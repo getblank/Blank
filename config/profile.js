@@ -3,6 +3,7 @@ module.exports = {
         baseStore: "profile",
         access: [
             { role: "root", permissions: "vrux" },
+            { role: "admin", permissions: "vrux" },
         ],
         display: "list",
         navGroup: "config",

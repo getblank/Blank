@@ -237,6 +237,7 @@ module.exports = {
                     month: "Месяц",
                     actionError: "Что-то пошло не так: ",
                     recordsOnPage: "Строк на странице: ",
+                    administrator: "Администратор",
                 },
                 lists: {
                     empty: "Похоже, тут ничего нет...",
@@ -375,6 +376,7 @@ module.exports = {
                     month: "Month",
                     actionError: "Something went wrong: ",
                     recordsOnPage: "Records on page: ",
+                    administrator: "Administrator",
                 },
                 lists: {
                     empty: "Looks like there is nothing here...",

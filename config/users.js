@@ -7,6 +7,15 @@ module.exports = {
         access: [
             { role: "root", permissions: "vcrudx" },
             {
+                role: "admin",
+                permissions: "vcrudx",
+                condition: {
+                    _id: {
+                        $ne: "00000000-0000-0000-0000-000000000000",
+                    },
+                },
+            },
+            {
                 role: "all",
                 permissions: "r",
                 condition: {
