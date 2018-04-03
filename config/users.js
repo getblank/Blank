@@ -245,6 +245,15 @@ module.exports = {
                         role: "admin",
                         permissions: "crud",
                     },
+                    {
+                        role: "all",
+                        permissions: "r",
+                        condition: {
+                            _id: {
+                                $expression: "$user._id",
+                            },
+                        },
+                    },
                 ],
             },
             _activationToken: {
