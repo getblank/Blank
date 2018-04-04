@@ -125,6 +125,16 @@ module.exports = {
                 hidden: "!$item.createdAt",
             },
         ],
+        filters: {
+            _default: {
+                query: {
+                    login: {
+                        $regex: "$value",
+                        $options: "i",
+                    },
+                },
+            },
+        },
         props: {
             name: {
                 display: "none",
