@@ -17,11 +17,29 @@ blank init newApp
 cd ./newApp
 blank server
 ```
+
+Compile with /lib/reactComponents
+```
+blank dist
+```
+
+Run server with /lib/reactComponents dev mode
+```
+blank server|one --dist
+```
+
+Run server with dist/bundle.js and chunks
+```
+blank server|one --with-dist
+```
+
+
+
 Web server will start on:
 ```
 http://localhost:8080/
 ```
-Default username/password: 
+Default username/password:
 ```
 root/toor
 ```
@@ -41,3 +59,4 @@ Component for work with client connections. Handles clients requests and manages
 https://github.com/getblank/blank-node-worker
 
 Blank application server. Processes tasks from queue.
+
