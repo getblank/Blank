@@ -4,7 +4,7 @@
   "description": "Blank is a microservices platform for rapid CRUD applicaitons developing",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node ./postinstall.js && cd ./node_modules/blank-web-app/ && NODE_ENV=development npm install",
+    "postinstall": "node ./postinstall.js && cd ./node_modules/blank-web-app/ && npm install",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./index.js",
     "patch": "npm version patch && npm run push",
