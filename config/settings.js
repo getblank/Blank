@@ -8,15 +8,16 @@ module.exports = {
         storeActions: [
             {
                 _id: "restdoc",
-                script: function ($data) {
+                script: function($data) {
                     const fs = require("fs");
                     const hs = require("handlebars");
-                    hs.registerHelper("toJSON", function (object) {
+                    hs.registerHelper("toJSON", function(object) {
                         return new hs.SafeString(JSON.stringify(object));
                     });
                     let src, partial;
 
-                    return fs.readLib("templates/rest-api-template.html")
+                    return fs
+                        .readLib("templates/rest-api-template.html")
                         .then(res => {
                             src = res;
                             return fs.readLib("templates/rest-api-list-partial.html");
@@ -52,9 +53,7 @@ module.exports = {
                 { name: "description", content: "Application description" },
                 { name: "author", content: "Application author" },
             ],
-            links: [
-                { rel: "canonical", href: "http://mysite.com/example" },
-            ],
+            links: [{ rel: "canonical", href: "http://mysite.com/example" }],
             lessVars: {
                 //"@baseColor": "#FF0044"
             },
@@ -91,14 +90,20 @@ module.exports = {
                     display: "textInput",
                     label: "{{$i18n.$settings.common.email}}",
                     required: true,
-                    pattern: { expression: "^\\S+@\\S+\\.\\S+$", message: "{{$i18n.$settings.signUp.invalidEmail}}" },
+                    pattern: {
+                        expression: "^\\S+@\\S+\\.\\S+$",
+                        message: "{{$i18n.$settings.signUp.invalidEmail}}",
+                    },
                 },
             },
             signUpProps: {
                 email: {
                     type: "string",
                     display: "newUsernameInput",
-                    pattern: { expression: "^\\S+@\\S+\\.\\S+$", message: "{{$i18n.$settings.signUp.invalidEmail}}" },
+                    pattern: {
+                        expression: "^\\S+@\\S+\\.\\S+$",
+                        message: "{{$i18n.$settings.signUp.invalidEmail}}",
+                    },
                     label: "{{$i18n.$settings.common.email}}",
                     required: true,
                     formOrder: 1,
@@ -134,7 +139,8 @@ module.exports = {
                     error: "Неверное имя пользователя или пароль",
                     userNotFound: "Пользователь не найден",
                     invalidPassword: "Неверный пароль",
-                    restoreLinkSent: "Письмо со ссылкой для сброса пароля отправлено. Если был указан корректный адрес, вы получите письмо в течение 10 минут",
+                    restoreLinkSent:
+                        "Письмо со ссылкой для сброса пароля отправлено. Если был указан корректный адрес, вы получите письмо в течение 10 минут",
                     invalidUserData: "Проблемы с учетной записью, пожалуйста, обратитесь к системному администратору",
                 },
                 signOut: {
@@ -198,6 +204,7 @@ module.exports = {
                     cancel: "Отменить",
                     delete: "Удалить",
                     newObject: "Новый объект",
+                    newDocument: "Новый документ",
                     addToObjectList: "Добавить",
                     e404: "Ой, а такого объекта у нас нет...",
                     e404prompt: "Можно выбрать что-нибудь другое из списка или добавить новую запись",
@@ -273,7 +280,8 @@ module.exports = {
                     error: "Login or password incorrect",
                     userNotFound: "User not found",
                     invalidPassword: "Invalid password",
-                    restoreLinkSent: "Email with recent link sent. If you provide correct address, you will receive it within 10 minutes",
+                    restoreLinkSent:
+                        "Email with recent link sent. If you provide correct address, you will receive it within 10 minutes",
                     invalidUserData: "Invalid user data, please contact system administrator",
                 },
                 signOut: {
@@ -337,6 +345,7 @@ module.exports = {
                     cancel: "Cancel",
                     delete: "Delete",
                     newObject: "New object",
+                    newDocument: "New document",
                     addToObjectList: "Add",
                     e404: "There is no such object",
                     e404prompt: "Please create one or select from list",
