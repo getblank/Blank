@@ -1,6 +1,6 @@
 {
   "name": "blank-cli",
-  "version": "0.1.79",
+  "version": "0.1.85",
   "description": "Blank is a microservices platform for rapid CRUD applicaitons developing",
   "main": "index.js",
   "scripts": {
@@ -38,7 +38,8 @@
     "babel-core": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.5.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
     "blank-node-worker": "latest",
     "blank-web-app": "latest",
@@ -53,7 +54,17 @@
     "mkdirp": "^0.5.1",
     "mocha": "^2.5.3",
     "node-fetch": "^1.6.3",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
     "speed-date": "^0.2.1",
     "tar-fs": "^1.14.0"
+  },
+  "babel": {
+    "presets": [
+      "react",
+      "env",
+      "stage-0"
+    ],
+    "comments": true
   }
 }
