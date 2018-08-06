@@ -45,13 +45,13 @@ module.exports = {
                 type: "ref",
                 store: "users",
                 display: "none",
-                configurable: false,
+                configurable: true,
             },
             updatedBy: {
                 type: "ref",
                 store: "users",
                 display: "none",
-                configurable: false,
+                configurable: true,
             },
             deletedBy: {
                 type: "ref",
