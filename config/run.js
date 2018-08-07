@@ -22,9 +22,7 @@ module.exports = {
             },
             run: {
                 type: "action",
-                actions: [
-                    { _id: "run" },
-                ],
+                actions: [{ _id: "run" }],
                 formOrder: 20,
             },
             response: {
@@ -38,30 +36,34 @@ module.exports = {
                 _id: "run",
                 label: "Выполнить",
                 disableItemReadyCheck: true,
-                clientPreScript: function ($item) {
+                clientPreScript: function($item) {
                     return {
                         code: $item.code,
                     };
                 },
-                script: function ($db, $data, $item) {
+                script: function($db, $data, $item) {
                     var f = new Function("$db", "$item", "require", $data.code);
                     var res = f($db, $item, require);
                     if (res instanceof Promise) {
-                        return res.then(promiseRes => {
-                            if (typeof promiseRes !== "string") {
-                                promiseRes = JSON.stringify(promiseRes, "", "  ");
-                            }
-                            return $db.set("run", { _id: $item._id, response: promiseRes + "" });
-                        }).catch(promiseErr => {
-                            if (typeof promiseErr !== "string") {
-                                promiseErr = JSON.stringify(promiseErr, "", "  ");
-                            }
-                            return $db.set("run", { _id: $item._id, response: "ERROR: " + promiseErr });
-                        });
+                        return res
+                            .then(promiseRes => {
+                                if (typeof promiseRes !== "string") {
+                                    promiseRes = JSON.stringify(promiseRes, "", "  ");
+                                }
+                                return $db.set("run", { _id: $item._id, response: promiseRes + "" });
+                            })
+                            .catch(promiseErr => {
+                                if (typeof promiseErr !== "string") {
+                                    promiseErr = JSON.stringify(promiseErr, "", "  ");
+                                }
+                                return $db.set("run", { _id: $item._id, response: "ERROR: " + promiseErr });
+                            });
                     }
+
                     if (typeof res !== "string") {
                         res = JSON.stringify(res, "", "  ");
                     }
+
                     return $db.set("run", { _id: $item._id, response: res + "" });
                 },
             },
@@ -74,8 +76,6 @@ module.exports = {
         i18n: {
             storeLabel: "Run JS",
         },
-        access: [
-            { role: "root", permissions: "vcrudx" },
-        ],
+        access: [{ role: "root", permissions: "vcrudx" }],
     },
 };

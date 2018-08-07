@@ -1,10 +1,7 @@
 module.exports = {
     profiles: {
         baseStore: "profile",
-        access: [
-            { role: "root", permissions: "vrux" },
-            { role: "admin", permissions: "vrux" },
-        ],
+        access: [{ role: "root", permissions: "vrux" }, { role: "admin", permissions: "vrux" }],
         display: "list",
         navGroup: "config",
         navOrder: 1000,
@@ -94,9 +91,7 @@ module.exports = {
             securityActions: {
                 type: "action",
                 formTab: "security",
-                actions: [
-                    { _id: "changePassword", className: "btn btn-accent" },
-                ],
+                actions: [{ _id: "changePassword", className: "btn btn-accent" }],
             },
         },
         actions: [
@@ -104,7 +99,7 @@ module.exports = {
                 _id: "changePassword",
                 label: "{{$i18n.changePasswordAction}}",
                 multi: false,
-                script: function ($db, $item, $user, $data) {
+                script: function($db, $item, $user, $data) {
                     const crypto = require("crypto");
                     const i18n = require("i18n");
                     const hash = require("hash");
@@ -113,34 +108,44 @@ module.exports = {
                     }
 
                     let user;
-                    return $db.get("users", $item._ownerId).then((_user) => {
-                        if (_user._deleted) {
-                            throw new Error();
-                        }
+                    return $db
+                        .get("users", $item._ownerId)
+                        .then(_user => {
+                            if (_user._deleted) {
+                                throw new Error();
+                            }
 
-                        user = _user;
-                        if ($user.noPassword) {
-                            return;
-                        }
+                            user = _user;
+                            if ($user.noPassword) {
+                                return;
+                            }
 
-                        if (user.password == null) {
-                            throw new Error();
-                        }
+                            if (user.password == null) {
+                                throw new Error();
+                            }
 
-                        const md5pass = crypto.createHash("md5").update($data.oldPassword).digest("hex");
-                        return hash.calc(md5pass, user.password.salt);
-                    }).then((res) => {
-                        if (!$user.noPassword && res !== user.password.key) {
-                            throw new UserError(i18n.get("profile.invalidPasswordError", $user.lang));
-                        }
+                            const md5pass = crypto
+                                .createHash("md5")
+                                .update($data.oldPassword)
+                                .digest("hex");
+                            return hash.calc(md5pass, user.password.salt);
+                        })
+                        .then(res => {
+                            if (!$user.noPassword && res !== user.password.key) {
+                                throw new UserError(i18n.get("profile.invalidPasswordError", $user.lang));
+                            }
 
-                        const password = crypto.createHash("md5").update($data.newPassword).digest("hex");
-                        return $db.set("users", { _id: $item._ownerId, noPassword: null, password });
-                    }).then(() => {
-                        $db.notify("securityNotifications", [$user._id], {
-                            message: i18n.get("profile.passwordChangedMessage", $user.lang),
+                            const password = crypto
+                                .createHash("md5")
+                                .update($data.newPassword)
+                                .digest("hex");
+                            return $db.set("users", { _id: $item._ownerId, noPassword: null, password });
+                        })
+                        .then(() => {
+                            $db.notify("securityNotifications", [$user._id], {
+                                message: i18n.get("profile.passwordChangedMessage", $user.lang),
+                            });
                         });
-                    });
                 },
                 type: "form",
                 props: {
@@ -164,33 +169,40 @@ module.exports = {
         ],
         objectLifeCycle: {},
         storeLifeCycle: {
-            didStart: function () {
+            didStart: function() {
                 let r = 0;
-                const updateUserSessions = (session) => {
+                const updateUserSessions = session => {
                     let _r = ++r;
                     const locker = "sessions-update-" + session.apiKey + "-__v:" + session.__v;
                     sync.once(locker, () => {
-                        let userSessions = sessions.get().filter(s => s.userId === session.userId).map((s) => {
-                            return {
-                                apiKey: s.apiKey,
-                                connections: (s.connections || []).length,
-                            };
-                        });
-                        console.debug("Sessions update for user", session.userId, "Sessions:", JSON.stringify(userSessions));
+                        const userSessions = sessions
+                            .get()
+                            .filter(s => s.userId === session.userId)
+                            .map(s => {
+                                return {
+                                    apiKey: s.apiKey,
+                                    connections: (s.connections || []).length,
+                                };
+                            });
+                        console.debug(
+                            "Sessions update for user",
+                            session.userId,
+                            "Sessions:",
+                            JSON.stringify(userSessions)
+                        );
                         $db.get("profile", { _ownerId: session.userId })
-                            .then((p) => {
+                            .then(p => {
                                 if (_r === r) {
                                     console.debug("Updating profile sessions");
                                     $db.set(
                                         "profile",
                                         { _id: p._id, sessions: userSessions },
-                                        { noValidate: true },
-                                        (err) => {
-                                            if (err) {
-                                                console.error("Profile update error:", err);
-                                            }
+                                        { noValidate: true }
+                                    ).catch(err => {
+                                        if (err) {
+                                            console.error("Profile update error:", err);
                                         }
-                                    );
+                                    });
                                 }
                             })
                             .catch(() => {
@@ -198,22 +210,23 @@ module.exports = {
                                     console.debug("Profile not found, creating...");
                                     $db.get("users", session.userId)
                                         .then(u => {
-                                            if (u == null) { throw new Error("user not found") }
+                                            if (u == null) {
+                                                throw new Error("user not found");
+                                            }
                                             return $db.insert(
                                                 "profile",
                                                 { _ownerId: session.userId, sessions: userSessions, login: u.login },
-                                                { noValidate: true },
-                                                (err) => {
-                                                    if (err) {
-                                                        console.error("Profile create error:", err);
-                                                    }
-                                                });
+                                                { noValidate: true }
+                                            );
                                         })
-                                        .catch(e => console.debug("Error while creating profile for user:", session.userId));
+                                        .catch(e =>
+                                            console.debug("Error while creating profile for user:", session.userId)
+                                        );
                                 }
                             });
                     });
                 };
+
                 sessions.on("create", updateUserSessions);
                 sessions.on("update", updateUserSessions);
                 sessions.on("delete", updateUserSessions);

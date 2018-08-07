@@ -23,31 +23,31 @@ module.exports = {
                 pluralGenitiveLocal: "Email transport settings",
             },
         },
-        access: [
-            { role: "root", permissions: "vcrux" },
-        ],
+        access: [{ role: "root", permissions: "vcrux" }],
         label: "{{$i18n.pluralLocal}}",
         actions: [
             {
                 _id: "test",
                 multi: false,
                 label: "Test",
-                script: function ($user, $db, $data) {
-                    var email = require("email");
-                    var msg = {
+                script: function($user, $db, $data) {
+                    const email = require("email");
+                    const msg = {
                         to: $data.email,
                         subject: "TEST",
                         body: $data.body,
                     };
                     console.debug(msg);
-                    var e = email.send(msg, function (e) {
-                        if (e != null) {
-                            console.error(e);
+                    const err = email.send(msg, err => {
+                        if (err) {
+                            console.error(err);
                         }
                     });
-                    if (e != null) {
-                        return { error: e };
+
+                    if (err != null) {
+                        return { error: err };
                     }
+
                     return { result: "SUCCESS" };
                 },
                 type: "form",
