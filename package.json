@@ -41,7 +41,7 @@
         "babel-preset-react": "^6.24.1",
         "babel-preset-stage-0": "^6.24.1",
         "babel-register": "^6.26.0",
-        "blank-node-worker": "0.3.42",
+        "blank-node-worker": "latest",
         "blank-web-app": "latest",
         "chokidar": "^1.5.0",
         "dotenv": "^4.0.0",
