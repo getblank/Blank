@@ -71,3 +71,19 @@ Component for work with client connections. Handles clients requests and manages
 https://github.com/getblank/blank-node-worker
 
 Blank application server. Processes tasks from queue.
+
+
+## Blank.json
+
+Webpack custom settings
+```
+{
+    ...
+    "webpackConfig": {
+        "externals": {
+            "pdfjs-dist": "pdfjsDistWebPdfViewer",
+            "pdfjs-dist/lib/web/pdf_link_service": "pdfjsDistWebPdfViewer.PDFJS"
+        }
+    }
+}
+```
