@@ -357,7 +357,7 @@ module.exports = {
                                     return;
                                 }
 
-                                console.info("Root user does not exists, creating...");
+                                console.info("Root user does not exist, creating...");
                                 const crypto = require("crypto");
                                 const password = crypto
                                     .createHash("md5")
