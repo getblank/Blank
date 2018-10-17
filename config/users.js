@@ -378,7 +378,7 @@ module.exports = {
                             }
                         };
 
-                        return fn;
+                        return fn();
                     });
                 });
             },
