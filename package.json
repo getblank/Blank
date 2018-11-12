@@ -1,6 +1,6 @@
 {
     "name": "blank-cli",
-    "version": "0.1.93",
+    "version": "0.1.94-0",
     "description": "Blank is a microservices platform for rapid CRUD applicaitons developing",
     "main": "index.js",
     "scripts": {
@@ -8,7 +8,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node ./index.js",
         "patch": "npm version patch && npm run push",
-        "push": "git push origin master --follow-tags && npm publish"
+        "push": "git push origin master --follow-tags && npm publish",
+        "next": "npm version prerelease && git push origin master --follow-tags && npm publish --tag next"
     },
     "bin": {
         "blank": "./index.js"
@@ -35,14 +36,30 @@
         "url": "https://github.com/getblank/Blank/issues"
     },
     "dependencies": {
-        "babel-core": "^6.26.0",
-        "babel-plugin-transform-react-jsx": "^6.24.1",
-        "babel-preset-env": "^1.6.1",
-        "babel-preset-react": "^6.24.1",
-        "babel-preset-stage-0": "^6.24.1",
-        "babel-register": "^6.26.0",
+        "@babel/core": "^7.0.0",
+        "@babel/plugin-proposal-class-properties": "^7.0.0",
+        "@babel/plugin-proposal-decorators": "^7.0.0",
+        "@babel/plugin-proposal-do-expressions": "^7.0.0",
+        "@babel/plugin-proposal-export-default-from": "^7.0.0",
+        "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+        "@babel/plugin-proposal-function-bind": "^7.0.0",
+        "@babel/plugin-proposal-function-sent": "^7.0.0",
+        "@babel/plugin-proposal-json-strings": "^7.0.0",
+        "@babel/plugin-proposal-logical-assignment-operators": "^7.0.0",
+        "@babel/plugin-proposal-nullish-coalescing-operator": "^7.0.0",
+        "@babel/plugin-proposal-numeric-separator": "^7.0.0",
+        "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+        "@babel/plugin-proposal-pipeline-operator": "^7.0.0",
+        "@babel/plugin-proposal-throw-expressions": "^7.0.0",
+        "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+        "@babel/plugin-syntax-import-meta": "^7.0.0",
+        "@babel/plugin-transform-react-jsx": "^7.0.0",
+        "@babel/plugin-transform-runtime": "^7.1.0",
+        "@babel/preset-env": "^7.0.0",
+        "@babel/preset-react": "^7.0.0",
+        "@babel/register": "^7.0.0",
         "blank-node-worker": "latest",
-        "blank-web-app": "latest",
+        "blank-web-app": "next",
         "chokidar": "^1.5.0",
         "dotenv": "^4.0.0",
         "form-data": "^2.1.2",
@@ -54,17 +71,53 @@
         "mkdirp": "^0.5.1",
         "mocha": "^2.5.3",
         "node-fetch": "^1.6.3",
-        "react": "^16.3.2",
-        "react-dom": "^16.3.2",
+        "react": "^16.6.1",
+        "react-dom": "^16.6.1",
         "speed-date": "^0.2.1",
         "tar-fs": "^1.14.0"
     },
     "babel": {
         "presets": [
-            "react",
-            "env",
-            "stage-0"
+            "@babel/preset-react",
+            "@babel/preset-env"
         ],
-        "comments": true
+        "comments": true,
+        "plugins": [
+            "@babel/plugin-syntax-dynamic-import",
+            "@babel/plugin-syntax-import-meta",
+            "@babel/plugin-proposal-class-properties",
+            "@babel/plugin-proposal-json-strings",
+            [
+                "@babel/plugin-proposal-decorators",
+                {
+                    "legacy": true
+                }
+            ],
+            "@babel/plugin-proposal-function-sent",
+            "@babel/plugin-proposal-export-namespace-from",
+            "@babel/plugin-proposal-numeric-separator",
+            "@babel/plugin-proposal-throw-expressions",
+            "@babel/plugin-proposal-export-default-from",
+            "@babel/plugin-proposal-logical-assignment-operators",
+            "@babel/plugin-proposal-optional-chaining",
+            [
+                "@babel/plugin-proposal-pipeline-operator",
+                {
+                    "proposal": "minimal"
+                }
+            ],
+            "@babel/plugin-proposal-nullish-coalescing-operator",
+            "@babel/plugin-proposal-do-expressions",
+            "@babel/plugin-proposal-function-bind",
+            [
+                "@babel/plugin-transform-runtime",
+                {
+                    "regenerator": true
+                }
+            ]
+        ]
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.1.5"
     }
 }
