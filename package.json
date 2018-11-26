@@ -58,7 +58,7 @@
         "@babel/preset-env": "^7.0.0",
         "@babel/preset-react": "^7.0.0",
         "@babel/register": "^7.0.0",
-        "blank-node-worker": "latest",
+        "blank-node-worker": "next",
         "blank-web-app": "next",
         "chokidar": "^1.5.0",
         "dotenv": "^4.0.0",
