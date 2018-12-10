@@ -344,9 +344,9 @@ module.exports = {
         },
         storeLifeCycle: {
             didStart: function($db) {
-                console.info("users.didStart task started");
+                console.info("users.didStart task started!!!!!!!!!!!!!!");
                 sync.once("$$usersDidStart", () => {
-                    $db.waitForConnection().then(() => {
+                    $db.waitForConnection("users").then(() => {
                         console.info("Checking root user in DB...");
                         const fn = async () => {
                             try {
