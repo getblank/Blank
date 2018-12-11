@@ -94,11 +94,6 @@ module.exports = {
                 display: "none",
                 configurable: true,
             },
-            _result: {
-                type: "string",
-                display: "none",
-                configurable: true,
-            },
         },
     },
     _defaultSingle: {
