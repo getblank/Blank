@@ -5,14 +5,26 @@ module.exports = {
         navOrder: 1024,
         navGroup: "config",
         display: "list, table",
-        orderBy: "-createdAt",
+        orderBy: "-_id",
         access: [
             {
                 role: "root",
-                permissions: "vrd",
+                permissions: "vr",
             },
         ],
-        tableColumns: [{ prop: "store", tableLink: true }, { prop: "action", tableLink: true }, "userId", "createdAt"],
+        tableColumns: [
+            { prop: "store", tableLink: true },
+            { prop: "action", tableLink: true },
+            "userId",
+            "createdAt",
+            { prop: "errorText", orderBy: "error" },
+        ],
+        labels: [
+            {
+                text: 'Дата: {{moment $item.createdAt format="DD.MM.YYYY HH:mm:ss"}}',
+                showInList: 1,
+            },
+        ],
         filters: {
             userId: {
                 type: "ref",
@@ -27,6 +39,9 @@ module.exports = {
             },
         },
         props: {
+            _id: {
+                type: "int",
+            },
             name: {
                 type: "string",
                 disabled: true,
@@ -80,6 +95,18 @@ module.exports = {
                 display: "code",
                 label: "Ошибка",
                 formOrder: 50,
+            },
+            errorText: {
+                type: "virtual/client",
+                label: "Ошибка",
+                display: "none",
+                load($item) {
+                    return $item.error.slice(0, 64);
+                },
+            },
+            createdAt: {
+                type: "date",
+                label: "Дата",
             },
         },
         objectLifeCycle: {
