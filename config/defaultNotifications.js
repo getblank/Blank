@@ -11,6 +11,23 @@ module.exports = {
                 display: "none",
                 readOnly: true,
             },
+            _ownerId: {
+                type: "ref",
+                display: "none",
+                store: "users",
+                readOnly: true,
+            },
+            createdAt: {
+                type: "date",
+                display: "none",
+                configurable: true,
+            },
+            createdBy: {
+                type: "ref",
+                store: "users",
+                display: "none",
+                configurable: true,
+            },
             event: {
                 type: "string",
                 display: "none",
