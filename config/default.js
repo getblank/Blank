@@ -18,7 +18,7 @@ module.exports = {
         },
         props: {
             _id: {
-                type: "string",
+                type: "uuid",
                 required: true,
                 display: "none",
                 readOnly: true,
