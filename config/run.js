@@ -41,30 +41,26 @@ module.exports = {
                         code: $item.code,
                     };
                 },
-                script: function($db, $data, $item) {
-                    var f = new Function("$db", "$item", "require", $data.code);
-                    var res = f($db, $item, require);
-                    if (res instanceof Promise) {
-                        return res
-                            .then(promiseRes => {
-                                if (typeof promiseRes !== "string") {
-                                    promiseRes = JSON.stringify(promiseRes, "", "  ");
-                                }
-                                return $db.set("run", { _id: $item._id, response: promiseRes + "" });
-                            })
-                            .catch(promiseErr => {
-                                if (typeof promiseErr !== "string") {
-                                    promiseErr = JSON.stringify(promiseErr, "", "  ");
-                                }
-                                return $db.set("run", { _id: $item._id, response: "ERROR: " + promiseErr });
-                            });
-                    }
+                script: async ($db, $data, $item) => {
+                    const AsyncFunction = Object.getPrototypeOf(async function() {}).constructor;
+                    const fn = new AsyncFunction("$db", "$item", "require", $data.code);
+                    try {
+                        const res = await fn($db, $item, require);
+                        if (typeof res === "string") {
+                            return $db.set("run", { _id: $item._id, response: res });
+                        }
 
-                    if (typeof res !== "string") {
-                        res = JSON.stringify(res, "", "  ");
-                    }
+                        return $db.set("run", { _id: $item._id, response: JSON.stringify(res, null, "\t") });
+                    } catch (err) {
+                        if (typeof err === "string") {
+                            return $db.set("run", { _id: $item._id, response: "Error: " + err });
+                        }
 
-                    return $db.set("run", { _id: $item._id, response: res + "" });
+                        return $db.set("run", {
+                            _id: $item._id,
+                            response: "Error: " + JSON.stringify(err.message, null, "\t"),
+                        });
+                    }
                 },
             },
         ],
