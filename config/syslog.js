@@ -10,16 +10,11 @@ module.exports = {
         label: "{{$i18n.storeLabel}}",
         labels: [],
         orderBy: "-createdAt",
-        tableColumns: [
-            "createdAt",
-            "actionSource",
-            "userName",
-            "store",
-            "itemId",
-            "action",
-            "actionData",
-        ],
+        tableColumns: ["createdAt", "actionSource", "userName", "store", "itemId", "action", "actionData", "result"],
         props: {
+            _id: {
+                type: "int",
+            },
             createdAt: {
                 label: "DateTime",
             },
@@ -38,7 +33,7 @@ module.exports = {
             userName: {
                 type: "virtual",
                 label: "User",
-                load: function ($item) {
+                load($item) {
                     return $item.user ? $item.user.name : "";
                 },
             },
@@ -62,9 +57,14 @@ module.exports = {
                 display: "text",
             },
             actionData: {
-                type: "string",
+                type: "any",
                 label: "Action data",
                 display: "text",
+            },
+            result: {
+                type: "any",
+                display: "text",
+                label: "Result",
             },
         },
         actions: [],
