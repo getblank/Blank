@@ -16,6 +16,7 @@ module.exports = {
                 type: "int",
             },
             createdAt: {
+                type: "date",
                 label: "DateTime",
             },
             store: {
