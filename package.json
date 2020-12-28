@@ -27,10 +27,10 @@
         "mongodb"
     ],
     "author": {
-        "email": "info@getblank.net",
+        "email": "info+blank@sclif.pro",
         "name": "Evgeniy Kuvshinov & Evgeniy Ivakha"
     },
-    "homepage": "http://getblank.net",
+    "homepage": "https://getblank.github.io/site/",
     "license": "GPL-3.0",
     "bugs": {
         "url": "https://github.com/getblank/Blank/issues"

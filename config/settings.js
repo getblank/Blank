@@ -264,6 +264,7 @@ module.exports = {
                     PASSWORD_NOT_MATCHED: "Неверный пароль",
                     EMAIL_NOT_FOUND: "E-mail адрес не найден",
                     sessionExpired: "Время жизни сессии истекло, либо она была удалена",
+                    somethingWentWrong: "Что-то пошло не так",
                 },
             },
             en: {
@@ -405,6 +406,7 @@ module.exports = {
                     PASSWORD_NOT_MATCHED: "Invalid password",
                     EMAIL_NOT_FOUND: "E-mail address not found",
                     sessionExpired: "Session deleted or expired",
+                    somethingWentWrong: "Something went wrong",
                 },
             },
         },
