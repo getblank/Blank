@@ -1,6 +1,6 @@
 {
     "name": "blank-cli",
-    "version": "0.1.96-0",
+    "version": "0.1.96-1",
     "description": "Blank is a microservice platform for rapid CRUD applications developing",
     "main": "index.js",
     "scripts": {
